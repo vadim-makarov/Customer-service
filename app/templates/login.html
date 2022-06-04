@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+</head>
+{% block body %}
+<body>
+<style>
+element.style {
+}
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
+}
+.text-white {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-white-rgb),var(--bs-text-opacity))!important;
+}
+.p-3 {
+    padding: 1rem!important;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+user agent stylesheet
+header
+{
+    display: block;
+}
+body
+{
+background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+}
+main
+{
+  vertical-align:middle;
+  margin: 0 auto;
+  vertical-align:middle;
+  max-width: 400px;
+  padding: auto;
+  text-align: center;
+}
+h1
+{
+    color : #000000;
+    text-align : center;
+    font-family: "SIMPSON";
+}
+
+
+</style>
+<main>
+    <form action="" class="row g-3" method="post">
+        <div class="row g-3"><br>
+            <h1>Log In</h1>
+            {{ form.csrf_token }}
+            {{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
+                 {% for error in form.username.errors %}
+                    <span style="btn btn-warning">[{{ error }}]</span>
+        {% endfor %}
+            {{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number") }}
+            {% for error in form.phone_number.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+            {{ form.submit(class="btn btn-info") }}
+        </div>
+    </form><br>
+    <p>New User? <a class="btn btn-primary" href="{{ url_for('register') }}">Click to Register!</a></p>
+    <br><br>
+</main>
+</body>
+{% endblock %}
+{% block footer %}
+<footer class="container">
+    <p>&copy; 2017–2022 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+</footer>
+{% endblock %}
