@@ -99,6 +99,17 @@
     </div>
 </header>
 {% endblock %}
+ {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button
+                type="button"
+                class="close"
+                data-dismiss="alert">
+            x
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
 <main>
     {% block body %}
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -272,17 +283,6 @@
 
     </div><!-- /.container -->
     {% endblock %}
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button
-                type="button"
-                class="close"
-                data-dismiss="alert">
-            x
-        </button>
-        {{ message }}
-    </div>
-    {% endfor %}
     {% block footer %}
     <!-- FOOTER -->
     <footer class="container">

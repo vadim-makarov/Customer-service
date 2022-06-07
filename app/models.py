@@ -1,7 +1,9 @@
 from datetime import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
-from app import db, login
+
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from app import db, login
 
 
 class User(UserMixin, db.Model):
@@ -23,20 +25,12 @@ class User(UserMixin, db.Model):
     def check_password(self, phone_number):
         return check_password_hash(self.password_hash, phone_number)
 
-    # def follow(self, user):
-    #     if not self.is_following(user):
-    #         self.followed.append(user)  # It will be service later
-    #
-    # def unfollow(self, user):
-    #     if self.is_following(user):
-    #         self.followed.remove(user)
-
 
 class Service(db.Model):
     __tablename__ = 'service'
     id = db.Column(db.Integer, primary_key=True)
     service = db.Column(db.String(140))
-    service_time = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # TODO service date\time
+    service_time = db.Column(db.String, index=True)  # TODO service date\time
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):

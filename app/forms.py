@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
 from werkzeug.routing import ValidationError
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateTimeLocalField
 from wtforms.validators import ValidationError, EqualTo, Length, InputRequired, Regexp
+
 from app.models import User
 
 
@@ -9,47 +12,52 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[
         InputRequired(),
         Length(3, 20, message="Please provide a valid name"),
-        Regexp("^[A-Za-z][A-Za-z0-9_.]*$", 0, "Usernames must have only letters, " "numbers, dots or underscores")])
+        Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
+               "Usernames must have only letters, " "numbers, "
+               "dots or underscores")])
     phone_number = StringField('Phone number', validators=[InputRequired(), Length(10, 12),
-                                                           Regexp("^\\+?[1-9][0-9]{10,12}$",
-                                                                  message="Enter a valid Phone number")])
+                                                           Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                                                  message="Enter a valid phone number, like +55 555 "
+                                                                          "555 555")])
     submit = SubmitField('Sign In')
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Как к вам обращаться?', validators=[InputRequired(),
-                                                                Length(3, 20, message="Please provide a valid name"),
-                                                                Regexp("^[A-Za-z][A-Za-z0-9_.]*$", 0,
-                                                                       "Usernames must have only letters, " "numbers, dots or underscores")])
-    phone_number = StringField('Телефон для связи:', validators=[InputRequired(), Length(10, 12),
-                                                                 Regexp("^\\+?[1-9][0-9]{10,12}$",
-                                                                        message="Enter a valid Phone number")])  # TODO make a phone number validator
-    phone_number2 = StringField('Повторите телефон:', validators=[InputRequired(), Length(10, 12),
-                                                                  EqualTo("phone_number",
-                                                                          message="Номера не совпадают !")])
+    username = StringField(validators=[InputRequired(),
+                                       Length(3, 20, message="Please provide a valid name"),
+                                       Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
+                                              "Usernames must have only letters, " "numbers, dots or underscores")])
+    phone_number = StringField(validators=[InputRequired(), Length(10, 12),
+                                           Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                                  message="Enter a valid phone number, like +55 555 555 555"),
+                                           EqualTo("phone_number2",
+                                                   message="Номера не совпадают!")])
+    phone_number2 = StringField(validators=[InputRequired(), Length(10, 12)])
     submit = SubmitField('Sign Up')
 
     @staticmethod
-    def validate_username(username):  # if already exist
+    def validate_username(self, username):  # if already exist
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
     @staticmethod
-    def validate_phone_number(phone_number):
+    def validate_phone_number(self, phone_number):
         user = User.query.filter_by(phone_number=phone_number.data).first()
         if user is not None:
-            raise ValidationError('Please use a different phone number.')
+            raise ValidationError('Phone number already in use.')
 
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Как к вам обращаться?', validators=[InputRequired(),
-                                                                Length(3, 20, message="Please provide a valid name"),
-                                                                Regexp("^[A-Za-z][A-Za-z0-9_.]*$", 0,
-                                                                       "Usernames must have only letters, " "numbers, dots or underscores")])
-    phone_number = StringField('Телефон для связи:', validators=[InputRequired(), Length(10, 12),
-                                                                 Regexp("^\\+?[1-9][0-9]{10,12}$",
-                                                                        message="Enter a valid Phone number")])
+    username = StringField(validators=[InputRequired(),
+                                       Length(3, 20, message="Please provide a valid name"),
+                                       Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
+                                              "Usernames must have only letters, " "numbers, "
+                                              "dots or underscores")])
+    phone_number = StringField(validators=[InputRequired(), Length(10, 12),
+                                           Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                                  message="Enter a valid phone number, like +55 "
+                                                          "555 555 555")])
     about_me = TextAreaField('Дополнительная информация, пожелания:', validators=[Length(min=0, max=140)])
     submit = SubmitField('Подтвердить')
 
@@ -68,4 +76,16 @@ class EditProfileForm(FlaskForm):
         if phone_number.data != self.original_phone_number:
             user = User.query.filter_by(phone_number=self.phone_number.data).first()
             if user is not None:
-                raise ValidationError('Please use a different phone number address.')
+                raise ValidationError('Phone number already in use.')
+
+
+class Services(FlaskForm):
+    service1 = SelectField('Choose service:', choices=['Service1', 'service2', 'service3'])
+    service2 = SelectField('Choose additional service:', render_kw={'placeholder': 'Add service'},
+                           choices=['', 'Service4', 'service5', 'service6'],
+                           validate_choice=False)
+    service3 = SelectField('Choose another additional service:', choices=['', 'Service7', 'service8', 'service9'],
+                           validate_choice=False)
+    service_time = DateTimeLocalField('Choose your destiny', default=datetime.today(), validators=[InputRequired()],
+                                      format='%Y-%m-%dT%H:%M')
+    submit = SubmitField('Enroll', render_kw={'class': 'btn btn-info'})

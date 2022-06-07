@@ -1,16 +1,15 @@
 from flask import Flask
-from config import Config
-from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap4
 from flask_login import LoginManager
-from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 login = LoginManager(app)
 login.login_view = 'login'
-bootstrap = Bootstrap(app)
+Bootstrap4(app)
+from app import routes, models
 
-from app import models
-from app import routes

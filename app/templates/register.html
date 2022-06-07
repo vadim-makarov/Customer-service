@@ -55,8 +55,17 @@ h1
             <h1>Create Account</h1>
             {{ form.csrf_token }}
             {{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
+            {% for error in form.username.errors %}
+                    <span style="btn btn-warning">{{ error }}</span>
+            {% endfor %}
             {{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number") }}
+            {% for error in form.phone_number.errors %}
+                <span style="btn btn-warning">{{ error }}</span>
+            {% endfor %}
             {{ form.phone_number2(class="form-control form-control-lg", placeholder="Confirm your phone number") }}
+            {% for error in form.phone_number.errors %}
+                <span style="btn btn-warning">{{ error }}</span>
+            {% endfor %}
             {{ form.submit(class="btn btn-info") }}
         </div>
     </form>

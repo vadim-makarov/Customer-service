@@ -8,7 +8,7 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import redirect
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services
 from app.models import User, Service
 
 
@@ -28,9 +28,10 @@ def register():
         user.set_password(form.phone_number.data)
         db.session.add(user)
         db.session.commit()
+        login_user(user)
         flash(f'Congratulations, {user.username} you are now a registered user!')
         time.sleep(1)
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
     return render_template('register.html', title='Registration page', form=form)
 
 
@@ -58,19 +59,37 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods=['GET', 'POST'])
 @login_required
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    # services = Service.query.filter_by(user_id=user.id)
+    form = Services()
+    user = User.query.filter_by(username=username).first()
+    services = Service.query.filter_by(user_id=user.id)
+    if form.validate_on_submit():
+        user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
+        service_add = Service(service=user_choises, service_time=form.service_time.data, user_id=user.id)
+        db.session.add(service_add)
+        db.session.commit()
+        flash(f'Congratulations, {user.username} you are registered for service at {service_add.service_time}!')
+        time.sleep(1)
+        return render_template('user.html', user=user, title=username, form=form, services=services)
+    return render_template('user.html', user=user, title=username, form=form, services=services)
 
-    return render_template('user.html', user=user, title=username)
+
+@app.route('/user/<int:service_id>', methods=['POST'])
+@login_required
+def delete_service(service_id):
+    service_del = Service.query.get_or_404(service_id)
+    db.session.delete(service_del)
+    db.session.commit()
+    flash('Item deleted.')
+    return render_template('user.html', user=user)
 
 
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
+        current_user.last_seen = datetime.today()
         db.session.commit()
 
 

@@ -1,31 +1,71 @@
 {% extends "base.html" %}
 
 {% block body %}
+<style>
+        body
+{
+background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+}
+main
+{
+  vertical-align:middle;
+  margin: 0 auto;
+  vertical-align:middle;
+  max-width: 400px;
+  padding: auto;
+  text-align: center;
+}
+h1
+{
+    color : #000000;
+    text-align : center;
+    font-family: "SIMPSON";
+}
+</style>
 <h1>Редактировать профиль</h1>
 <form action="" class="container mt-5" method="post">
     {{ form.hidden_tag() }}
     <p>
-        {{
-        form.username.label }}<br>
-        {{ form.username(size=32) }}<br>
+        {{ form.username.label }}<br>
+        {{ form.username(class="form-control form-control-lg") }}<br>
         {% for error in form.username.errors %}
-        <span style="color: red;">[{{ error }}]</span>
+        <span style="btn btn-warning">{{ error }}</span>
         {% endfor %}
     </p>
     <p>
         {{ form.phone_number.label }}<br>
-        {{ form.phone_number(size=32) }}<br>
+        {{ form.phone_number(class="form-control form-control-lg") }}<br>
         {% for error in form.phone_number.errors %}
-        <span style="color: red;">[{{ error }}]</span>
+        <span style="btn btn-warning">{{ error }}</span>
         {% endfor %}
     </p>
     <p>
         {{ form.about_me.label }}<br>
         {{ form.about_me(cols=50, rows=4) }}<br>
         {% for error in form.about_me.errors %}
-        <span style="color: red;">[{{ error }}]</span>
+        <span style="btn btn-warning">{{ error }}</span>
         {% endfor %}
     </p>
-    <a>{{ form.submit(class="button is-primary is-large is-loading") }}</a>
+    <a>{{ form.submit(class="btn btn-info") }}</a>
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
+
+  <!-- Then put toasts within -->
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div>
+</div>
 </form>
+{% endblock %}
+{% block footer%}
+    <footer class="container">
+        <p>&copy; 2017–2022 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer>
 {% endblock %}
