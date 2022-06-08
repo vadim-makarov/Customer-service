@@ -79,7 +79,7 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Phone number already in use.')
 
 
-class Services(FlaskForm):
+class Services(FlaskForm):  # TODO multiple field input
     service1 = SelectField('Choose service:', choices=['Service1', 'service2', 'service3'])
     service2 = SelectField('Choose additional service:', render_kw={'placeholder': 'Add service'},
                            choices=['', 'Service4', 'service5', 'service6'],
@@ -87,5 +87,5 @@ class Services(FlaskForm):
     service3 = SelectField('Choose another additional service:', choices=['', 'Service7', 'service8', 'service9'],
                            validate_choice=False)
     service_time = DateTimeLocalField('Choose your destiny', default=datetime.today(), validators=[InputRequired()],
-                                      format='%Y-%m-%dT%H:%M')
+                                      format='%Y-%m-%dT%H:%M')  # TODO datetime format without seconds
     submit = SubmitField('Enroll', render_kw={'class': 'btn btn-info'})

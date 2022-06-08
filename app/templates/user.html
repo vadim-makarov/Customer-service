@@ -110,7 +110,7 @@ input::-webkit-datetime-edit-fields-wrapper {
     </table>
     <form action="{{ url_for('add_service') }}" method="post">
         <h3><label>Choose date and time of service:</label></h3><br>
-        {{ wtf.quick_form(form) }}
+        {{ wtf.quick_form(form, button_map={'submit': 'success'}) }}
         {% for error in wtf.quick_form(form).errors %}
         <span style="btn btn-warning">{{ error }}</span>
         {% endfor %}

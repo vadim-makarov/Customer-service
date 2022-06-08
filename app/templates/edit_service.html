@@ -52,7 +52,7 @@ btn: btn-warning
     </table>
     <form action="" method="post">
         <h3><label>Here you can change the date and the service</label></h3><br>
-        {{ wtf.quick_form(form) }}
+        {{ wtf.quick_form(form, button_map={'submit': 'success'}) }}
         {% for error in wtf.quick_form(form).errors %}
         <span style="btn btn-warning">{{ error }}</span>
         {% endfor %}
