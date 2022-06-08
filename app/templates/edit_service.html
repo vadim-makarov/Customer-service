@@ -12,7 +12,7 @@ main
   vertical-align:middle;
   margin: 0 auto;
   vertical-align:middle;
-  max-width: 400px;
+  max-width: auto;
   padding: auto;
   text-align: center;
 }
@@ -21,6 +21,14 @@ h1
     color : #000000;
     text-align : center;
     font-family: "SIMPSON";
+}
+form
+{
+margin: 0 auto;
+padding: auto;
+text-align: center;
+max-width: 400px;
+btn: btn-warning
 }
 </style>
 <h1>Edit service</h1>
@@ -44,13 +52,11 @@ h1
             <td>{{ user.phone_number }}</td>
             <td>{{ current_service.service_time }}</td>
             <td>{{ current_service.service }}</td>
-            <td><form action="{{ url_for('delete_service', service_id=service.id) }}" method=post>
-                <input type=submit class="btn btn-danger" value="Delete"></form></td>
             {% endif %}
         </tr>
         </tbody>
     </table>
-    <form action="{{ url_for('edit_service') }}" method="post">
+    <form action="" method="post">
         <h3><label>Here you can choose another date and service</label></h3><br>
         {{ wtf.quick_form(form) }}
         {% for error in wtf.quick_form(form).errors %}

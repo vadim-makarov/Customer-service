@@ -97,7 +97,7 @@ def edit_service(service_id):
         time.sleep(0.5)
         return redirect(url_for('user', username=current_user.username))
     elif request.method == 'GET':
-        # form.service1.data = current_service.service
+        form.service1.data = current_service.service
         # form.service_time.data = current_service.service_time
     return render_template('edit_service.html', title='Edit service', form=form, user=current_user, current_service=current_service)
 

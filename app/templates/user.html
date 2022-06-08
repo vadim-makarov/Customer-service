@@ -100,7 +100,7 @@ input::-webkit-datetime-edit-fields-wrapper {
             <td>{{ user.phone_number }}</td>
             <td>{{ service.service_time }}</td>
             <td>{{ service.service }}</td>
-            <td><a type="button" class="btn btn-warning" href="{{ url_for('edit_service', id=service.id ) }}">Edit my profile</a>
+            <td><a type="button" class="btn btn-warning" href="{{ url_for('edit_service', service_id=service.id ) }}">Edit service</a>
             <td><form action="{{ url_for('delete_service', service_id=service.id) }}" method=post>
                 <input type=submit class="btn btn-danger" value="Delete"></form></td>
             {% endif %}
