@@ -86,20 +86,17 @@ def add_service():
 @app.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
 @login_required
 def edit_service(service_id):
-    current_service = Service.query.filter_by(id=service_id).first()
+    service = Service.query.filter_by(id=service_id).first()
     form = Services()
     if form.validate_on_submit() and form.submit.data:
         user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
-        current_service.service = user_choises
-        service_time = form.service_time.data
+        service.service = user_choises
+        service.service_time = form.service_time.data
         db.session.commit()
-        flash(f'Ok, {current_user.username} you have changed your service to {user_choises} at {service_time}!')
+        flash(f'Ok, {current_user.username} you have changed your service to {user_choises} at {service.service_time}!')
         time.sleep(0.5)
         return redirect(url_for('user', username=current_user.username))
-    elif request.method == 'GET':
-        form.service1.data = current_service.service
-        # form.service_time.data = current_service.service_time
-    return render_template('edit_service.html', title='Edit service', form=form, user=current_user, current_service=current_service)
+    return render_template('edit_service.html', title='Edit service', form=form, user=current_user, service=service)
 
 
 @app.route('/user/<int:service_id>', methods=['POST'])

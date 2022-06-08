@@ -12,7 +12,7 @@ main
   vertical-align:middle;
   margin: 0 auto;
   vertical-align:middle;
-  max-width: auto;
+  max-width: 600px;
   padding: auto;
   text-align: center;
 }
@@ -31,33 +31,27 @@ max-width: 400px;
 btn: btn-warning
 }
 </style>
-<h1>Edit service</h1>
+<br><br><h1>Edit service</h1><br>
  <table class="table table-dark">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Phone number</th>
             <th scope="col">Date/time</th>
             <th scope="col">Services</th>
-            <th scope="col">Change</th>
-            <th scope="col">Cancel</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
         <tr>
             {% if user == current_user %}
-            <th scope="row">{{ service_id }}</th>
-            <td>{{ user.username }}</td>
-            <td>{{ user.phone_number }}</td>
-            <td>{{ current_service.service_time }}</td>
-            <td>{{ current_service.service }}</td>
+            <th scope="row">{{ service.id }}</th>
+            <td>{{ service.service_time }}</td>
+            <td>{{ service.service }}</td>
             {% endif %}
         </tr>
         </tbody>
     </table>
     <form action="" method="post">
-        <h3><label>Here you can choose another date and service</label></h3><br>
+        <h3><label>Here you can change the date and the service</label></h3><br>
         {{ wtf.quick_form(form) }}
         {% for error in wtf.quick_form(form).errors %}
         <span style="btn btn-warning">{{ error }}</span>
