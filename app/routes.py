@@ -77,7 +77,8 @@ def add_service():
         service_add = Service(service=user_choises, service_time=form.service_time.data, user_id=current_user.id)
         db.session.add(service_add)
         db.session.commit()
-        flash(f'Congratulations, {current_user.username} you are registered for {user_choises} at {service_add.service_time}!')
+        flash(
+            f'Congratulations, {current_user.username} you are registered for {user_choises} at {service_add.service_time}!')
         time.sleep(1)
         return redirect(url_for('user', user=user, username=current_user.username))
 
@@ -85,7 +86,7 @@ def add_service():
 @app.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
 @login_required
 def edit_service(service_id):
-    current_service = Service.query.filter_by(service_id=service_id).first()
+    current_service = Service.query.filter_by(id=service_id).first()
     form = Services()
     if form.validate_on_submit() and form.submit.data:
         user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
@@ -93,12 +94,12 @@ def edit_service(service_id):
         service_time = form.service_time.data
         db.session.commit()
         flash(f'Ok, {current_user.username} you have changed your service to {user_choises} at {service_time}!')
-        time.sleep(1)
+        time.sleep(0.5)
         return redirect(url_for('user', username=current_user.username))
     elif request.method == 'GET':
-        form.service1.data = current_service.service
+        # form.service1.data = current_service.service
         # form.service_time.data = current_service.service_time
-    return render_template('edit_service.html', title='Edit service',form=form)
+    return render_template('edit_service.html', title='Edit service', form=form, user=current_user, current_service=current_service)
 
 
 @app.route('/user/<int:service_id>', methods=['POST'])
@@ -128,7 +129,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash('Your changes have been saved.')
-        time.sleep(1)
+        time.sleep(0.5)
         return redirect(url_for('user', username=current_user.username))  # return to user's profile page
     elif request.method == 'GET':
         form.username.data = current_user.username
