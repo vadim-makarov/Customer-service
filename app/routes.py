@@ -65,15 +65,40 @@ def user(username):
     form = Services()
     user = User.query.filter_by(username=username).first()
     services = Service.query.filter_by(user_id=user.id)
-    if form.validate_on_submit():
+    return render_template('user.html', user=user, title=username, form=form, services=services)
+
+
+@app.route('/user/add_service', methods=['POST'])
+@login_required
+def add_service():
+    form = Services()
+    if form.validate_on_submit() and form.submit.data:
         user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
-        service_add = Service(service=user_choises, service_time=form.service_time.data, user_id=user.id)
+        service_add = Service(service=user_choises, service_time=form.service_time.data, user_id=current_user.id)
         db.session.add(service_add)
         db.session.commit()
-        flash(f'Congratulations, {user.username} you are registered for service at {service_add.service_time}!')
+        flash(f'Congratulations, {current_user.username} you are registered for {user_choises} at {service_add.service_time}!')
         time.sleep(1)
-        return render_template('user.html', user=user, title=username, form=form, services=services)
-    return render_template('user.html', user=user, title=username, form=form, services=services)
+        return redirect(url_for('user', user=user, username=current_user.username))
+
+
+@app.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
+@login_required
+def edit_service(service_id):
+    current_service = Service.query.filter_by(service_id=service_id).first()
+    form = Services()
+    if form.validate_on_submit() and form.submit.data:
+        user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
+        current_service.service = user_choises
+        service_time = form.service_time.data
+        db.session.commit()
+        flash(f'Ok, {current_user.username} you have changed your service to {user_choises} at {service_time}!')
+        time.sleep(1)
+        return redirect(url_for('user', username=current_user.username))
+    elif request.method == 'GET':
+        form.service1.data = current_service.service
+        # form.service_time.data = current_service.service_time
+    return render_template('edit_service.html', title='Edit service',form=form)
 
 
 @app.route('/user/<int:service_id>', methods=['POST'])
@@ -83,7 +108,7 @@ def delete_service(service_id):
     db.session.delete(service_del)
     db.session.commit()
     flash('Item deleted.')
-    return render_template('user.html', user=user)
+    return redirect(url_for('user', username=current_user.username))
 
 
 @app.before_request
@@ -111,3 +136,8 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
+
+
+@app.route('/pricing')
+def pricing():
+    return render_template('pricing.html')

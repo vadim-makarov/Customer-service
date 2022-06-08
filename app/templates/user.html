@@ -28,9 +28,11 @@ h1
 }
 form
 {
- margin: 0 auto;
+margin: 0 auto;
+padding: auto;
 text-align: center;
 max-width: 400px;
+btn: btn-warning
 }
 input[type="date"]
  {
@@ -63,6 +65,7 @@ input::-webkit-datetime-edit-fields-wrapper {
 </head>
 <body>
 <main>
+    <br>
 
     <tr>
         <td>
@@ -84,7 +87,7 @@ input::-webkit-datetime-edit-fields-wrapper {
             <th scope="col">Phone number</th>
             <th scope="col">Date/time</th>
             <th scope="col">Services</th>
-            <th scope="col">Changing</th>
+            <th scope="col">Change</th>
             <th scope="col">Cancel</th>
         </tr>
         </thead>
@@ -97,15 +100,15 @@ input::-webkit-datetime-edit-fields-wrapper {
             <td>{{ user.phone_number }}</td>
             <td>{{ service.service_time }}</td>
             <td>{{ service.service }}</td>
-            <td><a href="#" class="btn btn-warning">Change</a></td>
+            <td><a type="button" class="btn btn-warning" href="{{ url_for('edit_service', service_id=service.id) }}">Edit service</a></td>
             <td><form action="{{ url_for('delete_service', service_id=service.id) }}" method=post>
-        <input type=submit value="Delete"></form></td>
+                <input type=submit class="btn btn-danger" value="Delete"></form></td>
             {% endif %}
         </tr>
         {% endfor %}
         </tbody>
     </table>
-    <form action="" method="post">
+    <form action="{{ url_for('add_service') }}" method="post">
         <h3><label>Choose date and time of service:</label></h3><br>
         {{ wtf.quick_form(form) }}
         {% for error in wtf.quick_form(form).errors %}
