@@ -88,5 +88,5 @@ class Services(FlaskForm):
     service_date = DateField('Choose the date', validators=[InputRequired()],
                              format='%Y-%m-%d', render_kw={"min": datetime.now().date()})
     service_time = TimeField('Choose the time', validators=[InputRequired()],
-                             format='%H:%M', render_kw={"min": datetime.now().time()})
+                             format='%H:%M', render_kw={"min": '10:00', 'max': '20:00', 'step': '1800'})
     submit = SubmitField('Enroll', render_kw={'class': 'btn btn-info'})
