@@ -29,8 +29,11 @@ class User(UserMixin, db.Model):
 class Service(db.Model):
     __tablename__ = 'service'
     id = db.Column(db.Integer, primary_key=True)
-    service = db.Column(db.String(140))
-    service_time = db.Column(db.String, index=True)  # TODO service date\time
+    service1 = db.Column(db.String(60), index=True, nullable=False)
+    service2 = db.Column(db.String(60), index=True)
+    service3 = db.Column(db.String(60), index=True)
+    service_date = db.Column(db.Date, index=True, nullable=False)  # TODO service date\time
+    service_time = db.Column(db.Time, index=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):

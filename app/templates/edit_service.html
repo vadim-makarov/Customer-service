@@ -36,7 +36,8 @@ btn: btn-warning
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Date/time</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
             <th scope="col">Services</th>
         </tr>
         </thead>
@@ -44,8 +45,9 @@ btn: btn-warning
         <tr>
             {% if user == current_user %}
             <th scope="row">{{ service.id }}</th>
+            <td>{{ service.service_date }}</td>
             <td>{{ service.service_time }}</td>
-            <td>{{ service.service }}</td>
+            <td>{{ service.service1 }} {{ service.service2 }} {{ service.service3 }}</td>
             {% endif %}
         </tr>
         </tbody>

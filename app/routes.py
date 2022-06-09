@@ -68,17 +68,17 @@ def user(username):
     return render_template('user.html', user=user, title=username, form=form, services=services)
 
 
-@app.route('/user/add_service', methods=['POST'])
+@app.route('/user', methods=['POST'])
 @login_required
 def add_service():
     form = Services()
     if form.validate_on_submit() and form.submit.data:
-        user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
-        service_add = Service(service=user_choises, service_time=form.service_time.data, user_id=current_user.id)
+        service_add = Service(service1=form.service1.data, service2=form.service2.data, service3=form.service3.data,
+                              service_date=form.service_date.data,
+                              service_time=form.service_time.data, user_id=current_user.id)
         db.session.add(service_add)
         db.session.commit()
-        flash(
-            f'Congratulations, {current_user.username} you are registered for {user_choises} at {service_add.service_time}!')
+        flash(f'Congratulations, {current_user.username} you are registered for service at {service_add.service_time}!')
         time.sleep(1)
         return redirect(url_for('user', user=user, username=current_user.username))
 
@@ -89,11 +89,14 @@ def edit_service(service_id):
     service = Service.query.filter_by(id=service_id).first()
     form = Services()
     if form.validate_on_submit() and form.submit.data:
-        user_choises = ' '.join([form.service1.data, form.service2.data, form.service3.data])
-        service.service = user_choises
+        service.service1 = form.service1.data
+        service.service2 = form.service2.data
+        service.service3 = form.service3.data
+        service.service_date = form.service_date.data
         service.service_time = form.service_time.data
         db.session.commit()
-        flash(f'Ok, {current_user.username} you have changed your service to {user_choises} at {service.service_time}!')
+        flash(
+            f'Ok, {current_user.username} you have changed your service to on {service.service_date} at {service.service_time}!')
         time.sleep(0.5)
         return redirect(url_for('user', username=current_user.username))
     return render_template('edit_service.html', title='Edit service', form=form, user=current_user, service=service)
@@ -138,4 +141,10 @@ def edit_profile():
 
 @app.route('/pricing')
 def pricing():
-    return render_template('pricing.html')
+    return render_template('pricing.html', title='Pricing')
+
+
+@app.route('/datepicker')
+def datepicker():
+    form=Services()
+    return render_template('datepicker.html', title='Picker', form=form)
