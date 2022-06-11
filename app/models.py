@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
     phone_number = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.String(140))  # TODO does this really need
-    last_seen = db.Column(db.DateTime, default=datetime.now)
+    last_seen = db.Column(db.String, default=datetime.now().date())
     services = db.relationship('Service', backref='client', lazy='dynamic')
 
     def __repr__(self):
@@ -32,14 +32,15 @@ class Service(db.Model):
     service1 = db.Column(db.String(60), index=True, nullable=False)
     service2 = db.Column(db.String(60), index=True)
     service3 = db.Column(db.String(60), index=True)
-    service_date = db.Column(db.Date, index=True, nullable=False)  # TODO service date\time
-    service_time = db.Column(db.Time, index=True, nullable=False)
+    service_date = db.Column(db.Date, index=True, nullable=False)
+    service_time = db.Column(db.String, index=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'<{self.id,self.service,self.service_time}>'
+        return f'<{self.id, self.service1, self.service2, self.service3, self.service_time}>'
 
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+

@@ -8,7 +8,7 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import redirect
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView
 from app.models import User, Service
 
 
@@ -73,7 +73,8 @@ def user(username):
 def add_service():
     form = Services()
     if form.validate_on_submit() and form.submit.data:
-        service_add = Service(service1=form.service1.data, service2=form.service2.data, service3=form.service3.data,
+        service_add = Service(service1=form.service1.data, service2=form.service2.data,
+                              service3=form.service3.data,
                               service_date=form.service_date.data,
                               service_time=form.service_time.data, user_id=current_user.id)
         db.session.add(service_add)
@@ -115,7 +116,7 @@ def delete_service(service_id):
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
-        current_user.last_seen = datetime.today()
+        current_user.last_seen = datetime.now().date()
         db.session.commit()
 
 
@@ -144,7 +145,11 @@ def pricing():
     return render_template('pricing.html', title='Pricing')
 
 
-@app.route('/datepicker')
-def datepicker():
-    form=Services()
-    return render_template('datepicker.html', title='Picker', form=form)
+@app.route('/admin/')
+@login_required
+def admin():
+    if current_user.is_authenticated:
+        if current_user.username == 'VadimM':
+            return CustomerServiceView(User, db.session).render('admin/index.html')
+        return redirect(url_for('index'))
+    return redirect(url_for('login'))
