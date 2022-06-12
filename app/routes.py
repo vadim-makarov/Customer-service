@@ -64,15 +64,16 @@ def logout():
 def user(username):
     form = Services()
     user = User.query.filter_by(username=username).first()
+    current_date = datetime.now().date()
     services = Service.query.filter_by(user_id=user.id)
-    return render_template('user.html', user=user, title=username, form=form, services=services)
+    return render_template('user.html', user=user, title=username, form=form, services=services, date=current_date)
 
 
 @app.route('/user', methods=['POST'])
 @login_required
 def add_service():
     form = Services()
-    if form.validate_on_submit() and form.submit.data:
+    if form.validate_on_submit():
         service_add = Service(service1=form.service1.data, service2=form.service2.data,
                               service3=form.service3.data,
                               service_date=form.service_date.data,
@@ -82,6 +83,8 @@ def add_service():
         flash(f'Congratulations, {current_user.username} you are registered for service at {service_add.service_time}!')
         time.sleep(1)
         return redirect(url_for('user', user=user, username=current_user.username))
+    flash('This date or time are already in use. Please choose another date or time.')
+    return redirect(url_for('user', user=user, username=current_user.username))
 
 
 @app.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
@@ -107,6 +110,7 @@ def edit_service(service_id):
 @login_required
 def delete_service(service_id):
     service_del = Service.query.get_or_404(service_id)
+    # service_del.service_date > datetime.now().date()
     db.session.delete(service_del)
     db.session.commit()
     flash('Item deleted.')
@@ -145,7 +149,7 @@ def pricing():
     return render_template('pricing.html', title='Pricing')
 
 
-@app.route('/admin/')
+@app.route('/admin')
 @login_required
 def admin():
     if current_user.is_authenticated:
@@ -153,3 +157,17 @@ def admin():
             return CustomerServiceView(User, db.session).render('admin/index.html')
         return redirect(url_for('index'))
     return redirect(url_for('login'))
+
+
+@app.route('/admin/list')
+def admin_list():
+    return render_template('admin/list.html')
+
+
+# @app.route('/schedule/add', methods=['GET', 'POST'])
+# def edit_time_options():
+#     if request.method == 'POST':
+#         time_choices = request.form.getlist('time_checkbox')
+#         time_select_form = UserView()
+#         time_select_form.service_time.choices = time_choices
+#         flash(f'New time choices {time_choices} was added')

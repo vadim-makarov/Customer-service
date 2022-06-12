@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.form import SecureForm
 from flask_wtf import FlaskForm
 from werkzeug.routing import ValidationError
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateField
@@ -82,10 +83,11 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Phone number already in use.')
 
 
-# def validate_date_time(service_date, service_time):  # if already exist
-#     date = Service.query.filter_by(service_date=service_date.data).first()
-#     if date.service_time == service_time.data:
-#         raise ValidationError('Please choose a different time.')
+def validate_date_time(form, service_time):  # if already exist
+    date_services = Service.query.filter_by(service_date=form.service_date.data).all()
+    for service in date_services:
+        if service.service_time == service_time.data:
+            raise ValidationError('Please choose a different time.')
 
 
 class Services(FlaskForm):
@@ -98,11 +100,13 @@ class Services(FlaskForm):
     service_date = DateField('Choose the date', validators=[InputRequired()],
                              format='%Y-%m-%d', render_kw={"min": datetime.now().date()})
     service_time = SelectField('Choose the time', choices=['10-00', '12-00', '14-00', '16-00', '18-00'],
-                               validators=[InputRequired()])
+                               validators=[InputRequired(), validate_date_time])
     submit = SubmitField('Enroll', render_kw={'class': 'btn btn-info'})
 
 
 class CustomerServiceView(ModelView):
+    form_base_class = SecureForm
+
     def __init__(self, *args, **kwargs):
         self._default_view = True
         super(CustomerServiceView, self).__init__(*args, **kwargs)
@@ -110,13 +114,25 @@ class CustomerServiceView(ModelView):
         self.admin.add_view(ModelView(User, db.session))
         self.admin.add_view(ModelView(Service, db.session))
 
-    page_size = 30
-    form_choices = {
-        'title': [
-            ('MR', 'Mr'),
-            ('MRS', 'Mrs'),
-            ('MS', 'Ms'),
-            ('DR', 'Dr'),
-            ('PROF', 'Prof.')
-        ]
-    }
+# class MyModelView(BaseModelView):
+#     column_exclude_list = User.password_hash
+#
+#
+# class UserView(ModelView):
+#     form_overrides = dict(title=SelectField)
+#     form_args = dict(
+#         # Pass the choices to the `SelectField`
+#         title=dict(
+#             choices=['11:00', '14:00']
+#         ))
+#
+#     def __init__(self, session, **kwargs):
+#         super(UserView, self).__init__(User, session, **kwargs)
+#
+#     def is_accessible(self):
+#         return login.current_user.is_authenticated()
+#
+#     def create_form(self):
+#         form = Services()
+#         form.service_time.choices = ['15:00', '25:00']
+#         return form

@@ -20,8 +20,9 @@ Bootstrap(app)
 from app import routes, models, errors
 
 ###  ADMIN  ###
-admin = Admin(app, name='Customer Service', template_mode='bootstrap3')
+admin = Admin(app, name='Customer Service', template_mode='bootstrap4')
 
 from app.models import User, Service
 
 admin.add_views(ModelView(User, db.session), ModelView(Service, db.session))
+
