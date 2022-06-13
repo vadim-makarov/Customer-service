@@ -17,7 +17,7 @@ main
   vertical-align:middle;
   margin: 0 auto;
   vertical-align:middle;
-  max-width: auto;
+  max-width: 1000;
   padding: auto;
   text-align: center;
 }
@@ -62,23 +62,30 @@ input::-webkit-datetime-edit-fields-wrapper {
     white-space: pre;
 }
 
+
+
+
+
+
     </style>
 </head>
 <body>
 <main>
     <br>
-
-    <tr>
-        <td>
-            {% if user == current_user %}
-            <h1>{{ user.username }}</h1>
-            {% endif %}
-            {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-            <a type="button" class="btn btn-primary" href="{{ url_for('edit_profile') }}">Edit my profile</a>
-        </td>
-    </tr>
+    <div>
+        <tr>
+            <td>
+                {% if user == current_user %}
+                <br>
+                <h1 style="font-weight: 600">{{ user.username }}</h1><br>
+                {% endif %}
+                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+                <a type="button" class="btn btn-primary" href="{{ url_for('edit_profile') }}">Edit my profile</a>
+            </td>
+        </tr>
+    </div>
     <br><br>
-    <table class="table table-dark">
+    <table class="table table-warning">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -95,29 +102,39 @@ input::-webkit-datetime-edit-fields-wrapper {
         {% for service in services %}
         <tr>
             {% if user == current_user %}
-            {% if service.service_date > date %}
+            {% if service.service_date >= date %}
             <th scope="row">{{ service.id }}</th>
             <td>{{ user.username }}</td>
             <td>{{ user.phone_number }}</td>
             <td>{{ service.service_date }}</td>
             <td>{{ service.service_time }}</td>
             <td>{{ service.service1 }} {{ service.service2 }} {{ service.service3 }}</td>
-            <td><a type="button" class="btn btn-warning" href="{{ url_for('edit_service', service_id=service.id ) }}">Edit service</a>
-            <td><form action="{{ url_for('delete_service', service_id=service.id) }}" method=post>
-            <input type=submit class="btn btn-danger" value="Delete"></form></td>
+            <td><a type="button" class="btn btn-warning"
+                   href="{{ url_for('edit_service', service_id=service.id ) }}">Edit service</a>
+            <td>
+                <form action="{{ url_for('delete_service', service_id=service.id) }}" method=post>
+                    <input type=submit class="btn btn-danger" value="Delete"></form>
+            </td>
             {% endif %}
             {% endif %}
         </tr>
         {% endfor %}
         </tbody>
     </table>
-    <form action="{{ url_for('add_service') }}" method="post">
-        <h3><label>Choose date and time of service:</label></h3><br>
-        {{ wtf.quick_form(form, button_map={'submit': 'success'}) }}
-        {% for error in wtf.quick_form(form).errors %}
-        <span style="btn btn-warning">{{ error }}</span>
-        {% endfor %}
-    </form>
+    <div>
+        <form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form">
+            <h3><label>Choose date and time of service:</label></h3><br>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_errors(form, hiddens="only") }}
+                {{ wtf.form_field(form.service1) }}
+                {{ wtf.form_field(form.service2) }}
+                {{ wtf.form_field(form.service3) }}
+                {{ wtf.form_field(form.service_date) }}
+                {{ wtf.form_field(form.service_time) }}<br>
+            <div>{{ wtf.form_field(form.submit, class="btn btn-info") }}</div>
+            </form>
+        </form>
+    </div>
     <br><br>
 </main>
 </body>

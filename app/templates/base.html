@@ -73,11 +73,13 @@ background-size: cover;
 
 
 
+
     </style>
 
     {% block style %}
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/carousel.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     {% endblock %}
 </head>
 <body>
@@ -86,12 +88,13 @@ background-size: cover;
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-          <img class="bi me-2" width="40" height="32" role="img" src="{{ url_for('static', filename = 'img/mushroom-1.1s-200px.svg')}}">
-        </a>
+                <img class="bi me-2" width="50" height="50" role="img"
+                     src="{{ url_for('static', filename = 'img/carrot-2.9s-200px.svg')}}">
+            </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="" class="nav-link px-2 text-white">Features</a></li>
+                <li><a href="/features" class="nav-link px-2 text-white">Features</a></li>
                 <li><a href="/pricing" class="nav-link px-2 text-white">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                <li><a href="/FAQ" class="nav-link px-2 text-white">FAQs</a></li>
                 {% if current_user.username == 'VadimM' %}
                 <li><a href="/admin" class="nav-link px-2 text-white">Private room</a></li>
                 {% endif %}
@@ -133,7 +136,12 @@ background-size: cover;
                     <div class="carousel-caption text-start">
                         <h1>Example headline.</h1>
                         <p>Some representative placeholder content for the first slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                        {% if current_user.is_authenticated %}
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('user', user=current_user.username) }}">I
+                            want it!</a></p>
+                        {% else %}
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">I want it!</a></p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -144,7 +152,12 @@ background-size: cover;
                     <div class="carousel-caption">
                         <h1>Another example headline.</h1>
                         <p>Some representative placeholder content for the second slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                        {% if current_user.is_authenticated %}
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('user', user=current_user.username) }}">Really
+                            want it!</a></p>
+                        {% else %}
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">Really want it!</a></p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -155,7 +168,13 @@ background-size: cover;
                     <div class="carousel-caption text-end">
                         <h1>One more for good measure.</h1>
                         <p>Some representative placeholder content for the third slide of this carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                        {% if current_user.is_authenticated %}
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('user', user=current_user.username) }}">Nothing
+                            more!</a></p>
+                        {% else %}
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">Nothing more!</a></p>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
@@ -181,37 +200,40 @@ background-size: cover;
         <div class="row">
             <div class="col-lg-4">
                 <img class="bd-placeholder-img rounded-circle" width="140" height="140"
-                     src="{{ url_for('static', filename='img/money.svg') }}" role="img" aria-label="Placeholder: 140x140"
+                     src="{{ url_for('static', filename='img/money.svg') }}" role="img"
+                     aria-label="Placeholder: 140x140"
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                    <text x="50%" y="50%" fill="#777" dy=".3em"></text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
                 </img>
 
                 <h2 class="fw-normal">Quality</h2>
                 <p>Our quality is the best quality ever! Try it for yourself!</p>
-                <p><a class="btn btn-warning" href="/user">View details &raquo;</a></p>
+                <p><a class="btn btn-warning" href="/features">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <img class="bd-placeholder-img rounded-circle" width="140" height="140"
-                     src="{{ url_for('static', filename='img/phone1.svg') }}" role="img" aria-label="Placeholder: 140x140"
+                     src="{{ url_for('static', filename='img/phone1.svg') }}" role="img"
+                     aria-label="Placeholder: 140x140"
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                    <text x="50%" y="50%" fill="#777" dy=".3em"></text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
                 </img>
 
                 <h2 class="fw-normal">Multilanguage</h2>
                 <p>We speak different languages. No one will go misunderstood!</p>
-                <p><a class="btn btn-warning" href="/user">View details &raquo;</a></p>
+                <p><a class="btn btn-warning" href="/features">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <img class="bd-placeholder-img rounded-circle" width="140" height="140"
-                     src="{{ url_for('static', filename='img/girl1.svg') }}" role="img" aria-label="Placeholder: 140x140"
+                     src="{{ url_for('static', filename='img/girl1.svg') }}" role="img"
+                     aria-label="Placeholder: 140x140"
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
 
-                    <text x="50%" y="50%" fill="#777" dy=".3em"></text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
                 </img>
 
                 <h2 class="fw-normal">Conversation</h2>
                 <p>Here we can discuss different questions. We are flexible!</p>
-                <p><a class="btn btn-warning" href="/user">View details &raquo;</a></p>
+                <p><a class="btn btn-warning" href="/features">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
 
@@ -275,13 +297,25 @@ background-size: cover;
     {% endblock %}
     {% block footer %}
     <!-- FOOTER -->
-    <footer class="footer mt-auto py-3">
-        <p class="float-end"><a href="#">Back to top</a></p>
-        <p>&copy; 2017–2022 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-    </footer>
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-bottom">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-muted">© 2022 Company, Inc</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="bi bi-telegram" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+      <li class="ms-3"><a class="bi bi-instagram" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+      <li class="ms-3"><a class="bi bi-facebook" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+  </footer>
+</div>
     {% endblock %}
 </main>
-
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

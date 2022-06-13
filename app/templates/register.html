@@ -53,23 +53,25 @@ h1
 </style>
 
 <main>
-    <form action="" class="row g-3" method="post">
-        <div class="row g-3"><br>
+    <br><br><form action="" class="row g-3" method="post">
+        <div class="row g-3">
             <h1>Create Account</h1>
             {{ form.csrf_token }}
-            {{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
+            <div>{{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
             {% for error in form.username.errors %}
                     <span style="btn btn-warning">{{ error }}</span>
-            {% endfor %}
-            {{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number") }}
+                {% endfor %}</div>
+            <div>{{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number") }}
+            {% for error in form.phone_number.errors %}
+                <span style="btn btn-warning">{{ error }}</span>
+                {% endfor %}</div>
+            <div>
+            {{ form.code(class="form-control form-control-lg", placeholder="Enter the code:") }}
             {% for error in form.phone_number.errors %}
                 <span style="btn btn-warning">{{ error }}</span>
             {% endfor %}
-            {{ form.phone_number2(class="form-control form-control-lg", placeholder="Confirm your phone number") }}
-            {% for error in form.phone_number.errors %}
-                <span style="btn btn-warning">{{ error }}</span>
-            {% endfor %}
-            {{ form.submit(class="btn btn-info") }}
+            </div>
+            <div>{{ form.submit(class="btn btn-info") }}</div>
         </div>
     </form>
     <br><br>
@@ -77,8 +79,18 @@ h1
 </body>
 {% endblock %}
 {% block footer %}
-<footer class="container">
-    <p>&copy; 2017–2022 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-</footer>
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <span class="mb-3 mb-md-0 text-muted">© 2022 Company, Inc</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="bi bi-telegram" href="#"></a></li>
+      <li class="ms-3"><a class="bi bi-instagram" href="#"></a></li>
+      <li class="ms-3"><a class="bi bi-facebook" href="#"></a></li>
+    </ul>
+  </footer>
+</div>
 {% endblock %}
 </html>

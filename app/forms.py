@@ -36,7 +36,7 @@ class RegistrationForm(FlaskForm):
                                                   message="Enter a valid phone number, like +55555555555"),
                                            EqualTo("phone_number2",
                                                    message="Номера не совпадают!")])
-    phone_number2 = StringField(validators=[InputRequired(), Length(10, 12)])
+    code = StringField(validators=[InputRequired(), Length(4, message='Too short or too long. Please try again.')])
     submit = SubmitField('Sign Up')
 
     @staticmethod

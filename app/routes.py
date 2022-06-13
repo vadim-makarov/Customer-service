@@ -10,6 +10,7 @@ from werkzeug.utils import redirect
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView
 from app.models import User, Service
+from app.sms import send_sms
 
 
 @app.route('/')
@@ -26,12 +27,13 @@ def register():
     if form.validate_on_submit():
         user = User(username=form.username.data, phone_number=form.phone_number.data)
         user.set_password(form.phone_number.data)
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        flash(f'Congratulations, {user.username} you are now a registered user!')
-        time.sleep(1)
-        return redirect(url_for('index'))
+        if send_sms(form.phone_number.data) == form.code.data:
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            flash(f'Congratulations, {user.username} you are now a registered user!')
+            time.sleep(1)
+            return redirect(url_for('index'))
     return render_template('register.html', title='Registration page', form=form)
 
 
@@ -60,8 +62,11 @@ def logout():
 
 
 @app.route('/user/<username>', methods=['GET', 'POST'])
+@app.route('/user')
 @login_required
 def user(username):
+    if not current_user.is_authenticated:
+        return redirect(url_for('register'))
     form = Services()
     user = User.query.filter_by(username=username).first()
     current_date = datetime.now().date()
@@ -69,7 +74,7 @@ def user(username):
     return render_template('user.html', user=user, title=username, form=form, services=services, date=current_date)
 
 
-@app.route('/user', methods=['POST'])
+@app.route('/user/add_service', methods=['POST'])
 @login_required
 def add_service():
     form = Services()
@@ -111,7 +116,6 @@ def edit_service(service_id=None):
 @login_required
 def delete_service(service_id):
     service_del = Service.query.get_or_404(service_id)
-    # service_del.service_date > datetime.now().date()
     db.session.delete(service_del)
     db.session.commit()
     flash('Item deleted.')
@@ -150,6 +154,16 @@ def pricing():
     return render_template('pricing.html', title='Pricing')
 
 
+@app.route('/FAQ')
+def faq():
+    return render_template('FAQ.html', title='FAQ')
+
+
+@app.route('/features')
+def features():
+    return render_template('features.html', title='Features')
+
+
 @app.route('/admin')
 @login_required
 def admin():
@@ -163,7 +177,6 @@ def admin():
 @app.route('/admin/list')
 def admin_list():
     return render_template('admin/list.html')
-
 
 # @app.route('/schedule/add', methods=['GET', 'POST'])
 # def edit_time_options():

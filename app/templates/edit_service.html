@@ -35,7 +35,7 @@ btn: btn-warning
 }
 </style>
 <br><br><h1>Edit service</h1><br>
- <table class="table table-dark">
+ <table class="table table-warning">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -55,15 +55,20 @@ btn: btn-warning
         </tr>
         </tbody>
     </table>
-    <form action="" method="post">
-        <h3><label>Here you can choose and change the date and the service</label></h3><br>
-        {{ wtf.quick_form(form, button_map={'submit': 'success'}) }}
-        {% for error in wtf.quick_form(form).errors %}
-        <span style="btn btn-warning">{{ error }}</span>
-        {% endfor %}
-    </form>{% endblock %}
+    <br><form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form">
+            <h3><label>Choose date and time of service:</label></h3><br>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_errors(form, hiddens="only") }}
+                {{ wtf.form_field(form.service1) }}
+                {{ wtf.form_field(form.service2) }}
+                {{ wtf.form_field(form.service3) }}
+                {{ wtf.form_field(form.service_date) }}
+                {{ wtf.form_field(form.service_time) }}<br>
+            <div>{{ wtf.form_field(form.submit, class="btn btn-info") }}</div>
+            </form><br><br>
+{% endblock %}
 {% block footer%}
 <footer class="footer mt-auto py-3">
-        <p>&copy; 2017–2022 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2022–2022 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
     </footer>
 {% endblock %}
