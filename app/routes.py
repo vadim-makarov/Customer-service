@@ -89,21 +89,22 @@ def add_service():
 
 @app.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
 @login_required
-def edit_service(service_id):
-    service = Service.query.filter_by(id=service_id).first()
-    form = Services()
-    if form.validate_on_submit() and form.submit.data:
-        service.service1 = form.service1.data
-        service.service2 = form.service2.data
-        service.service3 = form.service3.data
-        service.service_date = form.service_date.data
-        service.service_time = form.service_time.data
-        db.session.commit()
-        flash(
-            f'Ok, {current_user.username} you have changed your service to on {service.service_date} at {service.service_time}!')
-        time.sleep(0.5)
-        return redirect(url_for('user', username=current_user.username))
-    return render_template('edit_service.html', title='Edit service', form=form, user=current_user, service=service)
+def edit_service(service_id=None):
+    if service_id is not None:
+        service = Service.query.filter_by(id=service_id).first()
+        form = Services()
+        if form.validate_on_submit() and form.submit.data:
+            service.service1 = form.service1.data
+            service.service2 = form.service2.data
+            service.service3 = form.service3.data
+            service.service_date = form.service_date.data
+            service.service_time = form.service_time.data
+            db.session.commit()
+            flash(
+                f'Ok, {current_user.username} you have changed your service to on {service.service_date} at {service.service_time}!')
+            time.sleep(0.5)
+            return redirect(url_for('user', username=current_user.username))
+        return render_template('edit_service.html', title='Edit service', form=form, user=current_user, service=service)
 
 
 @app.route('/user/<int:service_id>', methods=['POST'])

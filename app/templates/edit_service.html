@@ -47,16 +47,16 @@ btn: btn-warning
         <tbody class="table-group-divider">
         <tr>
             {% if user == current_user %}
-            <th scope="row">{{ service.id }}</th>
-            <td>{{ service.service_date }}</td>
-            <td>{{ service.service_time }}</td>
-            <td>{{ service.service1 }} {{ service.service2 }} {{ service.service3 }}</td>
+            {% if service.id %}<th scope="row">{{ service.id }}</th>{% endif %}
+            {% if service.service_date %}<td>{{ service.service_date }}</td>{% endif %}
+            {% if service.service_time %}<td>{{ service.service_time }}</td>{% endif %}
+            {% if service.service1 %}<td>{{ service.service1 }} {{ service.service2 }} {{ service.service3 }}</td>{% endif %}
             {% endif %}
         </tr>
         </tbody>
     </table>
     <form action="" method="post">
-        <h3><label>Here you can change the date and the service</label></h3><br>
+        <h3><label>Here you can choose and change the date and the service</label></h3><br>
         {{ wtf.quick_form(form, button_map={'submit': 'success'}) }}
         {% for error in wtf.quick_form(form).errors %}
         <span style="btn btn-warning">{{ error }}</span>
