@@ -62,11 +62,6 @@ input::-webkit-datetime-edit-fields-wrapper {
     white-space: pre;
 }
 
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -124,15 +119,15 @@ input::-webkit-datetime-edit-fields-wrapper {
     <div>
         <form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form">
             <h3><label>Choose date and time of service:</label></h3><br>
-                {{ form.hidden_tag() }}
-                {{ wtf.form_errors(form, hiddens="only") }}
-                {{ wtf.form_field(form.service1) }}
-                {{ wtf.form_field(form.service2) }}
-                {{ wtf.form_field(form.service3) }}
-                {{ wtf.form_field(form.service_date) }}
-                {{ wtf.form_field(form.service_time) }}<br>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_errors(form, hiddens="only") }}
+            {{ wtf.form_field(form.service1) }}
+            {{ wtf.form_field(form.service2) }}
+            {{ wtf.form_field(form.service3) }}
+            {{ wtf.form_field(form.service_date) }}
+            {{ wtf.form_field(form.service_time) }}<br>
             <div>{{ wtf.form_field(form.submit, class="btn btn-info") }}</div>
-            </form>
+        </form>
         </form>
     </div>
     <br><br>

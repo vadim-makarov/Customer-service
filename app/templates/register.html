@@ -65,12 +65,6 @@ h1
             {% for error in form.phone_number.errors %}
                 <span style="btn btn-warning">{{ error }}</span>
                 {% endfor %}</div>
-            <div>
-            {{ form.code(class="form-control form-control-lg", placeholder="Enter the code:") }}
-            {% for error in form.phone_number.errors %}
-                <span style="btn btn-warning">{{ error }}</span>
-            {% endfor %}
-            </div>
             <div>{{ form.submit(class="btn btn-info") }}</div>
         </div>
     </form>

@@ -5,8 +5,8 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_wtf import FlaskForm
 from werkzeug.routing import ValidationError
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateField
-from wtforms.validators import ValidationError, EqualTo, Length, InputRequired, Regexp
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateField, TelField
+from wtforms.validators import ValidationError, Length, InputRequired, Regexp
 
 from app import db
 from app.models import User, Service
@@ -19,10 +19,10 @@ class LoginForm(FlaskForm):
         Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
                "Usernames must have only letters, " "numbers, "
                "dots or underscores")])
-    phone_number = StringField('Phone number', validators=[InputRequired(), Length(10, 12),
-                                                           Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
-                                                                  message="Enter a valid phone number, like +55 555 "
-                                                                          "555 555")])
+    phone_number = TelField('Phone number', validators=[InputRequired(), Length(10, 12),
+                                                        Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                                               message="Enter a valid phone number, like +55 555 "
+                                                                       "555 555")])
     submit = SubmitField('Sign In')
 
 
@@ -31,12 +31,10 @@ class RegistrationForm(FlaskForm):
                                        Length(3, 20, message="Please provide a valid name"),
                                        Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
                                               "Usernames must have only letters, " "numbers, dots or underscores")])
-    phone_number = StringField(validators=[InputRequired(), Length(10, 12),
-                                           Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
-                                                  message="Enter a valid phone number, like +55555555555"),
-                                           EqualTo("phone_number2",
-                                                   message="Номера не совпадают!")])
-    code = StringField(validators=[InputRequired(), Length(4, message='Too short or too long. Please try again.')])
+    phone_number = TelField(validators=[InputRequired(), Length(10, 12),
+                                        Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                               message="Enter a valid phone number, like +55555555555")])
+    code = StringField(validators=[Length(4, message='Too short or too long. Please try again.')])
     submit = SubmitField('Sign Up')
 
     @staticmethod
@@ -58,10 +56,10 @@ class EditProfileForm(FlaskForm):
                                        Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
                                               "Usernames must have only letters, " "numbers, "
                                               "dots or underscores")])
-    phone_number = StringField(validators=[InputRequired(), Length(10, 12),
-                                           Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
-                                                  message="Enter a valid phone number, like +55"
-                                                          "555555555")])
+    phone_number = TelField(validators=[InputRequired(), Length(10, 12),
+                                        Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                               message="Enter a valid phone number, like +55"
+                                                       "555555555")])
     about_me = TextAreaField('Дополнительная информация, пожелания:', validators=[Length(min=0, max=140)])
     submit = SubmitField('Подтвердить')
 
@@ -98,9 +96,11 @@ class Services(FlaskForm):
     service3 = SelectField('Choose another additional service:', choices=['', 'At the place', 'To Go', 'Delivery'],
                            validate_choice=False)
     service_date = DateField('Choose the date', validators=[InputRequired()],
-                             format='%Y-%m-%d', render_kw={"min": datetime.now().date()})
-    service_time = SelectField('Choose the time', choices=['10-00', '12-00', '14-00', '16-00', '18-00'],
-                               validators=[InputRequired(), validate_date_time])
+                             format='%d-%m-%Y', render_kw={"min": datetime.now().date()})
+    service_time = SelectField('Choose the time', choices=['10:00', '12:00', '14:00', '16:00', '18:00'],
+                               validators=[InputRequired(),
+                                           validate_date_time])
+    # TODO someting with the fuckn' time(str(datetime.now().time())[:5] > '14:00 --> True'
     submit = SubmitField('Enroll', render_kw={'class': 'btn btn-info'})
 
 

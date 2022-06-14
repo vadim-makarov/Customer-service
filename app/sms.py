@@ -1,19 +1,34 @@
+from datetime import datetime
+
 from smsapi.client import SmsApiPlClient
 
+from app.models import Service
 
 token = "bLQCWwiUPawU5xKF4DJE7uZh5lHCrlRjcTwjdXGz"
 client = SmsApiPlClient(access_token=token)
-# message = "Where is the money, Lebowsky?!"
-# number = "+79022516111"
 # send_results = client.sms.send(to=number, message=message)
 
 import random
 
 
-def send_sms(number, message=None):
-    if message is None:
-        message = random.randint(1000, 10000)
-    send_results = client.sms.send(to=number, message=message)
-    return message
+def send_sms(number, time=None):
+    if time is not None:
+        message = f'Dear customer, your service is scheduled for tomorrow at {time}. Please be on time.'
+        # client.sms.send(to=number, message=message)
+        return message
+    code = str(random.randint(1000, 10000))
+    message = f'Your sms verification code is {code}'
+    # client.sms.send(to=number, message=message)
+    return code
 
 
+def reminder():
+    services = Service.query.all()
+    for service in services:
+        if service.service_date.day - datetime.now().date().day == 1:
+            send_sms(number=service.client.phone_number, time=service.service_time)
+
+
+current_date = datetime.today()
+if current_date.hour == 19:
+    reminder()

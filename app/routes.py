@@ -26,15 +26,26 @@ def register():
         return redirect(url_for('index'))
     if form.validate_on_submit():
         user = User(username=form.username.data, phone_number=form.phone_number.data)
-        user.set_password(form.phone_number.data)
-        if send_sms(form.phone_number.data) == form.code.data:
-            db.session.add(user)
-            db.session.commit()
-            login_user(user)
-            flash(f'Congratulations, {user.username} you are now a registered user!')
-            time.sleep(1)
-            return redirect(url_for('index'))
+        code = send_sms(form.phone_number.data)
+        flash(f'Your code is {code}')
+        time.sleep(1)
+        return redirect(url_for('register_modal', code=code))
     return render_template('register.html', title='Registration page', form=form)
+
+
+@app.route('/register_modal', methods=['POST', 'GET'])
+def register_modal(code):
+    form = RegistrationForm()
+    if code != form.code.data:
+        flash('Incorrect code.')
+    user.set_password(form.phone_number.data)
+    db.session.add(user)
+    db.session.commit()
+    login_user(user)
+    flash(f'Congratulations, {user.username} you are now a registered user!')
+    time.sleep(1)
+    return redirect(url_for('index'))
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,7 +56,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.phone_number.data):
-            flash('Invalid username or phone_number')
+            flash('Invalid username or phone number')
             return redirect(url_for('login'))
         login_user(user)
         next_page = request.args.get('next')
@@ -69,9 +80,9 @@ def user(username):
         return redirect(url_for('register'))
     form = Services()
     user = User.query.filter_by(username=username).first()
-    current_date = datetime.now().date()
+    date = datetime.now().date()
     services = Service.query.filter_by(user_id=user.id)
-    return render_template('user.html', user=user, title=username, form=form, services=services, date=current_date)
+    return render_template('user.html', user=user, title=username, form=form, services=services, date=date)
 
 
 @app.route('/user/add_service', methods=['POST'])
@@ -98,7 +109,7 @@ def edit_service(service_id=None):
     if service_id is not None:
         service = Service.query.filter_by(id=service_id).first()
         form = Services()
-        if form.validate_on_submit() and form.submit.data:
+        if form.submit.data:
             service.service1 = form.service1.data
             service.service2 = form.service2.data
             service.service3 = form.service3.data
