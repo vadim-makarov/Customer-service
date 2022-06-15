@@ -10,12 +10,16 @@ from werkzeug.utils import redirect
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView
 from app.models import User, Service
-from app.sms import send_sms
+from app.sms import send_sms, reminder
 
 
 @app.route('/')
 @app.route('/index')
 def index():
+    current_date = datetime.today()
+    if current_date.hour == 19:
+        reminder()
+        flash('SMS sended')
     return render_template('index.html', title='Home page')
 
 
@@ -24,28 +28,23 @@ def register():
     form = RegistrationForm()
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    if form.validate_on_submit():
-        user = User(username=form.username.data, phone_number=form.phone_number.data)
-        code = send_sms(form.phone_number.data)
-        flash(f'Your code is {code}')
-        time.sleep(1)
-        return redirect(url_for('register_modal', code=code))
+    if request.method == "POST":
+        modal = request.form.get("myModal")
+        if modal:
+            user = User(username=form.username.data, phone_number=form.phone_number.data)
+            user.set_password(form.phone_number.data)
+            db.session.add(user)
+            code = send_sms(form.phone_number.data)
+            flash(f'Your SMS code {code} was sended')
+            if form.validate_on_submit():
+                if code == form.code.data:
+                    db.session.commit()
+                    login_user(user)
+                    flash(f'Congratulations, {user.username} you are now a registered user!')
+                    time.sleep(1)
+                    return redirect(url_for('index'))
+    flash('Unsuccessful. Try again.')
     return render_template('register.html', title='Registration page', form=form)
-
-
-@app.route('/register_modal', methods=['POST', 'GET'])
-def register_modal(code):
-    form = RegistrationForm()
-    if code != form.code.data:
-        flash('Incorrect code.')
-    user.set_password(form.phone_number.data)
-    db.session.add(user)
-    db.session.commit()
-    login_user(user)
-    flash(f'Congratulations, {user.username} you are now a registered user!')
-    time.sleep(1)
-    return redirect(url_for('index'))
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,9 +79,22 @@ def user(username):
         return redirect(url_for('register'))
     form = Services()
     user = User.query.filter_by(username=username).first()
-    date = datetime.now().date()
+    date = datetime.now().date()  # hide old records
     services = Service.query.filter_by(user_id=user.id)
-    return render_template('user.html', user=user, title=username, form=form, services=services, date=date)
+    profile_form = EditProfileForm(current_user.username, current_user.phone_number)
+    if profile_form.validate_on_submit():  # edit profile
+        current_user.username = profile_form.username.data
+        current_user.phone_number = profile_form.phone_number.data
+        current_user.about_me = profile_form.about_me.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        time.sleep(0.5)
+    elif request.method == 'GET':
+        profile_form.username.data = current_user.username
+        profile_form.phone_number.data = current_user.phone_number
+        profile_form.about_me.data = current_user.about_me
+    return render_template('user.html', user=user, title=username, form=form, profile_form=profile_form,
+                           services=services, date=date)
 
 
 @app.route('/user/add_service', methods=['POST'])
@@ -120,7 +132,7 @@ def edit_service(service_id=None):
                 f'Ok, {current_user.username} you have changed your service to on {service.service_date} at {service.service_time}!')
             time.sleep(0.5)
             return redirect(url_for('user', username=current_user.username))
-        return render_template('edit_service.html', title='Edit service', form=form, user=current_user, service=service)
+        return redirect(url_for('user', username=current_user.username))
 
 
 @app.route('/user/<int:service_id>', methods=['POST'])
@@ -138,26 +150,6 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.now().date()
         db.session.commit()
-
-
-@app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
-def edit_profile():
-    form = EditProfileForm(current_user.username, current_user.phone_number)
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.phone_number = form.phone_number.data
-        current_user.about_me = form.about_me.data
-        db.session.commit()
-        flash('Your changes have been saved.')
-        time.sleep(0.5)
-        return redirect(url_for('user', username=current_user.username))  # return to user's profile page
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.phone_number.data = current_user.phone_number
-        form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile',
-                           form=form)
 
 
 @app.route('/pricing')
@@ -186,6 +178,7 @@ def admin():
 
 
 @app.route('/admin/list')
+@login_required
 def admin_list():
     return render_template('admin/list.html')
 

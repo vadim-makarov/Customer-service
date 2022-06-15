@@ -4,133 +4,214 @@
 
 {% block body %}
 <head>
-    <style>
-    body
-{
-background-color: #cc5577;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 100 60'%3E%3Cg %3E%3Crect fill='%23cc5577' width='11' height='11'/%3E%3Crect fill='%23ce5776' x='10' width='11' height='11'/%3E%3Crect fill='%23d05a76' y='10' width='11' height='11'/%3E%3Crect fill='%23d15c75' x='20' width='11' height='11'/%3E%3Crect fill='%23d35f74' x='10' y='10' width='11' height='11'/%3E%3Crect fill='%23d46174' y='20' width='11' height='11'/%3E%3Crect fill='%23d66473' x='30' width='11' height='11'/%3E%3Crect fill='%23d76673' x='20' y='10' width='11' height='11'/%3E%3Crect fill='%23d96972' x='10' y='20' width='11' height='11'/%3E%3Crect fill='%23da6c72' y='30' width='11' height='11'/%3E%3Crect fill='%23db6e71' x='40' width='11' height='11'/%3E%3Crect fill='%23dc7171' x='30' y='10' width='11' height='11'/%3E%3Crect fill='%23dd7471' x='20' y='20' width='11' height='11'/%3E%3Crect fill='%23de7671' x='10' y='30' width='11' height='11'/%3E%3Crect fill='%23df7971' y='40' width='11' height='11'/%3E%3Crect fill='%23e07c71' x='50' width='11' height='11'/%3E%3Crect fill='%23e17e71' x='40' y='10' width='11' height='11'/%3E%3Crect fill='%23e28171' x='30' y='20' width='11' height='11'/%3E%3Crect fill='%23e38471' x='20' y='30' width='11' height='11'/%3E%3Crect fill='%23e38771' x='10' y='40' width='11' height='11'/%3E%3Crect fill='%23e48972' y='50' width='11' height='11'/%3E%3Crect fill='%23e58c72' x='60' width='11' height='11'/%3E%3Crect fill='%23e58f73' x='50' y='10' width='11' height='11'/%3E%3Crect fill='%23e69173' x='40' y='20' width='11' height='11'/%3E%3Crect fill='%23e69474' x='30' y='30' width='11' height='11'/%3E%3Crect fill='%23e79775' x='20' y='40' width='11' height='11'/%3E%3Crect fill='%23e79a75' x='10' y='50' width='11' height='11'/%3E%3Crect fill='%23e89c76' x='70' width='11' height='11'/%3E%3Crect fill='%23e89f77' x='60' y='10' width='11' height='11'/%3E%3Crect fill='%23e8a278' x='50' y='20' width='11' height='11'/%3E%3Crect fill='%23e9a47a' x='40' y='30' width='11' height='11'/%3E%3Crect fill='%23e9a77b' x='30' y='40' width='11' height='11'/%3E%3Crect fill='%23e9aa7c' x='20' y='50' width='11' height='11'/%3E%3Crect fill='%23e9ac7e' x='80' width='11' height='11'/%3E%3Crect fill='%23eaaf7f' x='70' y='10' width='11' height='11'/%3E%3Crect fill='%23eab281' x='60' y='20' width='11' height='11'/%3E%3Crect fill='%23eab482' x='50' y='30' width='11' height='11'/%3E%3Crect fill='%23eab784' x='40' y='40' width='11' height='11'/%3E%3Crect fill='%23eaba86' x='30' y='50' width='11' height='11'/%3E%3Crect fill='%23ebbc88' x='90' width='11' height='11'/%3E%3Crect fill='%23ebbf8a' x='80' y='10' width='11' height='11'/%3E%3Crect fill='%23ebc18c' x='70' y='20' width='11' height='11'/%3E%3Crect fill='%23ebc48e' x='60' y='30' width='11' height='11'/%3E%3Crect fill='%23ebc790' x='50' y='40' width='11' height='11'/%3E%3Crect fill='%23ebc992' x='40' y='50' width='11' height='11'/%3E%3Crect fill='%23ebcc94' x='90' y='10' width='11' height='11'/%3E%3Crect fill='%23ebce97' x='80' y='20' width='11' height='11'/%3E%3Crect fill='%23ebd199' x='70' y='30' width='11' height='11'/%3E%3Crect fill='%23ecd39c' x='60' y='40' width='11' height='11'/%3E%3Crect fill='%23ecd69e' x='50' y='50' width='11' height='11'/%3E%3Crect fill='%23ecd8a1' x='90' y='20' width='11' height='11'/%3E%3Crect fill='%23ecdba4' x='80' y='30' width='11' height='11'/%3E%3Crect fill='%23ecdda6' x='70' y='40' width='11' height='11'/%3E%3Crect fill='%23ece0a9' x='60' y='50' width='11' height='11'/%3E%3Crect fill='%23ede2ac' x='90' y='30' width='11' height='11'/%3E%3Crect fill='%23ede4af' x='80' y='40' width='11' height='11'/%3E%3Crect fill='%23ede7b2' x='70' y='50' width='11' height='11'/%3E%3Crect fill='%23ede9b5' x='90' y='40' width='11' height='11'/%3E%3Crect fill='%23eeecb8' x='80' y='50' width='11' height='11'/%3E%3Crect fill='%23EEB' x='90' y='50' width='11' height='11'/%3E%3C/g%3E%3C/svg%3E");
-background-attachment: fixed;
-background-size: cover;
-}
-main
-{
-  vertical-align:middle;
-  margin: 0 auto;
-  vertical-align:middle;
-  max-width: 1000;
-  padding: auto;
-  text-align: center;
-}
-h1
-{
-    color : #000000;
-    text-align : center;
-    font-family: "SIMPSON";
-}
-form
-{
-margin: 0 auto;
-padding: auto;
-text-align: center;
-max-width: 400px;
-btn: btn-warning
-}
-input[type="date"]
- {
-     -webkit-align-items: center;
-     display: -webkit-inline-flex;
-     font-family: monospace;
-     overflow: hidden;
-     background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
-     padding: 0;
-
-     -webkit-padding-start: 1px;
-}
-
-input::-webkit-datetime-edit {
-    -webkit-flex: 1;
-    -webkit-user-modify: read-only !important;
-    display: inline-block;
-    min-width: 0;
-    overflow: hidden;
-}
-
-input::-webkit-datetime-edit-fields-wrapper {
-    -webkit-user-modify: read-only !important;
-    display: inline-block;
-    padding: 1px 0;
-    white-space: pre;
-}
-
-    </style>
 </head>
 <body>
 <main>
     <br>
-    <div>
-        <tr>
-            <td>
-                {% if user == current_user %}
-                <br>
-                <h1 style="font-weight: 600">{{ user.username }}</h1><br>
-                {% endif %}
-                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-                <a type="button" class="btn btn-primary" href="{{ url_for('edit_profile') }}">Edit my profile</a>
-            </td>
-        </tr>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6 col-md-4">
+                <tr>
+                    <td>
+                        {% if user == current_user %}
+                        <br>
+                        <h1 style="font-weight: 600" class=" display-4 text-center">{{ user.username }}</h1><br>
+                        {% endif %}
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                    data-bs-target="#profileModal">Edit Profile
+                            </button>
+                            <div id="profileModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 aria-labelledby="staticBackdropLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="profileModalLabel">Edit profile</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button></div>
+                                            <div class="modal-body">
+                                                <form class="form form-horizontal" method="post" role="form">
+                                                        {{ profile_form.hidden_tag() }}
+                                                    <div>
+                                                        {{ profile_form.username.label }}<br>
+                                                        {{ profile_form.username(class="form-control form-control-lg") }}<br>
+                                                        {% for error in profile_form.username.errors %}
+                                                        <span style="btn btn-warning">{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div>
+                                                        {{ profile_form.phone_number.label }}<br>
+                                                        {{ profile_form.phone_number(class="form-control form-control-lg") }}<br>
+                                                        {% for error in profile_form.phone_number.errors %}
+                                                        <span style="btn btn-warning">{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div>
+                                                        {{ profile_form.about_me.label }}<br>
+                                                        {{ profile_form.about_me(class="form-control", placeholder="Leave a comment here") }}<br>
+                                                        {% for error in profile_form.about_me.errors %}
+                                                        <span style="btn btn-warning">{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                            </div>
+                                        <div class="modal-footer">
+                                            <p>{{ profile_form.submit(class="btn btn-info") }}</p>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </div>
+        </div>
     </div>
     <br><br>
-    <table class="table table-warning">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Phone number</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Services</th>
-            <th scope="col">Change</th>
-            <th scope="col">Cancel</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        {% for service in services %}
-        <tr>
-            {% if user == current_user %}
-            {% if service.service_date >= date %}
-            <th scope="row">{{ service.id }}</th>
-            <td>{{ user.username }}</td>
-            <td>{{ user.phone_number }}</td>
-            <td>{{ service.service_date }}</td>
-            <td>{{ service.service_time }}</td>
-            <td>{{ service.service1 }} {{ service.service2 }} {{ service.service3 }}</td>
-            <td><a type="button" class="btn btn-warning"
-                   href="{{ url_for('edit_service', service_id=service.id ) }}">Edit service</a>
-            <td>
-                <form action="{{ url_for('delete_service', service_id=service.id) }}" method=post>
-                    <input type=submit class="btn btn-danger" value="Delete"></form>
-            </td>
-            {% endif %}
-            {% endif %}
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div>
-        <form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form">
-            <h3><label>Choose date and time of service:</label></h3><br>
-            {{ form.hidden_tag() }}
-            {{ wtf.form_errors(form, hiddens="only") }}
-            {{ wtf.form_field(form.service1) }}
-            {{ wtf.form_field(form.service2) }}
-            {{ wtf.form_field(form.service3) }}
-            {{ wtf.form_field(form.service_date) }}
-            {{ wtf.form_field(form.service_time) }}<br>
-            <div>{{ wtf.form_field(form.submit, class="btn btn-info") }}</div>
-        </form>
-        </form>
+    <div class="container">
+        <div class="panel panel-default">
+            <table class="table table-warning">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Services</th>
+                    <th scope="col">Change</th>
+                    <th scope="col">Delete service</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for service in services %}
+                <tr>
+                    {% if user == current_user %}
+                    {% if service.service_date >= date %}
+                    <th scope="row">{{ service.id }}</th>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.phone_number }}</td>
+                    <td>{{ service.service_date }}</td>
+                    <td>{{ service.service_time }}</td>
+                    <td>{{ service.service1 }} {{ service.service2 }} {{ service.service3 }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editModal{{ service.id }}">Edit Service
+                        </button>
+                        <div id="editModal{{ service.id }}" class="modal fade" tabindex="-1"
+                             data-bs-backdrop="static" data-bs-keyboard="false"
+                                 aria-labelledby="staticBackdropLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">Here you can change your actual
+                                            date/time of service if new date/time is available.</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <form action="{{ url_for('add_service') }}" class="form form-horizontal"
+                                                  method="post" role="form">
+                                                <h3><label>Choose date and time of service:</label></h3>
+                                                {{ form.hidden_tag() }}
+                                                {{ wtf.form_errors(form, hiddens="only") }}
+                                                {{ wtf.form_field(form.service1) }}
+                                                {{ wtf.form_field(form.service2) }}
+                                                {{ wtf.form_field(form.service3) }}
+                                                {{ wtf.form_field(form.service_date) }}
+                                                {{ wtf.form_field(form.service_time) }}
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div>{{ wtf.form_field(form.submit, class="btn btn-info") }}</div>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal{{ service.id }}">Delete
+                        </button>
+                        <div id="deleteModal{{ service.id }}" class="modal fade" tabindex="-1"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Do you really want to delete this
+                                            service?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{{ url_for('delete_service', service_id=service.id) }}"
+                                              method=post>
+                                            <input type=submit class="btn btn-danger" value="Delete"></form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    {% endif %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <br><br>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6 col-md-4">
+                <form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form"><br>
+                    <h3 class="text-center"><label>Choose date and time of service:</label></h3><br>
+                    {{ form.hidden_tag() }}
+                    {{ wtf.form_errors(form, hiddens="only") }}
+                    {{ wtf.form_field(form.service1) }}
+                    {{ wtf.form_field(form.service2) }}
+                    {{ wtf.form_field(form.service3) }}
+                    {{ wtf.form_field(form.service_date) }}
+                    {{ wtf.form_field(form.service_time) }}<br>
+                    <div class="d-grid gap-2 col-6 mx-auto">{{ wtf.form_field(form.submit, class="btn btn-info") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </main>
+<script>
+    $('#modal-confirm').click(function(){
+    // Perform the action after modal confirm button is clicked.
+
+    $('#form-submit').click(); // submitting the form
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
 </body>
 {% endblock %}

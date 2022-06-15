@@ -1,90 +1,77 @@
 {% extends "base.html" %}
 <title>Registration</title>
 </head>
-{% block body %}
 <body>
-
-<style>
-element.style {
-}
-.bg-dark {
-    --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
-}
-.text-white {
-    --bs-text-opacity: 1;
-    color: rgba(var(--bs-white-rgb),var(--bs-text-opacity))!important;
-}
-.p-3 {
-    padding: 1rem!important;
-}
-*, ::after, ::before {
-    box-sizing: border-box;
-}
-user agent stylesheet
-header
-{
-    display: block;
-}
-body
-{
-background-color: #cc5577;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 100 60'%3E%3Cg %3E%3Crect fill='%23cc5577' width='11' height='11'/%3E%3Crect fill='%23ce5776' x='10' width='11' height='11'/%3E%3Crect fill='%23d05a76' y='10' width='11' height='11'/%3E%3Crect fill='%23d15c75' x='20' width='11' height='11'/%3E%3Crect fill='%23d35f74' x='10' y='10' width='11' height='11'/%3E%3Crect fill='%23d46174' y='20' width='11' height='11'/%3E%3Crect fill='%23d66473' x='30' width='11' height='11'/%3E%3Crect fill='%23d76673' x='20' y='10' width='11' height='11'/%3E%3Crect fill='%23d96972' x='10' y='20' width='11' height='11'/%3E%3Crect fill='%23da6c72' y='30' width='11' height='11'/%3E%3Crect fill='%23db6e71' x='40' width='11' height='11'/%3E%3Crect fill='%23dc7171' x='30' y='10' width='11' height='11'/%3E%3Crect fill='%23dd7471' x='20' y='20' width='11' height='11'/%3E%3Crect fill='%23de7671' x='10' y='30' width='11' height='11'/%3E%3Crect fill='%23df7971' y='40' width='11' height='11'/%3E%3Crect fill='%23e07c71' x='50' width='11' height='11'/%3E%3Crect fill='%23e17e71' x='40' y='10' width='11' height='11'/%3E%3Crect fill='%23e28171' x='30' y='20' width='11' height='11'/%3E%3Crect fill='%23e38471' x='20' y='30' width='11' height='11'/%3E%3Crect fill='%23e38771' x='10' y='40' width='11' height='11'/%3E%3Crect fill='%23e48972' y='50' width='11' height='11'/%3E%3Crect fill='%23e58c72' x='60' width='11' height='11'/%3E%3Crect fill='%23e58f73' x='50' y='10' width='11' height='11'/%3E%3Crect fill='%23e69173' x='40' y='20' width='11' height='11'/%3E%3Crect fill='%23e69474' x='30' y='30' width='11' height='11'/%3E%3Crect fill='%23e79775' x='20' y='40' width='11' height='11'/%3E%3Crect fill='%23e79a75' x='10' y='50' width='11' height='11'/%3E%3Crect fill='%23e89c76' x='70' width='11' height='11'/%3E%3Crect fill='%23e89f77' x='60' y='10' width='11' height='11'/%3E%3Crect fill='%23e8a278' x='50' y='20' width='11' height='11'/%3E%3Crect fill='%23e9a47a' x='40' y='30' width='11' height='11'/%3E%3Crect fill='%23e9a77b' x='30' y='40' width='11' height='11'/%3E%3Crect fill='%23e9aa7c' x='20' y='50' width='11' height='11'/%3E%3Crect fill='%23e9ac7e' x='80' width='11' height='11'/%3E%3Crect fill='%23eaaf7f' x='70' y='10' width='11' height='11'/%3E%3Crect fill='%23eab281' x='60' y='20' width='11' height='11'/%3E%3Crect fill='%23eab482' x='50' y='30' width='11' height='11'/%3E%3Crect fill='%23eab784' x='40' y='40' width='11' height='11'/%3E%3Crect fill='%23eaba86' x='30' y='50' width='11' height='11'/%3E%3Crect fill='%23ebbc88' x='90' width='11' height='11'/%3E%3Crect fill='%23ebbf8a' x='80' y='10' width='11' height='11'/%3E%3Crect fill='%23ebc18c' x='70' y='20' width='11' height='11'/%3E%3Crect fill='%23ebc48e' x='60' y='30' width='11' height='11'/%3E%3Crect fill='%23ebc790' x='50' y='40' width='11' height='11'/%3E%3Crect fill='%23ebc992' x='40' y='50' width='11' height='11'/%3E%3Crect fill='%23ebcc94' x='90' y='10' width='11' height='11'/%3E%3Crect fill='%23ebce97' x='80' y='20' width='11' height='11'/%3E%3Crect fill='%23ebd199' x='70' y='30' width='11' height='11'/%3E%3Crect fill='%23ecd39c' x='60' y='40' width='11' height='11'/%3E%3Crect fill='%23ecd69e' x='50' y='50' width='11' height='11'/%3E%3Crect fill='%23ecd8a1' x='90' y='20' width='11' height='11'/%3E%3Crect fill='%23ecdba4' x='80' y='30' width='11' height='11'/%3E%3Crect fill='%23ecdda6' x='70' y='40' width='11' height='11'/%3E%3Crect fill='%23ece0a9' x='60' y='50' width='11' height='11'/%3E%3Crect fill='%23ede2ac' x='90' y='30' width='11' height='11'/%3E%3Crect fill='%23ede4af' x='80' y='40' width='11' height='11'/%3E%3Crect fill='%23ede7b2' x='70' y='50' width='11' height='11'/%3E%3Crect fill='%23ede9b5' x='90' y='40' width='11' height='11'/%3E%3Crect fill='%23eeecb8' x='80' y='50' width='11' height='11'/%3E%3Crect fill='%23EEB' x='90' y='50' width='11' height='11'/%3E%3C/g%3E%3C/svg%3E");
-background-attachment: fixed;
-background-size: cover;
-}
-main
-{
-  vertical-align:middle;
-  margin: 0 auto;
-  vertical-align:middle;
-  max-width: 400px;
-  padding: auto;
-  text-align: center;
-}
-h1
-{
-    color : #000000;
-    text-align : center;
-    font-family: "SIMPSON";
-}
-
-
-</style>
-
+{% block body %}
 <main>
-    <br><br><form action="" class="row g-3" method="post">
-        <div class="row g-3">
-            <h1>Create Account</h1>
-            {{ form.csrf_token }}
-            <div>{{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
-            {% for error in form.username.errors %}
-                    <span style="btn btn-warning">{{ error }}</span>
-                {% endfor %}</div>
-            <div>{{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number") }}
-            {% for error in form.phone_number.errors %}
-                <span style="btn btn-warning">{{ error }}</span>
-                {% endfor %}</div>
-            <div>{{ form.submit(class="btn btn-info") }}</div>
-        </div>
-    </form>
     <br><br>
-</main>
-</body>
-{% endblock %}
-{% block footer %}
-<div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-      <span class="mb-3 mb-md-0 text-muted">© 2022 Company, Inc</span>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6 col-md-4">
+                <form action="" class="row g-3">
+                    <div class="row g-3">
+                        <h1>Create Account</h1>
+                        {{ form.csrf_token }}
+                        <div>{{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
+                            {% for error in form.username.errors %}
+                            <span style="btn btn-warning">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div>{{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number")}}
+                            {% for error in form.phone_number.errors %}
+                            <span style="btn btn-warning">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal">Send SMS
+                </button>
+                <br><br>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li class="ms-3"><a class="bi bi-telegram" href="#"></a></li>
-      <li class="ms-3"><a class="bi bi-instagram" href="#"></a></li>
-      <li class="ms-3"><a class="bi bi-facebook" href="#"></a></li>
-    </ul>
-  </footer>
-</div>
+    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm your phone number</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {{ form.code(class="form-control form-control-lg", placeholder="Enter the code:") }}
+                        {% for error in form.phone_number.errors %}
+                        <span style="btn btn-warning">{{ error }}</span>
+                        {% endfor %}
+                    </form>
+                </div>
+                <form>
+                    <div class="modal-footer">
+                        {{ form.confirm_code(class="btn btn-info") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+$('#modal-confirm').click(function(){
+    // Perform the action after modal confirm button is clicked.
+
+    $('#form-submit').click(); // submitting the form
+});
+function form_submit(){
+    // Close the Modal
+    $("#updateModal").modal("hide");
+
+    // submit it
+    document.getElementById("mainForm").submit();
+}
+</script>
+</body>
 {% endblock %}
 </html>

@@ -35,7 +35,7 @@ class RegistrationForm(FlaskForm):
                                         Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
                                                message="Enter a valid phone number, like +55555555555")])
     code = StringField(validators=[Length(4, message='Too short or too long. Please try again.')])
-    submit = SubmitField('Sign Up')
+    confirm_code = SubmitField('Submit')
 
     @staticmethod
     def validate_username(self, username):  # if already exist
@@ -60,8 +60,8 @@ class EditProfileForm(FlaskForm):
                                         Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
                                                message="Enter a valid phone number, like +55"
                                                        "555555555")])
-    about_me = TextAreaField('Дополнительная информация, пожелания:', validators=[Length(min=0, max=140)])
-    submit = SubmitField('Подтвердить')
+    about_me = TextAreaField('Additional info:', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Confirm')
 
     def __init__(self, original_username, original_phone_number, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -81,7 +81,7 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Phone number already in use.')
 
 
-def validate_date_time(form, service_time):  # if already exist
+def validate_date_time(form, service_time):  # TODO editing actual service if already exist
     date_services = Service.query.filter_by(service_date=form.service_date.data).all()
     for service in date_services:
         if service.service_time == service_time.data:
@@ -96,7 +96,7 @@ class Services(FlaskForm):
     service3 = SelectField('Choose another additional service:', choices=['', 'At the place', 'To Go', 'Delivery'],
                            validate_choice=False)
     service_date = DateField('Choose the date', validators=[InputRequired()],
-                             format='%d-%m-%Y', render_kw={"min": datetime.now().date()})
+                             format='%Y-%m-%d', render_kw={"min": datetime.now().date()})
     service_time = SelectField('Choose the time', choices=['10:00', '12:00', '14:00', '16:00', '18:00'],
                                validators=[InputRequired(),
                                            validate_date_time])
