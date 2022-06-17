@@ -72,6 +72,10 @@ background-size: cover;
 
 
 
+
+
+
+
     </style>
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/carousel.css')}}" rel="stylesheet">
@@ -102,7 +106,28 @@ background-size: cover;
                 {% else %}
                 <a class="btn btn-outline-light me-2" href="{{ url_for('user', username=current_user.username) }}"
                    role="button">{{ current_user.username }}</a>
-                <a class="btn btn-warning" href="{{ url_for('logout') }}" role="button">Log out</a>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">Log out
+                </button>
+                <div id="logoutModal" class="modal fade" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-dark">Do you want to quit?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-warning" href="{{ url_for('logout') }}" role="button">Log out</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -133,10 +158,11 @@ background-size: cover;
                         <h1>Example headline.</h1>
                         <p>Some representative placeholder content for the first slide of the carousel.</p>
                         {% if current_user.is_authenticated %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('user', user=current_user.username) }}">I
+                        <p><a class="btn btn-lg btn-primary"
+                              href="{{ url_for('user', username=current_user.username) }}">I
                             want it!</a></p>
                         {% else %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">I want it!</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">I want it!</a></p>
                         {% endif %}
                     </div>
                 </div>
@@ -149,10 +175,11 @@ background-size: cover;
                         <h1>Another example headline.</h1>
                         <p>Some representative placeholder content for the second slide of the carousel.</p>
                         {% if current_user.is_authenticated %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('user', user=current_user.username) }}">Really
+                        <p><a class="btn btn-lg btn-primary"
+                              href="{{ url_for('user', username=current_user.username) }}">Really
                             want it!</a></p>
                         {% else %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">Really want it!</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">Really want it!</a></p>
                         {% endif %}
                     </div>
                 </div>
@@ -165,10 +192,11 @@ background-size: cover;
                         <h1>One more for good measure.</h1>
                         <p>Some representative placeholder content for the third slide of this carousel.</p>
                         {% if current_user.is_authenticated %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('user', user=current_user.username) }}">Nothing
+                        <p><a class="btn btn-lg btn-primary"
+                              href="{{ url_for('user', username=current_user.username) }}">Nothing
                             more!</a></p>
                         {% else %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('register') }}">Nothing more!</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">Nothing more!</a></p>
                         {% endif %}
 
                     </div>
@@ -291,7 +319,7 @@ background-size: cover;
     {% endblock %}
     <!-- FOOTER -->
     <div class="container">
-        <footer class="footer mt-auto d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-bottom">
+        <footer class="footer mt-auto d-flex flex-wrap justify-content-between align-items-center py-3 my-4 navbar-fixed-bottom">
             <div class="col-md-4 d-flex align-items-center">
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <img class="bi me-2" width="40" height="40" role="img"
@@ -300,11 +328,15 @@ background-size: cover;
                 <span class="mb-3 mb-md-0 text-muted">© 2022 VadimM </span>
             </div>
             <ul class="nav col-md-4 justify-content-end list-styled d-flex">
-                <li class="ms-3"><a class="bi bi-telegram" href="#">
-                </a></li>
-                <li class="ms-3"><a class="bi bi-instagram" href="#">
-                </a></li>
-                <li class="ms-3"><a class="bi bi-facebook" href="#">
+                <li class="ms-3"><a href="#"
+                                    class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img class="bi bi-telegram" width="25" height="25" role="img"
+                         src="{{ url_for('static', filename = 'img/icons8-telegram-app.svg')}}"></a></li>
+                <li class="ms-3"><a href="#">
+                    <img class="bi bi-instagram" width="25" height="25" role="img"
+                         src="{{ url_for('static', filename = 'img/icons8-instagram.svg')}}"></a></li>
+                <li class="ms-3"><a href="#"><img class="bi bi-facebook" width="25" height="25" role="img"
+                                                  src="{{ url_for('static', filename = 'img/icons8-facebook.svg')}}">
                 </a></li>
             </ul>
         </footer>

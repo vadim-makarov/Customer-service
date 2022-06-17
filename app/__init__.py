@@ -10,6 +10,7 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
+
 db = SQLAlchemy(app)
 db.create_all()
 login = LoginManager(app)

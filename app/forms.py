@@ -26,6 +26,11 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 
+class SMSForm(FlaskForm):
+    code_input = StringField(validators=[InputRequired(), Length(4, 4)])
+    register = SubmitField('Register')
+
+
 class RegistrationForm(FlaskForm):
     username = StringField(validators=[InputRequired(),
                                        Length(3, 20, message="Please provide a valid name"),
@@ -34,8 +39,7 @@ class RegistrationForm(FlaskForm):
     phone_number = TelField(validators=[InputRequired(), Length(10, 12),
                                         Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
                                                message="Enter a valid phone number, like +55555555555")])
-    code = StringField(validators=[Length(4, message='Too short or too long. Please try again.')])
-    confirm_code = SubmitField('Submit')
+    confirm = SubmitField('Send SMS code')
 
     @staticmethod
     def validate_username(self, username):  # if already exist

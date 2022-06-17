@@ -1,77 +1,32 @@
 {% extends "base.html" %}
 <title>Registration</title>
-</head>
-<body>
 {% block body %}
+<body>
 <main>
     <br><br>
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-6 col-md-4">
-                <form action="" class="row g-3">
-                    <div class="row g-3">
-                        <h1>Create Account</h1>
-                        {{ form.csrf_token }}
-                        <div>{{ form.username(class="form-control form-control-lg", placeholder="Input your name") }}
-                            {% for error in form.username.errors %}
-                            <span style="btn btn-warning">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        <div>{{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number")}}
-                            {% for error in form.phone_number.errors %}
-                            <span style="btn btn-warning">{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                <form action="" class="row g-3" method="post">
+                    <h1 class="text-center">Create Account</h1>
+                    {{ form.csrf_token }}
+                    <div>{{ form.username(class="form-control form-control-lg", placeholder="Input your name:") }}
+                        {% for error in form.username.errors %}
+                        <span style="btn btn-warning">{{ error }}</span>
+                        {% endfor %}
                     </div>
-                </form>
-                <div class="d-grid gap-2 col-6 mx-auto">
-                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal">Send SMS
-                </button>
-                <br><br>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Confirm your phone number</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post">
-                        {{ form.code(class="form-control form-control-lg", placeholder="Enter the code:") }}
+                    <div>{{ form.phone_number(class="form-control form-control-lg", placeholder="Input your phone number:")}}
                         {% for error in form.phone_number.errors %}
                         <span style="btn btn-warning">{{ error }}</span>
                         {% endfor %}
-                    </form>
-                </div>
-                <form>
-                    <div class="modal-footer">
-                        {{ form.confirm_code(class="btn btn-info") }}
+                    </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                        {{ form.confirm(class="btn btn-warning") }}
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </main>
-<script>
-$('#modal-confirm').click(function(){
-    // Perform the action after modal confirm button is clicked.
-
-    $('#form-submit').click(); // submitting the form
-});
-function form_submit(){
-    // Close the Modal
-    $("#updateModal").modal("hide");
-
-    // submit it
-    document.getElementById("mainForm").submit();
-}
-</script>
 </body>
 {% endblock %}
-</html>

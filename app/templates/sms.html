@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block body %}
+<body>
+<main>
+    <br><br>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6 col-md-4">
+                <form action="" method="post">
+                    <div class="row g-3"><br>
+                        <h1 class="text-center">Confirm your phone number</h1><br>
+                        {{ sms_form.csrf_token }}
+                        <div>{{ sms_form.code_input(class="form-control form-control-lg", placeholder="Enter the code:")
+                            }}
+                            {% for error in sms_form.code_input.errors %}
+                            <span style="btn btn-warning">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="centered">
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <button class="btn btn-warning" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                          aria-hidden="true"></span>
+                                    Send again
+                                </button>
+                                {{ sms_form.register(class="btn btn-info") }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <br><br>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+{% endblock %}

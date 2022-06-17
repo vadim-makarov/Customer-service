@@ -2,24 +2,23 @@
 import time
 from datetime import datetime
 
-from flask import render_template, flash, url_for, request
+from flask import render_template, flash, url_for, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import redirect
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView, SMSForm
 from app.models import User, Service
 from app.sms import send_sms, reminder
+
+if datetime.today().hour == 19:  # reminds users about service
+    reminder()
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    current_date = datetime.today()
-    if current_date.hour == 19:
-        reminder()
-        flash('SMS sended')
     return render_template('index.html', title='Home page')
 
 
@@ -28,23 +27,31 @@ def register():
     form = RegistrationForm()
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    if request.method == "POST":
-        modal = request.form.get("myModal")
-        if modal:
-            user = User(username=form.username.data, phone_number=form.phone_number.data)
-            user.set_password(form.phone_number.data)
-            db.session.add(user)
-            code = send_sms(form.phone_number.data)
-            flash(f'Your SMS code {code} was sended')
-            if form.validate_on_submit():
-                if code == form.code.data:
-                    db.session.commit()
-                    login_user(user)
-                    flash(f'Congratulations, {user.username} you are now a registered user!')
-                    time.sleep(1)
-                    return redirect(url_for('index'))
-    flash('Unsuccessful. Try again.')
+    if form.validate_on_submit():
+        session['username'] = form.username.data
+        session['phone_number'] = form.phone_number.data
+        session['code'] = send_sms(form.phone_number.data)
+        flash(f"Your code is {session['code']}")
+        return redirect(url_for('sms'))
     return render_template('register.html', title='Registration page', form=form)
+
+
+@app.route('/sms', methods=['GET', 'POST'])
+def sms():
+    sms_form = SMSForm()
+    user = User(username=session['username'], phone_number=session['phone_number'])
+    user.set_password(session['phone_number'])
+    if sms_form.validate_on_submit():
+        data = sms_form.code_input.data
+        db.session.add(user)
+        if session['code'] == data:
+            db.session.commit()
+            login_user(user)
+            flash(f'Congratulations, {user.username} you are now a registered user!')
+            time.sleep(1)
+            return redirect(url_for('index'))
+        flash('Invalid code. Try again in ...seconds')  # TODO user's wrong input
+    return render_template('sms.html', sms_form=sms_form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
