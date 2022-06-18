@@ -3,13 +3,14 @@ from datetime import datetime
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from werkzeug.routing import ValidationError
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateField, TelField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateField, TelField, RadioField
 from wtforms.validators import ValidationError, Length, InputRequired, Regexp
 
 from app import db
-from app.models import User, Service
+from app.models import User, Service, Review
 
 
 class LoginForm(FlaskForm):
@@ -24,11 +25,6 @@ class LoginForm(FlaskForm):
                                                                message="Enter a valid phone number, like +55 555 "
                                                                        "555 555")])
     submit = SubmitField('Sign In')
-
-
-class SMSForm(FlaskForm):
-    code_input = StringField(validators=[InputRequired(), Length(4, 4)])
-    register = SubmitField('Register')
 
 
 class RegistrationForm(FlaskForm):
@@ -54,6 +50,11 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Phone number already in use.')
 
 
+class SMSForm(FlaskForm):
+    code_input = StringField(validators=[Length(4, 4)])
+    register = SubmitField('Register')
+
+
 class EditProfileForm(FlaskForm):
     username = StringField(validators=[InputRequired(),
                                        Length(3, 20, message="Please provide a valid name"),
@@ -64,7 +65,6 @@ class EditProfileForm(FlaskForm):
                                         Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
                                                message="Enter a valid phone number, like +55"
                                                        "555555555")])
-    about_me = TextAreaField('Additional info:', validators=[Length(min=0, max=140)])
     submit = SubmitField('Confirm')
 
     def __init__(self, original_username, original_phone_number, *args, **kwargs):
@@ -85,11 +85,18 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Phone number already in use.')
 
 
-def validate_date_time(form, service_time):  # TODO editing actual service if already exist
+def validate_date_time(form, service_time):
     date_services = Service.query.filter_by(service_date=form.service_date.data).all()
     for service in date_services:
-        if service.service_time == service_time.data:
+        user = service.client.username
+        if service.service_time == service_time.data and user != current_user.username:  # for changing self-services
             raise ValidationError('Please choose a different time.')
+
+
+class Reviews(FlaskForm):
+    text = TextAreaField('Enter your text here:', validators=[InputRequired(), Length(min=2, max=300)])
+    rating = RadioField('Rating', validators=[InputRequired()], choices=['1', '2', '3', '4', '5'])
+    submit = SubmitField('Confirm')
 
 
 class Services(FlaskForm):
@@ -104,8 +111,7 @@ class Services(FlaskForm):
     service_time = SelectField('Choose the time', choices=['10:00', '12:00', '14:00', '16:00', '18:00'],
                                validators=[InputRequired(),
                                            validate_date_time])
-    # TODO someting with the fuckn' time(str(datetime.now().time())[:5] > '14:00 --> True'
-    submit = SubmitField('Enroll', render_kw={'class': 'btn btn-info'})
+    submit = SubmitField('Confirm', render_kw={'class': 'btn btn-info'})
 
 
 class CustomerServiceView(ModelView):
@@ -117,6 +123,7 @@ class CustomerServiceView(ModelView):
         self.admin = Admin()
         self.admin.add_view(ModelView(User, db.session))
         self.admin.add_view(ModelView(Service, db.session))
+        self.admin.add_view(ModelView(Review, db.session))
 
 # class MyModelView(BaseModelView):
 #     column_exclude_list = User.password_hash

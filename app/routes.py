@@ -8,11 +8,11 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import redirect
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView, SMSForm
-from app.models import User, Service
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView, SMSForm, Reviews
+from app.models import User, Service, Review
 from app.sms import send_sms, reminder
 
-if datetime.today().hour == 19:  # reminds users about service
+if datetime.today().hour == 16:  # TODO reminds users about service
     reminder()
 
 
@@ -30,8 +30,8 @@ def register():
     if form.validate_on_submit():
         session['username'] = form.username.data
         session['phone_number'] = form.phone_number.data
-        session['code'] = send_sms(form.phone_number.data)
-        flash(f"Your code is {session['code']}")
+        session['code'] = send_sms(session['phone_number'])
+        flash(f"Your code is {session['code']}")  # don't forget to disable
         return redirect(url_for('sms'))
     return render_template('register.html', title='Registration page', form=form)
 
@@ -41,16 +41,22 @@ def sms():
     sms_form = SMSForm()
     user = User(username=session['username'], phone_number=session['phone_number'])
     user.set_password(session['phone_number'])
-    if sms_form.validate_on_submit():
-        data = sms_form.code_input.data
-        db.session.add(user)
-        if session['code'] == data:
-            db.session.commit()
-            login_user(user)
-            flash(f'Congratulations, {user.username} you are now a registered user!')
-            time.sleep(1)
-            return redirect(url_for('index'))
-        flash('Invalid code. Try again in ...seconds')  # TODO user's wrong input
+    if request.method == 'POST':
+        if request.form['sms'] == 'Register' and sms_form.validate():
+            data = sms_form.code_input.data
+            db.session.add(user)
+            if session['code'] == data:
+                db.session.commit()
+                login_user(user)
+                flash(f'Congratulations, {user.username} you are now a registered user!')
+                time.sleep(1)
+                return redirect(url_for('index'))
+            flash('Invalid code. Please try again')
+            return render_template('sms.html', sms_form=sms_form)
+        elif request.form['sms'] == 'Send SMS':  # TODO change SMS timer value and enable service
+            session['code'] = send_sms(session['phone_number'])
+            flash(f"Your code is {session['code']}")  # don't forget to disable
+            return render_template('sms.html', sms_form=sms_form)
     return render_template('sms.html', sms_form=sms_form)
 
 
@@ -75,6 +81,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    session.pop('username', None)
     return redirect(url_for('index'))
 
 
@@ -92,14 +99,12 @@ def user(username):
     if profile_form.validate_on_submit():  # edit profile
         current_user.username = profile_form.username.data
         current_user.phone_number = profile_form.phone_number.data
-        current_user.about_me = profile_form.about_me.data
         db.session.commit()
         flash('Your changes have been saved.')
         time.sleep(0.5)
     elif request.method == 'GET':
         profile_form.username.data = current_user.username
         profile_form.phone_number.data = current_user.phone_number
-        profile_form.about_me.data = current_user.about_me
     return render_template('user.html', user=user, title=username, form=form, profile_form=profile_form,
                            services=services, date=date)
 
@@ -128,7 +133,7 @@ def edit_service(service_id=None):
     if service_id is not None:
         service = Service.query.filter_by(id=service_id).first()
         form = Services()
-        if form.submit.data:
+        if form.validate_on_submit():
             service.service1 = form.service1.data
             service.service2 = form.service2.data
             service.service3 = form.service3.data
@@ -139,7 +144,8 @@ def edit_service(service_id=None):
                 f'Ok, {current_user.username} you have changed your service to on {service.service_date} at {service.service_time}!')
             time.sleep(0.5)
             return redirect(url_for('user', username=current_user.username))
-        return redirect(url_for('user', username=current_user.username))
+        flash('This date or time are already in use. Please choose another date or time.')
+    return redirect(url_for('user', username=current_user.username))
 
 
 @app.route('/user/<int:service_id>', methods=['POST'])
@@ -164,9 +170,19 @@ def pricing():
     return render_template('pricing.html', title='Pricing')
 
 
-@app.route('/FAQ')
-def faq():
-    return render_template('FAQ.html', title='FAQ')
+@app.route('/reviews', methods=['GET', 'POST'])
+def reviews():
+    form = Reviews()
+    all_reviews = Review.query.all()
+    if form.validate_on_submit():
+        review = Review(author=current_user.username, text=form.text.data, rating=form.rating.data)
+        db.session.add(review)
+        db.session.commit()
+        flash("Thank you for your feedback."
+              "We're getting better because of you.")
+        time.sleep(0.5)
+        return redirect(url_for('reviews'))
+    return render_template('reviews.html', title='Reviews', form=form, all_reviews=all_reviews)
 
 
 @app.route('/features')

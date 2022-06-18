@@ -5,7 +5,12 @@ from logging.handlers import SMTPHandler
 
 from flask import render_template
 
-from app import app, db
+from app import app, db, paranoid
+
+
+@paranoid.on_invalid_session
+def invalid_session():
+    return 'please login', 401
 
 
 @app.errorhandler(404)

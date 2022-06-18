@@ -7,9 +7,12 @@
         <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 0px;">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Card title that wraps to a new line</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
+                    {% for review in all_reviews %}
+                    <h5 class="card-title">User: {{ review.author }}</h5>
+                    <p class="card-text">Rating: {{ review.rating }}</p>
+                    <p class="card-text">{{ review.text }}</p>
+                    <p class="card-text">Review date: {{ review.review_date }}</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -97,6 +100,45 @@
             </div>
         </div>
     </div>
-
+    {% if current_user.is_authenticated %}
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#ReviewModal">Leave review
+        </button>
+    </div>
+    {% endif %}
+    <div id="ReviewModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+         aria-labelledby="staticBackdropLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">Leave review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <form action="" method="post" role="form">
+                    <div class="modal-body">
+                        <div>
+                            {% for subfield in form.rating %}
+                            {{ subfield }}
+                            {{ subfield.label }}
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div>
+                            {{ form.text(class="form-control") }}
+                            {% for error in form.text.errors %}
+                            <span style="btn btn-warning">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div>{{ form.submit(class="btn btn-info") }}</div>
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock %}
