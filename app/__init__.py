@@ -1,3 +1,4 @@
+import telebot
 from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -6,9 +7,10 @@ from flask_login import LoginManager, login_manager
 from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
 
+import config
 from config import Config
 
-app = Flask(__name__)
+app = Flask(__name__)  # TODO redo all into app_factory
 app.config.from_object(Config)
 
 ###  DataBase ###
@@ -21,7 +23,9 @@ login.login_view = 'login'
 paranoid = Paranoid(app)
 paranoid.redirect_view = '/'
 login_manager.session_protection = None
+bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
 
+### Frontend ###
 Bootstrap(app)
 
 from app import routes, models, errors

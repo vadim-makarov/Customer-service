@@ -95,8 +95,8 @@ def validate_date_time(form, service_time):
 
 class Reviews(FlaskForm):
     text = TextAreaField('Enter your text here:', validators=[InputRequired(), Length(min=2, max=300)])
-    rating = RadioField('Rating', validators=[InputRequired()], choices=['1', '2', '3', '4', '5'])
-    submit = SubmitField('Confirm')
+    rating = RadioField('Rating', validators=[InputRequired()], choices=['Terrible!', 'Bad', 'So-so', 'Good', 'Awesome!'])
+    send_review = SubmitField('Confirm')
 
 
 class Services(FlaskForm):

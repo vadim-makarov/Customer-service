@@ -94,7 +94,7 @@ def user(username):
     form = Services()
     user = User.query.filter_by(username=username).first()
     date = datetime.now().date()  # hide old records
-    services = Service.query.filter_by(user_id=user.id)
+    # services = Service.query.filter_by(user_id=user.id)
     profile_form = EditProfileForm(current_user.username, current_user.phone_number)
     if profile_form.validate_on_submit():  # edit profile
         current_user.username = profile_form.username.data
@@ -122,7 +122,7 @@ def add_service():
         db.session.commit()
         flash(f'Congratulations, {current_user.username} you are registered for service at {service_add.service_time}!')
         time.sleep(1)
-        return redirect(url_for('user', user=user, username=current_user.username))
+        return redirect(url_for('user'))
     flash('This date or time are already in use. Please choose another date or time.')
     return redirect(url_for('user', user=user, username=current_user.username))
 
@@ -173,7 +173,7 @@ def pricing():
 @app.route('/reviews', methods=['GET', 'POST'])
 def reviews():
     form = Reviews()
-    all_reviews = Review.query.all()
+    all_reviews = Review.query.order_by(Review.review_date.desc()).all()
     if form.validate_on_submit():
         review = Review(author=current_user.username, text=form.text.data, rating=form.rating.data)
         db.session.add(review)
@@ -188,6 +188,11 @@ def reviews():
 @app.route('/features')
 def features():
     return render_template('features.html', title='Features')
+
+
+@app.route('/modal')
+def modal():
+    return render_template('modal.html', title='Modal')
 
 
 @app.route('/admin')

@@ -1,23 +1,42 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block body %}
+{% block content %}
 <body>
 <main>
-    <br>
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-6 col-md-4">
                 <tr>
                     <td>
                         {% if user == current_user %}
-                        <br>
-                        <h1 style="font-weight: 600" class=" display-4 text-center">{{ user.username }}</h1><br>
+                        <div><h1 style="font-weight: 600" class=" display-4 text-center">{{ user.username }}</h1></div><br>
                         {% endif %}
+                        <div class="col">
+        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h2>
+            <ul class="d-flex list-unstyled mt-auto">
+              <li class="me-auto">
+                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+              </li>
+              <li class="d-flex align-items-center me-3">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                <small>Earth</small>
+              </li>
+              <li class="d-flex align-items-center">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                <small>3d</small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                     data-bs-target="#profileModal">Edit Profile
                             </button>
+                        </div>
                             <div id="profileModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
                                  aria-labelledby="staticBackdropLabel"
                                  aria-hidden="true">
@@ -45,13 +64,13 @@
                                                         {% endfor %}
                                                     </div>
                                             </div>
-                                        <div class="modal-footer">
+                                                <div class="modal-footer">
                                             <p>{{ profile_form.submit(class="btn btn-info") }}</p>
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                 Cancel
                                             </button>
                                             </form>
-                                        </div>
+                                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -61,9 +80,8 @@
             </div>
         </div>
     </div>
-    <br><br>
     <div class="container">
-        <div class="panel panel-default">
+    <div class="table-responsive">
             <table class="table table-warning">
                 <thead>
                 <tr>
@@ -163,11 +181,12 @@
             </table>
         </div>
     </div>
+    </div>
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-6 col-md-4">
-                <form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form"><br>
-                    <h3 class="text-center"><label>Choose date and time of service:</label></h3><br>
+                <form action="{{ url_for('add_service') }}" class="form form-horizontal" method="post" role="form">
+                    <h3 class="text-center"><label>Choose date and time of service:</label></h3>
                     {{ form.hidden_tag() }}
                     {{ wtf.form_errors(form, hiddens="only") }}
                     {{ wtf.form_field(form.service1) }}
@@ -181,27 +200,6 @@
             </div>
         </div>
     </div>
-
 </main>
-<script>
-    $('#modal-confirm').click(function(){
-    // Perform the action after modal confirm button is clicked.
-
-    $('#form-submit').click(); // submitting the form
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
 </body>
 {% endblock %}

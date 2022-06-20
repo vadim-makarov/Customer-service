@@ -8,8 +8,13 @@
     {% else %}
     <title>Service</title>
     {% endif %}
-
+    <!-- CSS only -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/carousel/">
     <style>
+
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -60,6 +65,7 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+
     body
     {
     background-color: #cc5577;
@@ -71,20 +77,15 @@ background-size: cover;
 
 
 
-
-
-
-
-
     </style>
-    <!-- Custom styles for this template -->
-    <link href="{{ url_for('static', filename='css/carousel.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
+    <!-- Custom styles for this template -->
+    {% block style %}
+    {% endblock %}
 </head>
 <body>
-{% block header %}
-<header class="p-3 bg-dark text-white">
+
+<header class="p-3 bg-dark sticky-top text-white">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -109,7 +110,10 @@ background-size: cover;
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                         data-bs-target="#logoutModal">Log out
                 </button>
+                {% endif %}
                 <div id="logoutModal" class="modal fade" tabindex="-1"
+                     data-bs-backdrop="false"
+                     data-bs-keyboard="false"
                      aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -128,12 +132,10 @@ background-size: cover;
                         </div>
                     </div>
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </header>
-{% endblock %}
 {% for category, message in get_flashed_messages(with_categories=True) %}
 <div class="alert alert-info fade show" role="alert" align="center">
     {{ message }}
@@ -141,7 +143,7 @@ background-size: cover;
 </div>
 {% endfor %}
 <main>
-    {% block body %}
+    {% block content %}
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
@@ -198,7 +200,6 @@ background-size: cover;
                         {% else %}
                         <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">Nothing more!</a></p>
                         {% endif %}
-
                     </div>
                 </div>
             </div>
@@ -213,13 +214,11 @@ background-size: cover;
         </button>
     </div>
 
-
     <!-- Marketing messaging and featurettes
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
     <div class="container marketing">
-
         <!-- Three columns of text below the carousel -->
         <div class="row">
             <div class="col-lg-4">
@@ -229,7 +228,6 @@ background-size: cover;
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
                 <text x="50%" y="50%" fill="#777" dy=".3em"></text>
                 </img>
-
                 <h2 class="fw-normal">Quality</h2>
                 <p>Our quality is the best quality ever! Try it for yourself!</p>
                 <p><a class="btn btn-warning" href="/features">View details &raquo;</a></p>
@@ -241,7 +239,6 @@ background-size: cover;
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
                 <text x="50%" y="50%" fill="#777" dy=".3em"></text>
                 </img>
-
                 <h2 class="fw-normal">Multilanguage</h2>
                 <p>We speak different languages. No one will go misunderstood!</p>
                 <p><a class="btn btn-warning" href="/features">View details &raquo;</a></p>
@@ -251,10 +248,8 @@ background-size: cover;
                      src="{{ url_for('static', filename='img/girl1.svg') }}" role="img"
                      aria-label="Placeholder: 140x140"
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-
                 <text x="50%" y="50%" fill="#777" dy=".3em"></text>
                 </img>
-
                 <h2 class="fw-normal">Conversation</h2>
                 <p>Here we can discuss different questions. We are flexible!</p>
                 <p><a class="btn btn-warning" href="/features">View details &raquo;</a></p>
@@ -263,9 +258,7 @@ background-size: cover;
 
 
         <!-- START THE FEATURETTES -->
-
         <hr class="featurette-divider">
-
         <div class="row featurette">
             <div class="col-md-7">
                 <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-muted">It’ll blow your mind.</span>
@@ -276,12 +269,9 @@ background-size: cover;
             <div class="col-md-5">
                 <img class="bd-placeholder-img" width="100%" height="100%"
                      src="{{ url_for('static', filename='img/Peri-Peri-Chicken-square-FS-7168-500x500.jpg') }}">
-
             </div>
         </div>
-
         <hr class="featurette-divider">
-
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span>
@@ -292,12 +282,9 @@ background-size: cover;
             <div class="col-md-5 order-md-1">
                 <img class="bd-placeholder-img" width="100%" height="100%"
                      src="{{ url_for('static', filename='img/Peri-Peri-Chicken-square-FS-7168-500x500.jpg') }}">
-
             </div>
         </div>
-
         <hr class="featurette-divider">
-
         <div class="row featurette">
             <div class="col-md-7">
                 <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span
@@ -309,43 +296,38 @@ background-size: cover;
             <div class="col-md-5">
                 <img class="bd-placeholder-img" width="100%" height="100%"
                      src="{{ url_for('static', filename='img/Peri-Peri-Chicken-square-FS-7168-500x500.jpg') }}">
-
             </div>
         </div>
-
         <!-- /END THE FEATURETTES -->
-
     </div><!-- /.container -->
-    {% endblock %}
-    <!-- FOOTER -->
-    <div class="container">
-        <footer class="footer mt-auto d-flex flex-wrap justify-content-between align-items-center py-3 my-4 navbar-fixed-bottom">
-            <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                    <img class="bi me-2" width="40" height="40" role="img"
-                         src="{{ url_for('static', filename = 'img/carrot-2.9s-200px.svg')}}">
-                </a>
-                <span class="mb-3 mb-md-0 text-muted">© 2022 VadimM </span>
-            </div>
-            <ul class="nav col-md-4 justify-content-end list-styled d-flex">
-                <li class="ms-3"><a href="#"
-                                    class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                    <img class="bi bi-telegram" width="25" height="25" role="img"
-                         src="{{ url_for('static', filename = 'img/icons8-telegram-app.svg')}}"></a></li>
-                <li class="ms-3"><a href="#">
-                    <img class="bi bi-instagram" width="25" height="25" role="img"
-                         src="{{ url_for('static', filename = 'img/icons8-instagram.svg')}}"></a></li>
-                <li class="ms-3"><a href="#"><img class="bi bi-facebook" width="25" height="25" role="img"
-                                                  src="{{ url_for('static', filename = 'img/icons8-facebook.svg')}}">
-                </a></li>
-            </ul>
-        </footer>
-    </div>
-
 </main>
-<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
-        integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
-        async></script>
+{% endblock %}
+<!-- FOOTER -->
+<div class="container position-absolute-bottom">
+    <footer class="footer mt-auto d-flex flex-wrap justify-content-between align-items-center py-3 my-4 sticky-bottom">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img class="bi me-2" width="40" height="40" role="img"
+                     src="{{ url_for('static', filename = 'img/carrot-2.9s-200px.svg')}}">
+            </a>
+            <span class="mb-3 mb-md-0 text-muted">© 2022 VadimM </span>
+        </div>
+        <ul class="nav col-md-4 justify-content-end list-styled d-flex">
+            <li class="ms-3"><a href="https://t.me/@CustomerSrvceBot"
+                                class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img class="bi bi-telegram" width="25" height="25" role="img"
+                     src="{{ url_for('static', filename = 'img/icons8-telegram-app.svg')}}"></a></li>
+            <li class="ms-3"><a href="https://www.instagram.com/">
+                <img class="bi bi-instagram" width="25" height="25" role="img"
+                     src="{{ url_for('static', filename = 'img/icons8-instagram.svg')}}"></a></li>
+            <li class="ms-3"><a href="https://www.facebook.com/">
+                <img class="bi bi-facebook" width="25" height="25" role="img"
+                     src="{{ url_for('static', filename = 'img/icons8-facebook.svg')}}">
+            </a></li>
+        </ul>
+    </footer>
+</div>
+{% block script %}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
         integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
         crossorigin="anonymous"></script>
@@ -353,5 +335,6 @@ background-size: cover;
         integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
         crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}
 </body>
 </html>

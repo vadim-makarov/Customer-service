@@ -2,10 +2,10 @@ from datetime import datetime
 
 from smsapi.client import SmsApiPlClient
 
+import app
 from app.models import Service
 
-token = "bLQCWwiUPawU5xKF4DJE7uZh5lHCrlRjcTwjdXGz"
-client = SmsApiPlClient(access_token=token)
+client = SmsApiPlClient(access_token=app.Config.SMS_TOKEN)
 # send_results = client.sms.send(to=number, message=message)
 
 import random
