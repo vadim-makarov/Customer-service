@@ -1,0 +1,15 @@
+2022-06-21 00:11:44,301 ERROR: Exception on /user/VadimM [GET] [in C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py:1455]
+Traceback (most recent call last):
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask_login\utils.py", line 303, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\app\routes.py", line 109, in user
+    services=services, date=date)
+NameError: name 'services' is not defined
