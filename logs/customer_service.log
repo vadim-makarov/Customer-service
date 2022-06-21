@@ -13,3 +13,52 @@ Traceback (most recent call last):
   File "C:\Users\zayaz\PycharmProjects\Customer-service\app\routes.py", line 109, in user
     services=services, date=date)
 NameError: name 'services' is not defined
+2022-06-21 00:44:01,928 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 00:44:04,412 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 00:46:26,738 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 00:46:28,912 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 00:54:40,680 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 00:54:44,997 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 00:54:53,291 ERROR: Exception on /user/VadimM [GET] [in C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py:1455]
+Traceback (most recent call last):
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask_login\utils.py", line 303, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "C:\Users\zayaz\PycharmProjects\Customer-service\app\routes.py", line 109, in user
+    services=services, date=date)
+NameError: name 'services' is not defined
+2022-06-21 11:50:20,266 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 11:50:22,344 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 11:52:00,655 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 11:55:59,729 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 11:56:59,587 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 11:59:10,295 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:04:38,608 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:04:40,514 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:07:43,046 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:07:47,700 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:07:59,443 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:13:18,388 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:13:20,294 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:16:39,919 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:16:41,855 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:19:38,873 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:19:44,700 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:20:24,358 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:20:26,529 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:20:39,634 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:22:18,163 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:22:27,800 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:22:29,862 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:24:51,398 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 12:24:53,475 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 16:26:47,322 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 16:27:06,665 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
+2022-06-21 16:37:51,304 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\errors.py:46]
