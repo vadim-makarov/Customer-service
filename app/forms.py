@@ -52,7 +52,7 @@ class RegistrationForm(FlaskForm):
 
 class SMSForm(FlaskForm):
     code_input = StringField(validators=[Length(4, 4)])
-    register = SubmitField('Register')
+    register = SubmitField('Confirm')
 
 
 class EditProfileForm(FlaskForm):
@@ -85,18 +85,19 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Phone number already in use.')
 
 
+class Reviews(FlaskForm):
+    text = TextAreaField('Enter your text here:', validators=[InputRequired(), Length(min=2, max=300)])
+    rating = RadioField('Rating', validators=[InputRequired()],
+                        choices=['Terrible!', 'Bad', 'So-so', 'Good', 'Awesome!'])
+    send_review = SubmitField('Confirm')
+
+
 def validate_date_time(form, service_time):
     date_services = Service.query.filter_by(service_date=form.service_date.data).all()
     for service in date_services:
         user = service.client.username
         if service.service_time == service_time.data and user != current_user.username:  # for changing self-services
             raise ValidationError('Please choose a different time.')
-
-
-class Reviews(FlaskForm):
-    text = TextAreaField('Enter your text here:', validators=[InputRequired(), Length(min=2, max=300)])
-    rating = RadioField('Rating', validators=[InputRequired()], choices=['Terrible!', 'Bad', 'So-so', 'Good', 'Awesome!'])
-    send_review = SubmitField('Confirm')
 
 
 class Services(FlaskForm):

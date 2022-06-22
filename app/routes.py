@@ -96,16 +96,38 @@ def user(username):
     services = Service.query.filter_by(user_id=user.id)
     profile_form = EditProfileForm(current_user.username, current_user.phone_number)
     if profile_form.validate_on_submit():  # edit profile
-        current_user.username = profile_form.username.data
-        current_user.phone_number = profile_form.phone_number.data
-        db.session.commit()
-        flash('Your changes have been saved.')
-        time.sleep(0.5)
+        session['username'] = profile_form.username.data
+        session['phone_number'] = profile_form.phone_number.data
+        session['code'] = send_sms(session['phone_number'])
+        flash(f"Your code is {session['code']}")
+        return redirect(url_for('edit_sms'))
     elif request.method == 'GET':
         profile_form.username.data = current_user.username
         profile_form.phone_number.data = current_user.phone_number
     return render_template('user.html', user=user, title=username, form=form, profile_form=profile_form,
                            services=services, date=date)
+
+@app.route('/edit_sms', methods=['GET', 'POST'])
+def edit_sms():
+    sms_form = SMSForm()
+    current_user.username=session['username']
+    current_user.phone_number=session['phone_number']
+    current_user.set_password(session['phone_number'])
+    if request.method == 'POST':
+        if request.form['sms'] == 'Register' and sms_form.validate():
+            data = sms_form.code_input.data
+            if session['code'] == data:
+                db.session.commit()
+                flash(f'Values has been changed')
+                time.sleep(1)
+                return redirect(url_for('user', username=current_user.username))
+            flash('Invalid code. Please try again')
+            return render_template('sms.html', sms_form=sms_form)
+        elif request.form['sms'] == 'Send SMS':  # TODO change SMS timer value and enable service
+            session['code'] = send_sms(session['phone_number'])
+            flash(f"Your code is {session['code']}")  # don't forget to disable
+            return render_template('sms.html', sms_form=sms_form)
+    return render_template('sms.html', sms_form=sms_form)
 
 
 @app.route('/user/add_service', methods=['POST'])
