@@ -30,17 +30,18 @@ login_manager.session_protection = None
 client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
 bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
 admin = Admin(app, name='Customer Service', template_mode='bootstrap4')
+Bootstrap(app)
 
 ### Blueprints ###
 from app.errors import bp as errors_bp
 app.register_blueprint(errors_bp, url_prefix='/errors')
 
+from app.auth import bp as auth_bp
+app.register_blueprint(auth_bp, url_prefix='/auth')
+
 from app.admin import bp as admin_bp
 app.register_blueprint(admin_bp, url_prefix='/auth')
 
-
-### Frontend ###
-Bootstrap(app)
 
 from app import routes, models
 

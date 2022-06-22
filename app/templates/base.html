@@ -102,8 +102,8 @@ background-size: cover;
             </ul>
             <div class="text-end">
                 {% if current_user.is_anonymous %}
-                <a class="btn btn-outline-light me-2" href="{{ url_for('login') }}" role="button">Log in</a>
-                <a class="btn btn-warning" href="{{ url_for('register') }}" role="button">Register</a>
+                <a class="btn btn-outline-light me-2" href="{{ url_for('auth.login') }}" role="button">Log in</a>
+                <a class="btn btn-warning" href="{{ url_for('auth.register') }}" role="button">Register</a>
                 {% else %}
                 <a class="btn btn-outline-light me-2" href="{{ url_for('user', username=current_user.username) }}"
                    role="button">{{ current_user.username }}</a>
@@ -124,7 +124,7 @@ background-size: cover;
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-footer">
-                                <a class="btn btn-warning" href="{{ url_for('logout') }}" role="button">Log out</a>
+                                <a class="btn btn-warning" href="{{ url_for('auth.logout') }}" role="button">Log out</a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                     Cancel
                                 </button>
@@ -164,7 +164,7 @@ background-size: cover;
                               href="{{ url_for('user', username=current_user.username) }}">I
                             want it!</a></p>
                         {% else %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">I want it!</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('auth.login') }}">I want it!</a></p>
                         {% endif %}
                     </div>
                 </div>
@@ -181,7 +181,7 @@ background-size: cover;
                               href="{{ url_for('user', username=current_user.username) }}">Really
                             want it!</a></p>
                         {% else %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">Really want it!</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('auth.login') }}">Really want it!</a></p>
                         {% endif %}
                     </div>
                 </div>
@@ -198,7 +198,7 @@ background-size: cover;
                               href="{{ url_for('user', username=current_user.username) }}">Nothing
                             more!</a></p>
                         {% else %}
-                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('login') }}">Nothing more!</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ url_for('auth.login') }}">Nothing more!</a></p>
                         {% endif %}
                     </div>
                 </div>
