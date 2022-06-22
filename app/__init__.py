@@ -1,7 +1,6 @@
 import telebot
 from flask import Flask
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
@@ -28,20 +27,22 @@ paranoid.redirect_view = '/'
 login_manager.session_protection = None
 
 ### TeleBot/SMS ###
-bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
 client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
+bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
+admin = Admin(app, name='Customer Service', template_mode='bootstrap4')
+
+### Blueprints ###
+from app.errors import bp as errors_bp
+app.register_blueprint(errors_bp, url_prefix='/errors')
+
+from app.admin import bp as admin_bp
+app.register_blueprint(admin_bp, url_prefix='/auth')
+
 
 ### Frontend ###
 Bootstrap(app)
 
-from app import routes, models, errors
-
-###  ADMIN  ###
-admin = Admin(app, name='Customer Service', template_mode='bootstrap4')
-
-from app.models import User, Service, Review
-
-admin.add_views(ModelView(User, db.session), ModelView(Service, db.session), ModelView(Review, db.session))
+from app import routes, models
 
 # ###  Celery ###
 # app = Celery()

@@ -8,7 +8,7 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import redirect
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, CustomerServiceView, SMSForm, Reviews
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, Services, SMSForm, Reviews
 from app.models import User, Service, Review
 from app.sms import send_sms, reminder
 
@@ -216,25 +216,3 @@ def modal():
     return render_template('modal.html', title='Modal')
 
 
-@app.route('/admin')
-@login_required
-def admin():
-    if current_user.is_authenticated:
-        if current_user.username == 'VadimM':
-            return CustomerServiceView(User, db.session).render('admin/index.html')
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
-
-
-@app.route('/admin/list')
-@login_required
-def admin_list():
-    return render_template('admin/list.html')
-
-# @app.route('/schedule/add', methods=['GET', 'POST'])
-# def edit_time_options():
-#     if request.method == 'POST':
-#         time_choices = request.form.getlist('time_checkbox')
-#         time_select_form = UserView()
-#         time_select_form.service_time.choices = time_choices
-#         flash(f'New time choices {time_choices} was added')

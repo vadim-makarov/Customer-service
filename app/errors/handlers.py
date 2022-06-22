@@ -6,6 +6,7 @@ from flask import render_template
 
 import config
 from app import app, db, paranoid, bot
+from app.errors import bp
 
 
 @paranoid.on_invalid_session
@@ -13,16 +14,16 @@ def invalid_session():
     return render_template('login.html'), 401
 
 
-@app.errorhandler(404)
+@bp.app_errorhandler(404)
 def not_found_error(error):
-    return render_template('404.html'), 404
+    return render_template('errors/404.html'), 404
 
 
-@app.errorhandler(500)
+@bp.app_errorhandler(500)
 def internal_error(error):
     db.session.rollback()
     bot.send_message('326063522', 'Check your e-mail')
-    return render_template('500.html'), 500
+    return render_template('errors/500.html'), 500
 
 
 if not app.debug:
