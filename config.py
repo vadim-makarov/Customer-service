@@ -20,3 +20,8 @@ class Config(object):
 
     ### TeleBot ###
     BOT_TOKEN = "5499247330:AAFXWyZzxMP1PZsfIKd_M6duJFKs37jcbFE"
+
+
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'

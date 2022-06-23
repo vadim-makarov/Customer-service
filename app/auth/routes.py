@@ -16,12 +16,12 @@ from app.sms import send_sms
 def register():
     form = RegistrationForm()
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     if form.validate_on_submit():
         session['username'] = form.username.data
         session['phone_number'] = form.phone_number.data
         session['code'] = send_sms(session['phone_number'])
-        flash(f"Your code is {session['code']}")  # don't forget to disable
+        flash(f"Your code is {session['code']}")  # TODO don't forget to disable
         return redirect(url_for('auth.sms'))
     return render_template('auth/register.html', title='Registration page', form=form)
 
@@ -40,12 +40,12 @@ def sms():
                 login_user(user)
                 flash(f'Congratulations, {user.username} you are now a registered user!')
                 time.sleep(1)
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
             flash('Invalid code. Please try again')
             return render_template('sms.html', sms_form=sms_form)
         elif request.form['sms'] == 'Send SMS':  # TODO change SMS timer value and enable service
             session['code'] = send_sms(session['phone_number'])
-            flash(f"Your code is {session['code']}")  # don't forget to disable
+            flash(f"Your code is {session['code']}")  # TODO don't forget to disable
             return render_template('sms.html', sms_form=sms_form)
     return render_template('sms.html', sms_form=sms_form)
 
@@ -53,7 +53,7 @@ def sms():
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -63,7 +63,7 @@ def login():
         login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
+            next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('auth/login.html', title='Sign In', form=form)
 
@@ -72,4 +72,4 @@ def login():
 def logout():
     logout_user()
     session.pop('username', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))

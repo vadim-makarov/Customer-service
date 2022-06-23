@@ -2,9 +2,8 @@ from datetime import datetime
 
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from werkzeug.routing import ValidationError
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, DateField, TelField, RadioField
-from wtforms.validators import ValidationError, Length, InputRequired, Regexp
+from wtforms import StringField, SubmitField, TelField, SelectField, DateField
+from wtforms.validators import Length, InputRequired, Regexp, ValidationError
 
 from app.models import User, Service
 
@@ -44,13 +43,6 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Phone number already in use.')
 
 
-class Reviews(FlaskForm):
-    text = TextAreaField('Enter your text here:', validators=[InputRequired(), Length(min=2, max=300)])
-    rating = RadioField('Rating', validators=[InputRequired()],
-                        choices=['Terrible!', 'Bad', 'So-so', 'Good', 'Awesome!'])
-    send_review = SubmitField('Confirm')
-
-
 def validate_date_time(form, service_time):
     date_services = Service.query.filter_by(service_date=form.service_date.data).all()
     for service in date_services:
@@ -72,5 +64,3 @@ class Services(FlaskForm):
                                validators=[InputRequired(),
                                            validate_date_time])
     submit = SubmitField('Confirm', render_kw={'class': 'btn btn-info'})
-
-

@@ -1,11 +1,6 @@
-import logging
-import os
-from logging.handlers import RotatingFileHandler, SMTPHandler
-
 from flask import render_template
 
-import config
-from app import app, db, paranoid, bot
+from app import db, paranoid, bot
 from app.errors import bp
 
 
@@ -26,22 +21,3 @@ def internal_error(error):
     return render_template('errors/500.html'), 500
 
 
-if not app.debug:
-    auth = (config.Config.MAIL_USERNAME, config.Config.MAIL_PASSWORD)
-    mail_handler = SMTPHandler(
-        mailhost=(config.Config.MAIL_SERVER, config.Config.MAIL_PORT),
-        fromaddr=config.Config.MAIL_USERNAME,
-        toaddrs=config.Config.ADMINS, subject='Customer service Failure',
-        credentials=auth, secure=())
-    mail_handler.setLevel(logging.ERROR)
-    app.logger.addHandler(mail_handler)
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler('logs/customer_service.log', maxBytes=10240,
-                                       backupCount=10)
-    file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    app.logger.setLevel(logging.INFO)
-    app.logger.info('All good')
