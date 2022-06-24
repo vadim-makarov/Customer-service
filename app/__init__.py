@@ -3,15 +3,16 @@ import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 import telebot
+from celery import Celery
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
+from redis import Redis
 from smsapi.client import SmsApiPlClient
 
-# from flask_redis import FlaskRedis
 import config
 from config import Config
 
@@ -22,16 +23,12 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
 paranoid = Paranoid()
-login_manager.session_protection = None
 paranoid.redirect_view = '/'
+login_manager.session_protection = None
 client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
 bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
+celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
 
-
-# r = FlaskRedis()
-
-
-# app = Celery()
 
 def create_app(config_class=Config, **kwargs):
     app = Flask(__name__)
@@ -42,6 +39,9 @@ def create_app(config_class=Config, **kwargs):
     bootstrap.init_app(app)
     paranoid.init_app(app)
     login.init_app(app)
+    celery.conf.update(app.config)
+    app.redis = Redis.from_url(app.config['REDIS_URL'])
+
     with app.app_context():
 
         from app.admin import bp as admin_bp
@@ -60,14 +60,17 @@ def create_app(config_class=Config, **kwargs):
         app.register_blueprint(main_bp, url_prefix='/main')
 
     if not app.debug and not app.testing:
-        auth = (config.Config.MAIL_USERNAME, config.Config.MAIL_PASSWORD)
-        mail_handler = SMTPHandler(
-            mailhost=(config.Config.MAIL_SERVER, config.Config.MAIL_PORT),
-            fromaddr=config.Config.MAIL_USERNAME,
-            toaddrs=config.Config.ADMINS, subject='Customer service Failure',
-            credentials=auth, secure=())
-        mail_handler.setLevel(logging.ERROR)
-        app.logger.addHandler(mail_handler)
+        if app.config['MAIL_SERVER']:
+            auth = None
+            if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
+                auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+            mail_handler = SMTPHandler(
+                mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
+                fromaddr=app.config['MAIL_USERNAME'],
+                toaddrs=app.config['ADMINS'], subject='Customer Service Failure',
+                credentials=auth, secure=())
+            mail_handler.setLevel(logging.ERROR)
+            app.logger.addHandler(mail_handler)
         if not os.path.exists('logs'):
             os.mkdir('logs')
         file_handler = RotatingFileHandler('logs/customer_service.log', maxBytes=10240,

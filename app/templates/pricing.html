@@ -34,7 +34,7 @@ Pricing
                         <li>Help center access</li>
                     </ul>
                     {% if current_user.is_authenticated %}
-                    <p><a type="button" href="{{ url_for('user', username=current_user.username) }}"
+                    <p><a type="button" href="{{ url_for('user_blueprint.user', username=current_user.username) }}"
                           class="w-100 btn btn-lg btn-outline-primary">I want it almost free!</a></p>
                     {% else %}
                     <p><a type="button" href="{{ url_for('auth.register') }}" class="w-100 btn btn-lg btn-outline-primary">I
@@ -60,7 +60,7 @@ Pricing
                     </ul>
                     {% if current_user.is_authenticated %}
                     <p><a type="button" class="w-100 btn btn-lg btn-primary"
-                          href="{{ url_for('user', username=current_user.username) }}">I want it almost free!</a></p>
+                          href="{{ url_for('user_blueprint.user', username=current_user.username) }}">I want it almost free!</a></p>
                     {% else %}
                     <p><a type="button" class="w-100 btn btn-lg btn-primary" href="{{ url_for('auth.register') }}">I want it
                         almost free!</a></p>
@@ -85,7 +85,7 @@ Pricing
                     </ul>
                     {% if current_user.is_authenticated %}
                     <p><a type="button" class="w-100 btn btn-lg btn-primary"
-                          href="{{ url_for('user', user=current_user.username) }}">Nothing more!</a></p>
+                          href="{{ url_for('user_blueprint.user', user=current_user.username) }}">Nothing more!</a></p>
                     {% else %}
                     <p><a type="button" class="w-100 btn btn-lg btn-primary" href="{{ url_for('auth.register') }}">Nothing
                         more!</a></p>

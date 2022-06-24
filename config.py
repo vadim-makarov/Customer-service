@@ -1,7 +1,26 @@
+import os
+
+from dotenv import load_dotenv
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
+
+
 class Config(object):
-    SECRET_KEY = 'I-cant-talk-about-this'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///user.db'
+    ENV = 'development'
+
+    ### DATABASE ###
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'I-cant-talk-about-this'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'sqlite:///' + os.path.join(basedir, 'user.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    ### CELERY ###
+    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://default:redispw@localhost:49155")
+    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://default:redispw@localhost:49155f")
+
+    ### REDIS ###
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://default:redispw@localhost:49153'
 
     ### ADMIN ###
     FLASK_ADMIN_SWATCH = 'united'

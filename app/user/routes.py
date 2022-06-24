@@ -12,8 +12,8 @@ from app.user import bp
 from app.user.forms import Services, SMSForm, EditProfileForm
 
 
-@bp.route('/user/<username>', methods=['GET', 'POST'])
-@bp.route('/user')
+@bp.route('/<username>', methods=['GET', 'POST'])
+@bp.route('/')
 @login_required
 def user(username):
     if not current_user.is_authenticated:
@@ -32,7 +32,7 @@ def user(username):
     elif request.method == 'GET':
         profile_form.username.data = current_user.username
         profile_form.phone_number.data = current_user.phone_number
-    return render_template('user.html', user=user, title=username, form=form, profile_form=profile_form,
+    return render_template('user/user.html', user=user, title=username, form=form, profile_form=profile_form,
                            services=services, date=date)
 
 
