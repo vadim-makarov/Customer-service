@@ -10,7 +10,6 @@ from app import db
 from app.main import bp
 from app.main.forms import Reviews
 from app.models import Review
-from app.sms import reminder
 
 
 @bp.before_request
@@ -23,8 +22,6 @@ def before_request():
 @bp.route('/')
 @bp.route('/index')
 def index():
-    if datetime.now().minute == 25:
-        reminder()
     return render_template('index.html', title='Home page')
 
 

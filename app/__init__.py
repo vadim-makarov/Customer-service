@@ -3,7 +3,6 @@ import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 import telebot
-from celery import Celery
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, login_manager
@@ -15,6 +14,7 @@ from smsapi.client import SmsApiPlClient
 
 import config
 from config import Config
+from .extensions import scheduler
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -27,7 +27,6 @@ paranoid.redirect_view = '/'
 login_manager.session_protection = None
 client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
 bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
-celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
 
 
 def create_app(config_class=Config, **kwargs):
@@ -39,10 +38,15 @@ def create_app(config_class=Config, **kwargs):
     bootstrap.init_app(app)
     paranoid.init_app(app)
     login.init_app(app)
-    celery.conf.update(app.config)
+    scheduler.init_app(app)
     app.redis = Redis.from_url(app.config['REDIS_URL'])
 
     with app.app_context():
+
+        if not app.debug:
+            from . import tasks
+            scheduler.start()
+            from . import events
 
         from app.admin import bp as admin_bp
         app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -80,9 +84,10 @@ def create_app(config_class=Config, **kwargs):
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
         app.logger.setLevel(logging.INFO)
+        logging.getLogger("apscheduler").setLevel(logging.INFO)
         app.logger.info('All good')
 
     return app
 
 
-from app import models
+from app import models, sms
