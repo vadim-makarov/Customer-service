@@ -16,11 +16,11 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ### CELERY ###
-    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://default:redispw@localhost:49155")
-    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://default:redispw@localhost:49155f")
+    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://default:redispw@localhost:49156")
+    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://default:redispw@localhost:49156f")
 
     ### REDIS ###
-    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://default:redispw@localhost:49153'
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://default:redispw@localhost:49156'
 
     ### ADMIN ###
     FLASK_ADMIN_SWATCH = 'united'
