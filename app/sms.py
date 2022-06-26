@@ -1,16 +1,15 @@
 import random
+from datetime import datetime
 
-from app import bot
-
-
+from app import bot, scheduler
 # send_results = client.sms.send(to=number, message=message)
+from app.models import Service
 
 
-def send_sms(number, time=None):
-    if time is not None:
-        message = f'Dear customer, your service is scheduled for tomorrow at {time}. Please be on time.'
-        bot.send_message('326063522',
-                         f'Dear customer, your service is scheduled for tomorrow at {time}. Please be on time.')
+def send_sms(number, name=None, time=None):
+    if time is not None and name is not None:
+        message = f'Dear {name}, your service is scheduled for tomorrow at {time}. Please be on time.'
+        bot.send_message('326063522', message)
         # client.sms.send(to=number, message=message)
         return message
     code = str(random.randint(1000, 10000))
@@ -19,9 +18,15 @@ def send_sms(number, time=None):
     return code
 
 
-# def reminder():
-#     services = Service.query.all()
-#     for service in services:
-#         if service.service_date.day - datetime.now().date().day == 1:
-#             send_sms(number=service.client.phone_number, time=service.service_time)
-#             bot.send_message('326063522', f'Remainder for {service.client.username} was sent')
+@scheduler.task(
+    "interval",
+    id="reminder",
+    seconds=86400,
+    start_date="2022-06-26 19:02:22"
+)
+def reminder():
+    with scheduler.app.app_context():
+        services = Service.query.all()
+        for service in services:
+            if service.service_date.day - datetime.now().date().day == 1:
+                send_sms(service.client.phone_number, service.client.username, service.service_time)
