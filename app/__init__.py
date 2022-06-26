@@ -44,9 +44,8 @@ def create_app(config_class=Config, **kwargs):
     with app.app_context():
 
         if not app.debug:
-            from . import tasks
+            from . import sms
             scheduler.start()
-            from . import events
 
         from app.admin import bp as admin_bp
         app.register_blueprint(admin_bp, url_prefix='/admin')
