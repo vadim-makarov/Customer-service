@@ -9,7 +9,6 @@ from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
-from redis import Redis
 from smsapi.client import SmsApiPlClient
 
 import config
@@ -39,7 +38,6 @@ def create_app(config_class=Config, **kwargs):
     paranoid.init_app(app)
     login.init_app(app)
     scheduler.init_app(app)
-    app.redis = Redis.from_url(app.config['REDIS_URL'])
 
     with app.app_context():
 
