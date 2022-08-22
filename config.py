@@ -26,7 +26,7 @@ class Config(object):
     SMS_TOKEN = os.environ.get('SMS_TOKEN')
 
     ### MAIL ###
-    MAIL_SERVER = 'smtp.mail.yahoo.com'
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
     MAIL_PORT = 587
     MAIL_USE_TLS = False
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
@@ -39,5 +39,8 @@ class Config(object):
 
 class TestConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.getcwd()
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SMS_TOKEN = 'some_SMS_token'
+    BOT_TOKEN = 'It will not work. Do you really need it here?'
+    SCHEDULER_API_ENABLED = False
