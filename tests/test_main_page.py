@@ -1,51 +1,32 @@
 import pytest
 
-# from .pages.login_page import LoginPage
+from tests.pages.locators import MainPageLocators
+from tests.pages.login_page import LoginPage
 from tests.pages.main_page import MainPage
 
-login_link = 'http://selenium1py.pythonanywhere.com/en-gb/accounts/login/'
-home_link = "http://selenium1py.pythonanywhere.com"
-basket_link = 'http://selenium1py.pythonanywhere.com/en-gb/basket/'
+LOGIN_LINK = 'http://127.0.0.1:5000/auth/login'
+HOME_LINK = "http://127.0.0.1:5000/main/index"
 
 
-@pytest.mark.login_guest
 class TestLoginFromMainPage:
-    def test_guest_can_go_to_login_page(self, browser):
-        page = MainPage(browser, home_link)
+    page_links = [MainPageLocators.MAIN_PAGE_LINK,
+                  MainPageLocators.FEATURES_PAGE_LINK,
+                  MainPageLocators.PRICING_PAGE_LINK,
+                  MainPageLocators.PRICING_PAGE_LINK,
+                  MainPageLocators.LOGIN_LINK,
+                  MainPageLocators.REGISTER_LINK]
+    pages = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
+
+    @pytest.mark.parametrize('link', page_links)
+    def test_guest_should_see_some_link(self, browser, link):
+        page = MainPage(browser, HOME_LINK)
         page.open()
-        page.go_to_login_page()
+        page.should_be_link(link)
+
+    @pytest.mark.parametrize('page, link', list(zip(pages, page_links)))
+    def test_guest_can_go_to_link_page(self, browser, page, link: tuple):
+        page = MainPage(browser, HOME_LINK)
+        page.open()
+        page.go_to_some_page(link)
         login_page = LoginPage(browser, browser.current_url)
-        login_page.should_be_login_page()
-
-    def test_guest_should_see_login_link(self, browser):
-        page = MainPage(browser, home_link)
-        page.open()
-        page.should_be_login_link()
-
-
-def test_should_be_login_url(browser):
-    page = LoginPage(browser, login_link)
-    page.open()
-    page.should_be_login_url()
-
-
-def test_should_be_login_form(browser):
-    page = LoginPage(browser, login_link)
-    page.open()
-    page.should_be_login_form()
-
-
-def test_should_be_registration_form(browser):
-    page = LoginPage(browser, login_link)
-    page.open()
-    page.should_be_register_form()
-
-
-def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
-    page = MainPage(browser, home_link)
-    page.open()
-    page.go_to_basket()
-    page = BasketPage(browser, basket_link, timeout=0)
-    page.open()
-    page.basket_is_empty()
-    page.basket_is_empty_text()
+        login_page.should_be_page()
