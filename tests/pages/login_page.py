@@ -1,19 +1,18 @@
 from tests.pages.base_page import BasePage
 from tests.pages.locators import LoginPageLocators
 
+LOGIN_LINK = 'http://127.0.0.1:5000/auth/login'
+
 
 class LoginPage(BasePage):
     LOGIN = 'VadimM'
     PHONE = '+79022513250'
 
     def should_be_login_page(self):
-        self.should_be_login_url()
+        self.should_be_some_page()
         self.should_be_login_form_name()
         self.should_be_login_form_phone()
         self.should_be_register_link()
-
-    def should_be_login_url(self):
-        assert 'login' in self.browser.current_url, 'This is not a Login page'
 
     def should_be_login_form_name(self):
         assert self.browser.find_element(*LoginPageLocators.LOGIN_FORM_NAME), 'Login form_name is not presented'
