@@ -37,11 +37,12 @@ def create_app(config_class=Config, **kwargs):
     bootstrap.init_app(app)
     paranoid.init_app(app)
     login.init_app(app)
-    scheduler.init_app(app)
+    if not app.debug and not app.testing:
+        scheduler.init_app(app)
 
     with app.app_context():
 
-        if not app.debug:
+        if not app.debug and not app.testing:
             from . import sms
             scheduler.start()
 

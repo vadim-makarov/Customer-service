@@ -1,25 +1,7 @@
-2022-06-28 14:45:38,503 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-06-28 14:45:41,473 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-06-28 15:04:46,125 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-06-28 15:16:30,632 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-06-28 15:20:41,877 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-06-28 15:22:03,318 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-06-28 15:22:03,490 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-07-06 14:19:37,038 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-07-06 14:21:31,630 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-07-06 14:21:39,148 ERROR: Exception on /user/VadimM [GET] [in C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py:1455]
-Traceback (most recent call last):
-  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 2077, in wsgi_app
-    response = self.full_dispatch_request()
-  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1526, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1545, in finalize_request
-    response = self.make_response(rv)
-  File "C:\Users\zayaz\PycharmProjects\Customer-service\venv\lib\site-packages\flask\app.py", line 1701, in make_response
-    raise TypeError(
-TypeError: The view function for 'user_blueprint.user' did not return a valid response. The function either returned None or ended without a return statement.
-2022-07-06 14:24:39,365 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-07-06 14:24:41,818 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-08-22 19:05:27,080 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-08-22 20:20:08,716 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
-2022-08-23 20:49:40,647 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:85]
+2022-08-24 01:15:49,723 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]
+2022-08-24 01:20:27,586 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]
+2022-08-24 01:24:41,769 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]
+2022-08-24 01:27:26,818 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]
+2022-08-24 01:32:55,792 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]
+2022-08-24 01:33:13,014 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]
+2022-08-24 01:34:38,902 INFO: All good [in C:\Users\zayaz\PycharmProjects\Customer-service\app\__init__.py:86]

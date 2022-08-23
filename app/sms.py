@@ -29,4 +29,4 @@ def reminder():
         services = Service.query.all()
         for service in services:
             if service.service_date.day - datetime.now().date().day == 1:
-                send_sms(service.client.phone_number, service.client.username, service.service_time)
+                send_sms(service.app.phone_number, service.app.username, service.service_time)

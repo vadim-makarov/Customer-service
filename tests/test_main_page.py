@@ -7,7 +7,7 @@ from tests.pages.main_page import MainPage
 HOME_LINK = "http://127.0.0.1:5000/main/index"
 
 
-class TestLoginFromMainPage:
+class TestMainPage:
     pages_locators: list[tuple[str, str]] = [MainPageLocators.MAIN_PAGE_LINK,
                                              MainPageLocators.FEATURES_PAGE_LINK,
                                              MainPageLocators.PRICING_PAGE_LINK,
@@ -15,6 +15,12 @@ class TestLoginFromMainPage:
                                              MainPageLocators.LOGIN_LINK,
                                              MainPageLocators.REGISTER_LINK]
     pages = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
+
+    @pytest.mark.parametrize('word', pages)
+    def test_main_page_response(self, test_client, word):
+        welcome_req = test_client.get('/main/index')
+        assert welcome_req.status_code == 200
+        assert word in welcome_req.text
 
     @pytest.mark.parametrize('locator', pages_locators)
     def test_guest_should_see_some_link(self, browser, locator: tuple):

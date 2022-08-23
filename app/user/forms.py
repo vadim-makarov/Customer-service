@@ -46,7 +46,7 @@ class EditProfileForm(FlaskForm):
 def validate_date_time(form, service_time):
     date_services = Service.query.filter_by(service_date=form.service_date.data).all()
     for service in date_services:
-        user = service.client.username
+        user = service.app.username
         if service.service_time == service_time.data and user != current_user.username:  # for changing self-services
             raise ValidationError('Please choose a different time.')
 
