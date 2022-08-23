@@ -137,3 +137,5 @@ dmypy.json
 /.idea/workspace.xml
 /.idea/Customer-service.iml
 .logs/
+*.db
+/logs/customer_service.log.1
