@@ -139,3 +139,6 @@ dmypy.json
 .logs/
 *.db
 /logs/customer_service.log.1
+.pytest_cache
+/.idea/shelf/Uncommitted_changes_before_Update_at_8_24_2022_2_34_PM_[Changes]/shelved.patch
+/.idea/shelf/Uncommitted_changes_before_Update_at_8_24_2022_2_34_PM__Changes_.xml

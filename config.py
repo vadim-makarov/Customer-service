@@ -23,7 +23,7 @@ class Config(object):
 
     ### SMS ###
 
-    SMS_TOKEN = os.environ.get('SMS_TOKEN')
+    SMS_TOKEN = os.environ.get('SMS_TOKEN') or 'theiourtgblewrbgwe8r'
 
     ### MAIL ###
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
@@ -34,7 +34,7 @@ class Config(object):
     ADMINS = os.environ.get('ADMINS')
 
     ### TeleBot ###
-    BOT_TOKEN = os.environ.get('BOT_TOKEN')
+    BOT_TOKEN = os.environ.get('BOT_TOKEN') or 'ugofilheb3fdsfbgsvaknviu4'
 
 
 class TestConfig(Config):
