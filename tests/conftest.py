@@ -20,10 +20,11 @@ def test_client(request, app):
     return client
 
 
-@pytest.fixture(scope='class', autouse=True)
+@pytest.fixture(scope='session', autouse=True)
 def server(app):
-    t = threading.Thread(target=app.run)
-    yield t.start()
+    app = threading.Thread(target=app.run)
+    app.daemon = True
+    yield app.start()
 
 
 @pytest.fixture(scope='class')

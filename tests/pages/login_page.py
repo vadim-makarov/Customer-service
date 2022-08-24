@@ -9,7 +9,6 @@ class LoginPage(BasePage):
     PHONE = '+79022513250'
 
     def should_be_login_page(self):
-        self.should_be_some_page()
         self.should_be_login_form_name()
         self.should_be_login_form_phone()
         self.should_be_register_link()
