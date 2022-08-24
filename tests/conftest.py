@@ -3,6 +3,7 @@ import threading
 import pytest
 from selenium import webdriver
 
+from app import create_app
 from config import TestConfig
 
 
@@ -26,9 +27,9 @@ def server(app):
     yield app.start()
 
 
-# @pytest.fixture(scope='class')
-# def db():
-#     db.create_all(app=create_app(TestConfig))
+@pytest.fixture(scope='class')
+def db():
+    db.create_all(app=create_app(TestConfig))
 
 
 @pytest.fixture(scope='class')
