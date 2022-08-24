@@ -11,7 +11,6 @@ from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
 from smsapi.client import SmsApiPlClient
 
-import config
 from config import Config
 from .extensions import scheduler
 
@@ -24,8 +23,8 @@ bootstrap = Bootstrap()
 paranoid = Paranoid()
 paranoid.redirect_view = '/'
 login_manager.session_protection = None
-client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
-bot = telebot.TeleBot(config.Config.BOT_TOKEN, parse_mode=None)
+client = SmsApiPlClient(access_token=os.environ.get('SMS_TOKEN'))
+bot = telebot.TeleBot(os.environ.get(('BOT_TOKEN')), parse_mode=None)
 
 
 def create_app(config_class=Config, **kwargs):
