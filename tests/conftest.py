@@ -14,7 +14,7 @@ def app(request):
     return create_app(TestConfig)
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def test_client(request, app):
     client = app.test_client()
     client.__enter__()
@@ -28,6 +28,7 @@ def server(app):
     app = threading.Thread(target=app.run)
     app.daemon = True
     yield app.start()
+    db.drop_all()
 
 
 @pytest.fixture(scope='class')

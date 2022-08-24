@@ -27,7 +27,7 @@ class TestMainPage:
     def test_guest_should_see_some_link(self, browser, locator: tuple):
         page = MainPage(browser, self.LINK)
         page.open()
-        page.should_be_link(locator)
+        page.should_be_element(locator)
 
     @pytest.mark.parametrize('page_name, link', list(zip(PAGES, PAGES_LOCATORS)))
     def test_guest_can_go_to_link_page(self, browser, page_name: str, link: tuple):

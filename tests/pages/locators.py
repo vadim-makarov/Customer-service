@@ -14,8 +14,10 @@ class RegisterPageLocators(MainPageLocators):
     REGISTER_FORM_NAME = (By.ID, 'username')
     REGISTER_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
     REGISTER_FORM_SEND_SMS = (By.ID, 'confirm')
-
-
+    SMS_CODE_FORM = (By.ID, 'code_input')
+    SMS_CONFIRM = (By.CSS_SELECTOR, 'body > main > main > div > div > div > form > div > div.d-grid.gap-2.col-6.mx-auto > div > button.btn.btn-warning')
+    SMS_RESEND = (By.ID, 'BtnCounter')
+    SMS_ALERT_CODE = (By.CSS_SELECTOR, 'body > div')
 class LoginPageLocators(MainPageLocators):
     LOGIN_FORM_NAME = (By.ID, 'username')
     LOGIN_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
