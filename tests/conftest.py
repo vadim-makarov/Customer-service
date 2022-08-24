@@ -3,7 +3,7 @@ import threading
 import pytest
 from selenium import webdriver
 
-from app import create_app
+from app import create_app, db
 from config import TestConfig
 
 pytest_plugins = []  # put your custom fixture *.py files here as a string without extension
@@ -24,6 +24,7 @@ def test_client(request, app):
 @pytest.fixture(scope='session', autouse=True)
 def server(app):
     app.app_context().push()
+    db.create_all()
     app = threading.Thread(target=app.run)
     app.daemon = True
     yield app.start()
