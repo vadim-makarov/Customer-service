@@ -137,6 +137,7 @@ dmypy.json
 /.idea/workspace.xml
 /.idea/Customer-service.iml
 .logs/
+logs
 *.db
 /logs/customer_service.log.1
 .pytest_cache
