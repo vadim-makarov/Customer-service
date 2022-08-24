@@ -21,14 +21,5 @@ class LoginPageLocators(MainPageLocators):
     LOGIN_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
     LOGIN_FORM_SUBMIT = (By.ID, 'submit')
     LOGIN_FORM_TO_REG_PAGE = (By.CSS_SELECTOR, 'body > main > main > div > div > div > div > a')
-
-
-# class ProductPageLocators(MainPageLocators):
-#     SUCCESS_MESSAGE = (By.CSS_SELECTOR, ".alert-success")
-#     TITLE = (By.CSS_SELECTOR, '#content_inner > article > div.row > div.col-sm-6.product_main > h1')
-#     BASKET_TITLE = (By.CSS_SELECTOR, '#messages > div:nth-child(1) > div > strong')
-#     PRICE = (By.CSS_SELECTOR, '#content_inner > article > div.row > div.col-sm-6.product_main > p.price_color')
-#     BASKET_PRICE = (
-#         By.CSS_SELECTOR,
-#         '#messages > div.alert.alert-safe.alert-noicon.alert-info.fade.in > div > p:nth-child(1) > strong')
-#     ADD_TO_BASKET = (By.CSS_SELECTOR, '#add_to_basket_form > button')
+    LOGOUT_LINK = (By.CSS_SELECTOR, 'body > header > div > div > div > button')
+    LOGOUT_LINK_MODAL = (By.CSS_SELECTOR, '#logoutModal > div > div > div.modal-footer > a')

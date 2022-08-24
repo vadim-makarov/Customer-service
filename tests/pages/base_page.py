@@ -4,7 +4,7 @@ from selenium.common.exceptions import NoSuchElementException, NoAlertPresentExc
 
 
 class BasePage:
-    def __init__(self, browser, url, timeout=1):
+    def __init__(self, browser, url: str, timeout=1):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -22,7 +22,7 @@ class BasePage:
             return False
         return True
 
-    def should_be_some_page(self, page_name):
+    def should_be_some_page(self, page_name: str):
         assert page_name in self.browser.current_url, f'This is not a {page_name} page'
 
     def go_to_some_page(self, locator: tuple):

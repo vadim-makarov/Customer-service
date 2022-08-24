@@ -6,10 +6,11 @@ from selenium import webdriver
 from app import create_app
 from config import TestConfig
 
+pytest_plugins = []  # put your custom fixture *.py files here as a string without extension
+
 
 @pytest.fixture(scope='session')
 def app(request):
-    from app import create_app
     return create_app(TestConfig)
 
 
@@ -22,14 +23,10 @@ def test_client(request, app):
 
 @pytest.fixture(scope='session', autouse=True)
 def server(app):
+    app.app_context().push()
     app = threading.Thread(target=app.run)
     app.daemon = True
     yield app.start()
-
-
-@pytest.fixture(scope='class')
-def db():
-    db.create_all(app=create_app(TestConfig))
 
 
 @pytest.fixture(scope='class')
