@@ -35,7 +35,7 @@ def server(app):
 def browser():
     op = webdriver.ChromeOptions()
     op.add_argument('headless')
-    # browser = webdriver.Chrome(options=op)
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(options=op)
+    # browser = webdriver.Chrome()
     yield browser
     browser.quit()
