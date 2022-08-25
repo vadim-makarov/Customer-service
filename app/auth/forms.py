@@ -8,12 +8,12 @@ from app.models import User
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[
         InputRequired(),
-        Length(3, 20, message="Please provide a valid name"),
+        Length(min=3, max=20, message="Please provide a valid name"),
         Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
-               "Usernames must have only letters, " "numbers, "
+               "Usernames must have only latin letters, " "numbers, "
                "dots or underscores")])
-    phone_number = TelField('Phone number', validators=[InputRequired(), Length(10, 12),
-                                                        Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+    phone_number = TelField('Phone number', validators=[InputRequired(), Length(min=10, max=12),
+                                                        Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$".strip(),
                                                                message="Enter a valid phone number, like +55 555 "
                                                                        "555 555")])
     submit = SubmitField('Sign In')
@@ -21,11 +21,11 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField(validators=[InputRequired(),
-                                       Length(3, 20, message="Please provide a valid name"),
-                                       Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
-                                              "Usernames must have only letters, " "numbers, dots or underscores")])
-    phone_number = TelField(validators=[InputRequired(), Length(10, 12),
-                                        Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
+                                       Length(min=3, max=20, message="Please provide a valid name"),
+                                       Regexp("^[A-Za-z][A-Za-z0-9_ .]*$".strip(), 0,
+                                              "Usernames must have only latin letters, " "numbers, dots or underscores")])
+    phone_number = TelField(validators=[InputRequired(), Length(min=10, max=12),
+                                        Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
                                                message="Enter a valid phone number, like +55555555555")])
     confirm = SubmitField('Send SMS code')
 
@@ -43,5 +43,5 @@ class RegistrationForm(FlaskForm):
 
 
 class SMSForm(FlaskForm):
-    code_input = StringField(validators=[Length(4, 4)])
+    code_input = StringField(validators=[Length(min=4, max=4)])
     register = SubmitField('Confirm')

@@ -22,15 +22,18 @@ class RegisterPage(BasePage):
         assert self.browser.find_element(
             *RegisterPageLocators.REGISTER_FORM_PHONE_NUMBER), 'Register form_phone is not presented'
 
-    def user_cant_resend_sms_in_minute(self, name: str = NAME, phone: str = PHONE):
+    def register_new_user(self, name: str = NAME, phone: str = PHONE):
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_NAME).send_keys(name)
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_PHONE_NUMBER).send_keys(phone)
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_SEND_SMS).click()
-        assert self.is_element_active(*RegisterPageLocators.SMS_RESEND), 'Resend SMS button is active.'
+
+    def user_cant_resend_sms_in_minute(self):
+        assert not self.is_element_active(*RegisterPageLocators.SMS_RESEND), 'Resend SMS button is active.'
 
     def user_can_resend_sms_in_minute(self):
         code = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text
         code = code.split()[-1]
+        print('THIS IS A SLOW TEST PLEASE WAIT FOR A MINUTE!')
         time.sleep(61)
         self.is_element_active(*RegisterPageLocators.SMS_RESEND)
         self.browser.find_element(*RegisterPageLocators.SMS_RESEND).click()
@@ -38,10 +41,10 @@ class RegisterPage(BasePage):
         resented_code = resented_code.split()[-1]
         assert resented_code != code, "Codes are equal. Seems that resend method doesn't work"
 
-    def register_new_user(self, name: str = NAME, phone: str = PHONE):
-        self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_NAME).send_keys(name)
-        self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_PHONE_NUMBER).send_keys(phone)
-        self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_SEND_SMS).click()
+    def should_not_be_sms_page(self):
+        self.should_be_some_page('register'), 'This combination should not be valid'
+
+    def send_sms_code(self):
         code = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text
         code = code.split()[-1]
         self.browser.find_element(*RegisterPageLocators.SMS_CODE_FORM).send_keys(code)
