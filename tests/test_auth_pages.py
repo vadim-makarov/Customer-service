@@ -11,11 +11,11 @@ class TestRegisterPage:
     REGISTER_LINK = 'http://127.0.0.1:5000/auth/register'
 
     INVALID_NAMES = ['', '<script>alert(123)</script>', '^$^&&#',
-                     'DS', '     ', 'John Snow', 'John_Snow']
+                     'DS', '     ', 'JS    ', '    J_S']
 
     INVALID_PHONES = ['<script>alert(123)</script>', '+53252253f3252',
                       '', '           ',
-                      '+78987566', '+6787654354329', '+77777777777']
+                      '+78987566    ', '+6787654354329', '+77777777777']
 
     COMBINATIONS = product(INVALID_NAMES, INVALID_PHONES)
 
@@ -37,7 +37,7 @@ class TestRegisterPage:
     def test_guest_is_not_logged_in(self, browser):
         page = LoginPage(browser, self.LOGIN_LINK)
         page.open()
-        page.guest_should_not_be_log_on()
+        page.guest_should_not_be_logged_in()
 
     def test_sms_resend_button_is_not_active(self, browser):
         page = RegisterPage(browser, self.REGISTER_LINK)
@@ -45,6 +45,7 @@ class TestRegisterPage:
         page.register_new_user()
         page.user_cant_resend_sms_in_minute()
 
+    @pytest.mark.skip
     @pytest.mark.slow
     def test_sms_resend_button_is_active(self, browser):
         page = RegisterPage(browser, self.REGISTER_LINK)
@@ -59,6 +60,20 @@ class TestRegisterPage:
         page.send_sms_code()
         page.user_is_registered()
 
+    def test_user_is_logged_in(self, browser):
+        page = LoginPage(browser, self.LOGIN_LINK)
+        page.open()
+        page.user_should_be_logged_in()
+        page.log_out_user()
+
+    def test_user_can_log_out(self, browser):
+        page = LoginPage(browser, self.LOGIN_LINK)
+        page.open()
+        page.login_user()
+        page.user_can_see_logout_link()
+        page.log_out_user()
+        page.guest_should_not_be_logged_in()
+
     @pytest.mark.parametrize('name, phone', COMBINATIONS)
     def test_registration_negative(self, browser, name: str, phone: str):
         page = RegisterPage(browser, self.REGISTER_LINK)
@@ -66,19 +81,8 @@ class TestRegisterPage:
         page.register_new_user(name=name, phone=phone)
         page.should_not_be_sms_page()
 
-    def test_user_is_already_registered(self):
-        pass
-
-    def test_user_is_logged_in(self, browser):
-        page = LoginPage(browser, self.LOGIN_LINK)
+    def test_user_is_already_registered(self, browser):
+        page = RegisterPage(browser, self.REGISTER_LINK)
         page.open()
-        page.user_should_be_log_on()
-        page.user_can_log_out()
-
-    def test_user_can_log_out(self, browser):
-        page = LoginPage(browser, self.LOGIN_LINK)
-        page.open()
-        page.login_user()
-        page.user_can_see_logout_link()
-        page.user_can_log_out()
-        page.guest_should_not_be_log_on()
+        page.register_new_user()
+        page.should_not_be_sms_page()

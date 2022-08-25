@@ -15,7 +15,7 @@ def app(request):
 
 
 @pytest.fixture(scope='session')
-def test_client(request, app):
+def app_test_client(request, app):
     client = app.test_client()
     client.__enter__()
     return client
@@ -35,6 +35,7 @@ def server(app):
 def browser():
     op = webdriver.ChromeOptions()
     op.add_argument('headless')
+    # browser = webdriver.Chrome(options=op)
     browser = webdriver.Chrome()
     yield browser
     browser.quit()
