@@ -20,6 +20,9 @@ class BasePage:
             return False
         return True
 
+    def is_element_active(self, how, what):
+        return self.browser.find_element(how, what).is_enabled()
+
     def should_be_some_page(self, page_name: str):
         assert page_name in self.browser.current_url, f'This is not a {page_name} page'
 

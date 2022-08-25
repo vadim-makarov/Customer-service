@@ -1,3 +1,5 @@
+import pytest
+
 from tests.pages.login_page import LoginPage
 from tests.pages.register_page import RegisterPage
 
@@ -25,6 +27,18 @@ class TestRegisterPage:
         page = LoginPage(browser, self.LOGIN_LINK)
         page.open()
         page.guest_should_not_be_log_on()
+
+    def test_sms_resend_button_not_active(self, browser):
+        page = RegisterPage(browser, self.REGISTER_LINK)
+        page.open()
+        page.user_cant_resend_sms_in_minute()
+
+    @pytest.mark.slow
+    def test_sms_resend_button_is_active(self, browser):
+        page = RegisterPage(browser, self.REGISTER_LINK)
+        page.open()
+        page.register_new_user()
+        page.user_can_resend_sms_in_minute()
 
     def test_registration(self, browser):
         page = RegisterPage(browser, self.REGISTER_LINK)

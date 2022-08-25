@@ -33,6 +33,8 @@ def create_app(config_class=Config, **kwargs):
     app.config.from_object(Config)
 
     db.init_app(app)
+    app.app_context().push()
+    db.create_all()
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     paranoid.init_app(app)
