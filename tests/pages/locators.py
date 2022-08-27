@@ -25,3 +25,12 @@ class LoginPageLocators(MainPageLocators):
     LOGIN_FORM_TO_REG_PAGE = (By.CSS_SELECTOR, 'body > main > main > div > div > div > div > a')
     LOGOUT_LINK = (By.CSS_SELECTOR, 'body > header > div > div > div > button')
     LOGOUT_LINK_MODAL = (By.CSS_SELECTOR, '#logoutModal > div > div > div.modal-footer > a')
+
+
+class ReviewPageLocators(MainPageLocators):
+    LEAVE_REVIEW_MODAL = (By.CSS_SELECTOR, 'body > main > main > div.vstack.gap-2.col-md-5.mx-auto > button')
+    SEND_REVIEW_RATING = (By.ID, 'rating-4')
+    SEND_REVIEW_TEXT = (By.ID, 'text')
+    SEND_REVIEW_BUTTON = (By.NAME, 'send_review')
+    EXIST_REVIEW_AUTHOR = (By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div > div.card-header.bg-transparent')
+    # EXIST_REVIEW_

@@ -4,6 +4,7 @@ from tests.pages.locators import LoginPageLocators
 
 
 class BasePage:
+
     def __init__(self, browser, url: str, timeout=1):
         self.browser = browser
         self.url = url

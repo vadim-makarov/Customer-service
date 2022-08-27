@@ -20,7 +20,7 @@ def before_request():
 
 
 @bp.route('/')
-@bp.route('/index')
+@bp.route('index')
 def index():
     return render_template('index.html', title='Home page')
 
