@@ -23,20 +23,24 @@ def app_test_client(request, app):
 
 @pytest.fixture(scope='session', autouse=True)
 def server(app):
-    app.app_context().push()
-    db.drop_all()
-    db.create_all()
     app = threading.Thread(target=app.run)
     app.daemon = True
     yield app.start()
+
+
+@pytest.fixture()
+def create_db(app):
+    app.app_context().push()
     db.drop_all()
+    db.create_all()
+    return db
 
 
 @pytest.fixture(scope='class')
 def browser():
     op = webdriver.ChromeOptions()
     op.add_argument('headless')
-    # browser = webdriver.Chrome(options=op)
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(options=op)
+    # browser = webdriver.Chrome()
     yield browser
     browser.quit()
