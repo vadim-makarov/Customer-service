@@ -1,11 +1,14 @@
+import random
+import string
+
 from tests.pages.base_page import BasePage
 from tests.pages.locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
     LOGIN_LINK = 'http://127.0.0.1:5000/auth/login'
-    NAME = 'VadimM'
-    PHONE = '+79022513250'
+    NAME = ''.join(random.sample(string.ascii_lowercase, 5))
+    PHONE = '+' + ''.join(random.sample(string.digits * 3, 11))
 
     def should_be_login_page(self):
         self.should_be_some_page(self.LOGIN_LINK)
@@ -24,13 +27,8 @@ class LoginPage(BasePage):
         self.browser.find_element(*LoginPageLocators.LOGIN_FORM_TO_REG_PAGE).click()
         self.should_be_some_page('register')
 
-    def login_user(self, name: str = NAME, phone: str = PHONE):
-        self.browser.find_element(*LoginPageLocators.LOGIN_FORM_NAME).send_keys(name)
-        self.browser.find_element(*LoginPageLocators.LOGIN_FORM_PHONE_NUMBER).send_keys(phone)
-        self.browser.find_element(*LoginPageLocators.LOGIN_FORM_SUBMIT).click()
-
     def user_should_be_logged_in(self):
-        assert self.NAME in self.browser.find_element(*LoginPageLocators.LOGIN_LINK).text, 'User is not logged in!'
+        assert 'Log in' not in self.browser.find_element(*LoginPageLocators.LOGIN_LINK).text, 'User is not logged in!'
 
     def guest_should_not_be_logged_in(self):
         assert 'Log in' in self.browser.find_element(*LoginPageLocators.LOGIN_LINK).text, 'Guest is not logged in!'

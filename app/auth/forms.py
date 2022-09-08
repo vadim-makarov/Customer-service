@@ -93,7 +93,7 @@ class RegistrationForm(FlaskForm):
                                                           "" "numbers, dots or underscores")])
     phone_number = TelField('Phone number', validators=[InputRequired(), MyLength(min=10, max=12),
                                                         Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
-                                               message="Enter a valid phone number, like +55555555555")])
+                                                               message="Enter a valid phone number, like +55555555555")])
     confirm = SubmitField('Send SMS code')
 
     @staticmethod

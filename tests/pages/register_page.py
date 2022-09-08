@@ -6,8 +6,6 @@ from tests.pages.locators import RegisterPageLocators
 
 class RegisterPage(BasePage):
     REGISTER_LINK = 'http://127.0.0.1:5000/auth/register'
-    NAME = 'VadimM'
-    PHONE = '+79022513250'
 
     def should_be_register_page(self):
         self.should_be_some_page(self.REGISTER_LINK)
@@ -22,13 +20,13 @@ class RegisterPage(BasePage):
         assert self.browser.find_element(
             *RegisterPageLocators.REGISTER_FORM_PHONE_NUMBER), 'Register form_phone is not presented'
 
-    def register_new_user(self, name: str = NAME, phone: str = PHONE):
+    def register_new_user(self, name: str, phone: str):
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_NAME).send_keys(name)
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_PHONE_NUMBER).send_keys(phone)
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_SEND_SMS).click()
 
     def user_cant_resend_sms_in_minute(self):
-        assert not self.is_element_active(*RegisterPageLocators.SMS_RESEND), 'Resend SMS button is active.'
+        assert self.is_element_active(*RegisterPageLocators.SMS_RESEND), 'Resend SMS button is active.'
 
     def user_can_resend_sms_in_minute(self):
         code = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text
@@ -52,4 +50,4 @@ class RegisterPage(BasePage):
 
     def user_is_registered(self):
         alert = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text
-        assert self.NAME in alert, 'User is not registered!'
+        assert alert, 'User is not registered!'

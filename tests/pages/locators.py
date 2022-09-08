@@ -6,8 +6,8 @@ class MainPageLocators:
     FEATURES_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > ul > li:nth-child(1) > a')
     PRICING_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > ul > li:nth-child(2) > a')
     REVIEWS_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > ul > li:nth-child(3) > a')
-    LOGIN_LINK = (By.CSS_SELECTOR, "body > header > div > div > div > a.btn.btn-outline-light.me-2")
-    REGISTER_LINK = (By.CSS_SELECTOR, 'body > header > div > div > div > a.btn.btn-warning')
+    LOGIN_LINK = (By.CSS_SELECTOR, ".btn-outline-light")
+    REGISTER_LINK = (By.CSS_SELECTOR, 'a.btn:nth-child(2)')
 
 
 class RegisterPageLocators(MainPageLocators):
@@ -17,8 +17,9 @@ class RegisterPageLocators(MainPageLocators):
     SMS_CODE_FORM = (By.ID, 'code_input')
     SMS_CONFIRM = (By.CSS_SELECTOR,
                    'body > main > main > div > div > div > form > div > div.d-grid.gap-2.col-6.mx-auto > div > button.btn.btn-warning')
-    SMS_RESEND = (By.CSS_SELECTOR, '#btnCounter')
-    SMS_ALERT_CODE = (By.CSS_SELECTOR, 'body > div')
+    SMS_RESEND = (
+        By.CSS_SELECTOR, 'body > main > main > div > div > div > form > div > div.d-grid.gap-2.col-6.mx-auto > div')
+    SMS_ALERT_CODE = (By.CSS_SELECTOR, 'body > div.alert.alert-info.fade.show')
 
 
 class LoginPageLocators(MainPageLocators):
@@ -36,5 +37,5 @@ class ReviewPageLocators(MainPageLocators):
     SEND_REVIEW_TEXT = (By.ID, 'text')
     SEND_REVIEW_BUTTON = (By.NAME, 'send_review')
     EXIST_REVIEW_AUTHOR = (
-    By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div > div.card-header.bg-transparent')
+        By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div > div.card-header.bg-transparent')
     # EXIST_REVIEW_
