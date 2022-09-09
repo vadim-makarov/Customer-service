@@ -87,9 +87,12 @@ class TestRegisterPage:
         page.register_new_user(name=name, phone=phone)
         page.should_not_be_sms_page()
 
-    @pytest.mark.xfail(reason='you have to do something with that shit')
     def test_user_is_already_registered(self, browser, user):
         page = RegisterPage(browser, self.REGISTER_LINK)
+        page.open()
+        page.register_new_user(user.username, user.phone_number)
+        page.send_sms_code()
+        page.log_out_user()
         page.open()
         page.register_new_user(user.username, user.phone_number)
         page.should_not_be_sms_page()
