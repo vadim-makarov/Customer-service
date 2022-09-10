@@ -7,8 +7,8 @@ from tests.pages.register_page import RegisterPage
 
 
 class TestRegisterPage:
-    LOGIN_LINK = 'http://127.0.0.1:5000/auth/login'
-    REGISTER_LINK = 'http://127.0.0.1:5000/auth/register'
+    LOGIN_LINK = 'http://localhost:5000/auth/login'
+    REGISTER_LINK = 'http://localhost:5000/auth/register'
 
     INVALID_NAMES = ['', '<script>alert(123)</script>', '^$^&&#',
                      'DS', '     ', 'JS    ', '    J_S']

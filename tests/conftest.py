@@ -11,6 +11,15 @@ from config import TestConfig
 
 pytest_plugins = []  # put your custom fixture *.py files here as a string without extension
 
+capabilities = {
+    "browserName": "chrome",
+    "browserVersion": "105",
+    "selenoid:options": {
+        "enableVNC": True,
+        "enableVideo": False
+    }
+}
+
 
 @pytest.fixture(scope='session')
 def app():
@@ -33,6 +42,15 @@ def server(app):
     app.daemon = True
     yield app.start()
     db.drop_all()
+
+
+# @pytest.fixture(scope='class')
+# def browser():
+#     browser = webdriver.Remote(
+#         command_executor="http://localhost:4444/wd/hub",
+#         desired_capabilities=capabilities)
+#     yield browser
+#     browser.quit()
 
 
 @pytest.fixture(params=["chrome", "firefox", "edge"], scope='class')
@@ -65,7 +83,7 @@ def user(app):
 #
 #
 # @pytest.fixture()
-# def service(test_db, user):
+# def service(user):
 #     service = Service(username=user.username, service1='A jar of honey', service_date=datetime.now(),
 #                       service_time='10:00')
 #     test_db.session.add(service)

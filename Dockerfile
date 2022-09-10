@@ -1,6 +1,8 @@
-FROM python
-WORKDIR /Customer-service/
-COPY requirements.txt .
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y python3 python3-pip
+COPY . /app
+WORKDIR /app
+RUN pip3 install flask
 RUN pip install -r requirements.txt
-ENV ENV=dev
-CMD python -m pytest -s -vvv /Customer-service/Customer-service/tests
+ENTRYPOINT FLASK_APP=/app/app.py flask run --host=0.0.0.0 --port=5000
