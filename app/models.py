@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     services = db.relationship('Service', backref='client', lazy='dynamic')
 
     def __repr__(self):
-        return f'User {self.username}'
+        return f'User {self.username}-->{self.phone_number}'
 
     def set_password(self, phone_number):
         self.password_hash = generate_password_hash(phone_number)

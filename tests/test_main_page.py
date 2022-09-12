@@ -18,8 +18,8 @@ class TestMainPage:
     PAGES = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
 
     @pytest.mark.parametrize('word', PAGES)
-    def test_page_response(self, app_test_client, word: str):
-        request = app_test_client.get(self.LINK)
+    def test_page_response(self, app, word: str):
+        request = app.test_client().get(self.LINK)
         assert request.status_code == 200
         assert word in request.text
 

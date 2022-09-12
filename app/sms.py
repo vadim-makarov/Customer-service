@@ -1,7 +1,8 @@
 import random
 from datetime import datetime
 
-from app import bot, scheduler
+from app import bot
+from app import scheduler
 # send_results = client.sms.send(to=number, message=message)
 from app.models import Service
 

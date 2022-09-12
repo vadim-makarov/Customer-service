@@ -1,19 +1,20 @@
 import random
 import string
 import threading
+from datetime import datetime
 
 import pytest
 from selenium import webdriver
 
 from app import create_app, db
-from app.models import User
+from app.models import User, Service, Review
 from config import TestConfig
 
 pytest_plugins = []  # put your custom fixture *.py files here as a string without extension
 
 capabilities = {
     "browserName": "chrome",
-    "browserVersion": "105",
+    "browserVersion": "105.0",
     "selenoid:options": {
         "enableVNC": True,
         "enableVideo": False
@@ -26,16 +27,8 @@ def app():
     return create_app(TestConfig)
 
 
-@pytest.fixture(scope='session')
-def app_test_client(app):
-    client = app.test_client()
-    client.__enter__()
-    return client
-
-
 @pytest.fixture(scope='class', autouse=True)
 def server(app):
-    db.drop_all()
     app.app_context().push()
     db.create_all()
     app = threading.Thread(target=app.run)
@@ -43,17 +36,15 @@ def server(app):
     yield app.start()
     db.drop_all()
 
-
-# @pytest.fixture(scope='class')
-# def browser():
-#     browser = webdriver.Remote(
-#         command_executor="http://localhost:4444/wd/hub",
-#         desired_capabilities=capabilities)
-#     yield browser
-#     browser.quit()
+    # @pytest.fixture()
+    # def browser():
+    #     browser = webdriver.Remote(
+    #         command_executor="http://localhost:4444/wd/hub", desired_capabilities=capabilities)
+    #     yield browser
+    #     browser.quit()
 
 
-@pytest.fixture(params=["chrome", "firefox", "edge"], scope='class')
+@pytest.fixture(params=["chrome", "firefox"], scope='class')
 def browser(request):
     toggle = True  # changes the headless parameter for all browsers
     match request.param:
@@ -65,35 +56,35 @@ def browser(request):
             options = webdriver.FirefoxOptions()
             options.headless = toggle
             browser = webdriver.Firefox(options=options)
-        case "edge":
-            options = webdriver.EdgeOptions()
-            options.headless = toggle
-            browser = webdriver.Edge(options=options)
     request.cls.driver = browser
     yield browser
     browser.quit()
 
 
 @pytest.fixture()
-def user(app):
+def user():
     username = ''.join(random.sample(string.ascii_lowercase, 8))
-    phone = '+' + ''.join(random.sample(string.digits * 3, 12))
+    phone = '+' + ''.join(random.sample(string.digits * 3, 11))
     user = User(username=username, phone_number=phone)
     return user
-#
-#
-# @pytest.fixture()
-# def service(user):
-#     service = Service(username=user.username, service1='A jar of honey', service_date=datetime.now(),
-#                       service_time='10:00')
-#     test_db.session.add(service)
-#     test_db.session.commit()
-#     return service
-#
-#
-# @pytest.fixture()
-# def review(test_db, user):
-#     review = Review(user.username, text='Sweeter than honey!', rating='Awesome!')
-#     test_db.session.add(review)
-#     test_db.session.commit()
-#     return review
+
+
+@pytest.fixture()
+def service(user):
+    db.session.add(user)
+    db.session.commit()
+    service = Service(service1='A jar of honey', service_date=datetime.now(),
+                      service_time='10:00', user_id=user.id)
+    db.session.add(service)
+    db.session.commit()
+
+
+@pytest.fixture()
+def review(user):
+    db.session.add(user)
+    db.session.commit()
+    rev1 = Review(author=user.username, text='Sweeter than honey!', rating='Awesome!', author_id=user.id)
+    rev2 = Review(author=user.username, text='Bitter than Kopalkhen', rating='Terrible!', author_id=user.id)
+    rev3 = Review(author=user.username, text='Not bad', rating='So-so', author_id=user.id)
+    db.session.add_all([rev1, rev2, rev3])
+    db.session.commit()
