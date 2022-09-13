@@ -6,7 +6,7 @@ from tests.pages.main_page import MainPage
 
 
 class TestMainPage:
-    LINK = "http://localhost:5000/main/index"
+    LINK = "http://localhost:5000/"
 
     PAGES_LOCATORS: list[tuple[str, str]] = [MainPageLocators.MAIN_PAGE_LINK,
                                              MainPageLocators.FEATURES_PAGE_LINK,

@@ -29,3 +29,10 @@ class TestUser:
     def test_user_has_review(self, user: User, review: Review):
         reviews = Review.query.order_by(Review.review_date.desc()).all()
         assert len(reviews) > 0, 'There is no any reviews'
+
+# def test_request_with_logged_in_user(app, user):
+#     user = User.query.get(1)
+#     with app.test_client(user=user) as client:
+#         # This request has user 1 already logged in!
+#         client.get("/main/index")
+
