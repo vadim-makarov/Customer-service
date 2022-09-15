@@ -13,8 +13,8 @@ class MainPageLocators:
 
 
 class RegisterPageLocators(MainPageLocators):
-    REGISTER_FORM_NAME = (By.ID, 'username')
-    REGISTER_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
+    REGISTER_FORM_NAME = (By.CSS_SELECTOR, '#username')
+    REGISTER_FORM_PHONE_NUMBER = (By.CSS_SELECTOR, '#phone_number')
     REGISTER_FORM_SEND_SMS = (By.ID, 'confirm')
     SMS_CODE_FORM = (By.ID, 'code_input')
     SMS_CONFIRM = (By.CSS_SELECTOR,
@@ -35,9 +35,9 @@ class LoginPageLocators(MainPageLocators):
 
 class ReviewPageLocators(MainPageLocators):
     MODAL_REVIEW_BUTTON = (By.CSS_SELECTOR, 'body > main > main > div.vstack.gap-2.col-md-5.mx-auto > button')
-    SEND_REVIEW_RATING = (By.ID, f'rating-{randint(0, 4)}')
-    SEND_REVIEW_TEXT = (By.ID, 'text')
+    SEND_REVIEW_RATING = (By.CSS_SELECTOR, f'#rating-{randint(0, 4)}')
+    SEND_REVIEW_TEXT = (By.CSS_SELECTOR, '#text')
     SEND_REVIEW_BUTTON = (By.CSS_SELECTOR, '#send_review')
     EXIST_REVIEW = (By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div')
-    THANK_YOU_MESSAGE = (By.CSS_SELECTOR, '.alert')
+    THANK_YOU_MESSAGE = (By.XPATH, '/html/body/div')
     BOTTOM_PAGE_ANCHOR = (By.CSS_SELECTOR, '.mb-3')

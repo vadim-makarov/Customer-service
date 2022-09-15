@@ -89,3 +89,9 @@ def review(user):
     rev3 = Review(author=user.username, text='Not bad', rating='So-so', author_id=user.id)
     db.session.add_all([rev1, rev2, rev3])
     db.session.commit()
+
+
+@pytest.fixture()
+def drop_db():
+    db.drop_all()
+    db.create_all()
