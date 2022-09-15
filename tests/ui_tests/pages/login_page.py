@@ -1,8 +1,8 @@
 import random
 import string
 
-from tests.pages.base_page import BasePage
-from tests.pages.locators import LoginPageLocators
+from tests.ui_tests.pages.base_page import BasePage
+from tests.ui_tests.pages.locators import LoginPageLocators
 
 
 class LoginPage(BasePage):

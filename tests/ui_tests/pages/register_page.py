@@ -1,7 +1,7 @@
 import time
 
-from tests.pages.base_page import BasePage
-from tests.pages.locators import RegisterPageLocators
+from tests.ui_tests.pages.base_page import BasePage
+from tests.ui_tests.pages.locators import RegisterPageLocators
 
 
 class RegisterPage(BasePage):
@@ -25,6 +25,12 @@ class RegisterPage(BasePage):
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_PHONE_NUMBER).send_keys(phone)
         self.browser.find_element(*RegisterPageLocators.REGISTER_FORM_SEND_SMS).click()
 
+    def send_sms_code(self):
+        code = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text
+        code = code.split()[-1]
+        self.browser.find_element(*RegisterPageLocators.SMS_CODE_FORM).send_keys(code)
+        self.browser.find_element(*RegisterPageLocators.SMS_CONFIRM).click()
+
     def user_cant_resend_sms_in_minute(self):
         assert self.is_element_active(*RegisterPageLocators.SMS_RESEND), 'Resend SMS button is active.'
 
@@ -41,12 +47,6 @@ class RegisterPage(BasePage):
 
     def should_not_be_sms_page(self):
         self.should_be_some_page('register'), 'This combination should not be valid'
-
-    def send_sms_code(self):
-        code = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text
-        code = code.split()[-1]
-        self.browser.find_element(*RegisterPageLocators.SMS_CODE_FORM).send_keys(code)
-        self.browser.find_element(*RegisterPageLocators.SMS_CONFIRM).click()
 
     def user_is_registered(self):
         alert = self.browser.find_element(*RegisterPageLocators.SMS_ALERT_CODE).text

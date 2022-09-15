@@ -1,8 +1,8 @@
 import pytest
 
-from tests.pages.base_page import BasePage
-from tests.pages.locators import MainPageLocators
-from tests.pages.main_page import MainPage
+from tests.ui_tests.pages.base_page import BasePage
+from tests.ui_tests.pages.locators import MainPageLocators
+from tests.ui_tests.pages.main_page import MainPage
 
 
 class TestMainPage:

@@ -1,11 +1,12 @@
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
-from tests.pages.locators import LoginPageLocators
+from tests.ui_tests.pages.locators import LoginPageLocators
 
 
 class BasePage:
 
-    def __init__(self, browser, url: str, timeout=1):
+    def __init__(self, browser, url: str, timeout=0):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -16,7 +17,7 @@ class BasePage:
     def should_be_element(self, locator: tuple):
         assert self.is_element_present(*locator), f"{locator} is not presented"
 
-    def is_element_present(self, how, what):
+    def is_element_present(self, how: By, what):
         try:
             self.browser.find_element(how, what)
         except NoSuchElementException:

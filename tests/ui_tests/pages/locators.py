@@ -1,3 +1,5 @@
+from random import randint
+
 from selenium.webdriver.common.by import By
 
 
@@ -32,10 +34,10 @@ class LoginPageLocators(MainPageLocators):
 
 
 class ReviewPageLocators(MainPageLocators):
-    LEAVE_REVIEW_MODAL = (By.CSS_SELECTOR, 'body > main > main > div.vstack.gap-2.col-md-5.mx-auto > button')
-    SEND_REVIEW_RATING = (By.ID, 'rating-4')
+    MODAL_REVIEW_BUTTON = (By.CSS_SELECTOR, 'body > main > main > div.vstack.gap-2.col-md-5.mx-auto > button')
+    SEND_REVIEW_RATING = (By.ID, f'rating-{randint(0, 4)}')
     SEND_REVIEW_TEXT = (By.ID, 'text')
-    SEND_REVIEW_BUTTON = (By.NAME, 'send_review')
-    EXIST_REVIEW_AUTHOR = (
-        By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div > div.card-header.bg-transparent')
-    # EXIST_REVIEW_
+    SEND_REVIEW_BUTTON = (By.CSS_SELECTOR, '#send_review')
+    EXIST_REVIEW = (By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div')
+    THANK_YOU_MESSAGE = (By.CSS_SELECTOR, '.alert')
+    BOTTOM_PAGE_ANCHOR = (By.CSS_SELECTOR, '.mb-3')

@@ -1,4 +1,4 @@
-from tests.pages.base_page import BasePage
+from tests.ui_tests.pages.base_page import BasePage
 
 
 class MainPage(BasePage):

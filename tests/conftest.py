@@ -5,6 +5,7 @@ from datetime import datetime
 
 import pytest
 from selenium import webdriver
+from selenium.webdriver.firefox.webdriver import WebDriver
 
 from app import create_app, db
 from app.models import User, Service, Review
@@ -51,11 +52,11 @@ def browser(request):
         case "chrome":
             options = webdriver.ChromeOptions()
             options.headless = toggle
-            browser = webdriver.Chrome(options=options)
+            browser: WebDriver = webdriver.Chrome(options=options)
         case "firefox":
             options = webdriver.FirefoxOptions()
             options.headless = toggle
-            browser = webdriver.Firefox(options=options)
+            browser: WebDriver = webdriver.Firefox(options=options)
     request.cls.driver = browser
     yield browser
     browser.quit()
@@ -88,5 +89,3 @@ def review(user):
     rev3 = Review(author=user.username, text='Not bad', rating='So-so', author_id=user.id)
     db.session.add_all([rev1, rev2, rev3])
     db.session.commit()
-
-

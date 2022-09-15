@@ -2,8 +2,8 @@ from itertools import product
 
 import pytest
 
-from tests.pages.login_page import LoginPage
-from tests.pages.register_page import RegisterPage
+from tests.ui_tests.pages.login_page import LoginPage
+from tests.ui_tests.pages.register_page import RegisterPage
 
 
 class TestRegisterPage:
