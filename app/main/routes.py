@@ -35,7 +35,7 @@ def reviews():
     form = Reviews()
     all_reviews = Review.query.order_by(Review.review_date.desc()).all()
     if form.validate_on_submit():
-        review = Review(author=current_user.username, text=form.text.data, rating=form.rating.data)
+        review = Review(author=current_user, text=form.text.data, rating=form.rating.data)
         db.session.add(review)
         db.session.commit()
         flash("Thank you for your feedback."
