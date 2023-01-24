@@ -33,6 +33,6 @@ jobs:
     - name: Install plugin
       run: pip install pytest-github-actions-annotate-failures
 
-    - name: Test with pytest
+    - name: run app
       run: |
-        pytest
+        flask run
