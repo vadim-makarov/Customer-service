@@ -1,8 +1,11 @@
+import pytest
+
 from app import db
 from app.models import User, Service, Review
 from app.sms import send_sms
 
 
+@pytest.mark.unit
 class TestUser:
     def test_user_exist_in_db(self, user: User):
         db.session.add(user)
@@ -35,4 +38,3 @@ class TestUser:
 #     with app.test_client(user=user) as client:
 #         # This request has user 1 already logged in!
 #         client.get("/main/index")
-
