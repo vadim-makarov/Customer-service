@@ -3,24 +3,18 @@ import string
 import threading
 from datetime import datetime
 
+import allure
 import pytest
+from allure_commons.types import AttachmentType
 from selenium import webdriver
-from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 from app import create_app, db
 from app.models import User, Service, Review
 from config import TestConfig
-
-pytest_plugins = []  # put your custom fixture *.py files here as a string without extension
-
-capabilities = {
-    "browserName": "chrome",
-    "browserVersion": "105.0",
-    "selenoid:options": {
-        "enableVNC": True,
-        "enableVideo": False
-    }
-}
 
 
 @pytest.fixture(scope='session')
@@ -36,13 +30,6 @@ def server(app):
     app.daemon = True
     yield app.start()
     db.drop_all()
-
-    # @pytest.fixture()
-    # def browser():
-    #     browser = webdriver.Remote(
-    #         command_executor="http://localhost:4444/wd/hub", desired_capabilities=capabilities)
-    #     yield browser
-    #     browser.quit()
 
 
 @pytest.fixture(params=["chrome", "firefox"])
@@ -69,6 +56,13 @@ def browser(request) -> webdriver:
         test_name = request.node.name
         screenshot(browser, test_name)
     browser.quit()
+
+
+def screenshot(browser, name: str) -> None:
+    """
+    Gets a screenshot and attaches it to the report
+    """
+    allure.attach(browser.get_screenshot_as_png(), name=f"Screenshot {name}", attachment_type=AttachmentType.PNG)
 
 
 @pytest.fixture()
