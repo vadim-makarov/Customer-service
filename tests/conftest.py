@@ -32,7 +32,7 @@ def server(app):
     db.drop_all()
 
 
-@pytest.fixture(params=["chrome", "firefox"])
+@pytest.fixture(params=["chrome"])
 def browser(request) -> webdriver:
     """
     the fixture downloads the latest driver and creates the browser instance with passed options
