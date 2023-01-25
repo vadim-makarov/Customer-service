@@ -1,6 +1,5 @@
 import random
 import string
-import threading
 from datetime import datetime
 
 import allure
@@ -12,24 +11,8 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
-from app import create_app, db
+from app import db
 from app.models import User, Service, Review
-from config import TestConfig
-
-
-@pytest.fixture(scope='session')
-def app():
-    return create_app(TestConfig)
-
-
-@pytest.fixture(scope='class', autouse=True)
-def server(app):
-    app.app_context().push()
-    db.create_all()
-    app = threading.Thread(target=app.run)
-    app.daemon = True
-    yield app.start()
-    db.drop_all()
 
 
 @pytest.fixture(params=["chrome"])
@@ -92,9 +75,3 @@ def review(user):
     rev3 = Review(author=user.username, text='Not bad', rating='So-so', author_id=user.id)
     db.session.add_all([rev1, rev2, rev3])
     db.session.commit()
-
-
-@pytest.fixture()
-def drop_db():
-    db.drop_all()
-    db.create_all()
