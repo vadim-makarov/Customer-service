@@ -1,4 +1,5 @@
 import pytest
+import requests
 
 from tests.ui_tests.pages.base_page import BasePage
 from tests.ui_tests.pages.locators import MainPageLocators
@@ -18,10 +19,10 @@ class TestMainPage:
     PAGES = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
 
     @pytest.mark.parametrize('word', PAGES)
-    def test_page_response(self, app, word: str):
-        request = app.test_client().get(self.LINK)
-        assert request.status_code == 200
-        assert word in request.text
+    def test_page_response(self, browser, word: str):
+        r = requests.get(self.LINK)
+        assert r.status_code == 200
+        assert word in r.text
 
     @pytest.mark.parametrize('locator', PAGES_LOCATORS)
     def test_guest_should_see_some_link(self, browser, locator: tuple):
