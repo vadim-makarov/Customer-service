@@ -18,6 +18,7 @@ class TestMainPage:
 
     PAGES = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
 
+    @pytest.mark.smoke
     @pytest.mark.parametrize('word', PAGES)
     def test_page_response(self, browser, word: str):
         r = requests.get(self.LINK)
