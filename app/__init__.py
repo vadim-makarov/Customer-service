@@ -2,7 +2,7 @@ import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
-import telebot
+import telebot_router
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, login_manager
@@ -25,11 +25,11 @@ paranoid = Paranoid()
 paranoid.redirect_view = '/'
 login_manager.session_protection = None
 client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
-bot = telebot.TeleBot(config.Config.BOT_TOKEN)
+bot = telebot_router.TeleBot(config.Config.BOT_TOKEN)
 
 
 def create_app(config_class=Config, **kwargs):
-    app = Flask(__name__)
+    app: Flask = Flask(__name__)
     app.config.from_object(Config)
 
     db.init_app(app)

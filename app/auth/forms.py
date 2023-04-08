@@ -65,10 +65,10 @@ class MyLength:
             )
         else:
             message = field.gettext(
-                "Field must be between %(min)d and %(max)d characters long."
+                f"Field must be between {self.min} and {self.max} characters long."
             )
 
-        raise ValidationError(message % dict(min=self.min, max=self.max, length=length))
+        raise ValidationError(message % {'min': self.min, 'max': self.max, 'length': length})
 
 
 class LoginForm(FlaskForm):
@@ -76,8 +76,8 @@ class LoginForm(FlaskForm):
         InputRequired(),
         MyLength(min=3, max=20, message="Please provide a valid name"),
         Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
-               "Usernames must have only latin letters, " "numbers, "
-               "dots or underscores")])
+               "Usernames must have only latin letters, numbers, \
+               dots or underscores")])
     phone_number = TelField('Phone number', validators=[InputRequired(), MyLength(min=10, max=12),
                                                         Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
                                                                message="Enter a valid phone number, like +55 555 "
@@ -89,8 +89,8 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(),
                                                    MyLength(min=3, max=20, message="Please provide a valid name"),
                                                    Regexp("^[A-Za-z][A-Za-z0-9_ .]*$".strip(), 0,
-                                                          "Usernames must have only latin letters, "
-                                                          "" "numbers, dots or underscores")])
+                                                          "Usernames must have only latin letters, \
+                                                            numbers, dots or underscores")])
     phone_number = TelField('Phone number', validators=[InputRequired(), MyLength(min=10, max=12),
                                                         Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
                                                                message="Enter a valid phone number, like +55555555555")])

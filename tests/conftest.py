@@ -2,15 +2,14 @@ import random
 import string
 import threading
 from datetime import datetime
+from typing import Generator
 
 import allure
 import pytest
 from allure_commons.types import AttachmentType
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
 
 from app import db, create_app
 from app.models import User, Service, Review
@@ -32,23 +31,17 @@ def server(app):
     db.drop_all()
 
 
-@pytest.fixture(params=["chrome"])
-def browser(request) -> webdriver:
+@pytest.fixture
+def driver(request) -> Generator:
     """
     the fixture downloads the latest driver and creates the browser instance with passed options
     """
-    if request.param == "chrome":
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-        options.add_argument('--no-sandbox')
-        options.add_argument("--disable-dev-shm-usage")
-        browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-    if request.param == "firefox":
-        options = webdriver.FirefoxOptions()
-        options.add_argument("--headless")
-        options.add_argument('--no-sandbox')
-        options.add_argument("--disable-dev-shm-usage")
-        browser = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument('--no-sandbox')
+    options.add_argument("--disable-dev-shm-usage")
+    service = ChromeService(ChromeDriverManager().install())
+    browser = webdriver.Chrome(service=service, options=options)
     browser.set_window_size(1920, 1080)
     failed_before = request.session.testsfailed
     yield browser
@@ -66,7 +59,7 @@ def screenshot(browser, name: str) -> None:
 
 
 @pytest.fixture()
-def user():
+def user() -> User:
     username = ''.join(random.sample(string.ascii_lowercase, 8))
     phone = '+' + ''.join(random.sample(string.digits * 3, 11))
     user = User(username=username, phone_number=phone)

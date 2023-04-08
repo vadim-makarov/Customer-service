@@ -2,12 +2,13 @@ import threading
 
 import pytest
 
+import app
 from app import create_app, db
 from config import TestConfig
 
 
 @pytest.fixture(scope='session')
-def app():
+def app() -> app:
     return create_app(TestConfig)
 
 

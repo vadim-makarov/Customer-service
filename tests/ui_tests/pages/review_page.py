@@ -21,6 +21,4 @@ class ReviewPage(RegisterPage):
 
     def thank_you_review_message(self):
         message = self.browser.find_element(*ReviewPageLocators.THANK_YOU_MESSAGE).text
-        # alert = self.browser.switch_to.alert.text
-        # print(message)
         assert 'Thank you' in message, "You don't send a review"
