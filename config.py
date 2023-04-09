@@ -15,9 +15,6 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'user.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    ### SCHEDULER ###
-    SCHEDULER_API_ENABLED = True
-
     ### ADMIN ###
     FLASK_ADMIN_SWATCH = 'united'
 
@@ -43,4 +40,3 @@ class TestConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SMS_TOKEN = 'some_SMS_token'
     BOT_TOKEN = 'It will not work. Do you really need it here?'
-    SCHEDULER_API_ENABLED = False

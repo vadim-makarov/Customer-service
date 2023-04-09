@@ -54,4 +54,4 @@ class Service(db.Model):
 
 @login.user_loader
 def load_user(id) -> User:
-    return User.session.get(int(id))
+    return db.session.get(User, int(id))

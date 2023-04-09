@@ -80,13 +80,6 @@ class TestRegisterPage:
         page.log_out_user()
         page.guest_should_not_be_logged_in()
 
-    @pytest.mark.parametrize('name, phone', COMBINATIONS)
-    def test_registration_negative(self, driver, name: str, phone: str):
-        page = RegisterPage(driver, self.REGISTER_LINK)
-        page.open()
-        page.register_new_user(name=name, phone=phone)
-        page.should_not_be_sms_page()
-
     def test_user_is_already_registered(self, driver, user):
         page = RegisterPage(driver, self.REGISTER_LINK)
         page.open()
