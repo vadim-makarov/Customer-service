@@ -6,7 +6,6 @@ from tests.ui_tests.pages.locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
-    LOGIN_LINK = 'http://localhost:5000/auth/login'
     NAME = ''.join(random.sample(string.ascii_lowercase, 5))
     PHONE = '+' + ''.join(random.sample(string.digits * 3, 11))
 

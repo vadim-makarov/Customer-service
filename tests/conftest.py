@@ -14,6 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from app import db, create_app
 from app.models import User, Service, Review
 from config import TestConfig
+from tests.ui_tests.pages.main_page import MainPage
 
 
 @pytest.fixture(scope='session')
@@ -22,7 +23,7 @@ def app():
 
 
 @pytest.fixture(scope='session', autouse=True)
-def server(app):
+def server(app) -> Generator:
     app.app_context().push()
     db.create_all()
     app = threading.Thread(target=app.run)
@@ -49,6 +50,14 @@ def driver(request) -> Generator:
         test_name = request.node.name
         screenshot(browser, test_name)
     browser.quit()
+
+
+@pytest.fixture
+def main_page(driver):
+    """Открывает главную страницу"""
+    page = MainPage(driver)
+    page.open()
+    return page
 
 
 def screenshot(browser, name: str) -> None:

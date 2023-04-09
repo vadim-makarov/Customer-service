@@ -5,7 +5,6 @@ from tests.ui_tests.pages.locators import RegisterPageLocators
 
 
 class RegisterPage(BasePage):
-    REGISTER_LINK = 'http://localhost:5000/auth/register'
 
     def should_be_register_page(self):
         self.should_be_some_page(self.REGISTER_LINK)

@@ -3,7 +3,6 @@ from tests.ui_tests.pages.review_page import ReviewPage
 
 
 class TestReviewPage:
-    REVIEW_LINK = 'http://localhost:5000/reviews'
 
     def test_guest_cant_leave_review(self, driver):
         page = ReviewPage(driver, self.REVIEW_LINK)
