@@ -4,7 +4,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from app.models import User
 from tests.ui_tests.pages.base_page import BasePage
-from tests.ui_tests.pages.locators import MainPageLocators, RegisterPageLocators
+from tests.ui_tests.pages.locators import MainPageLocators, RegisterPageLocators, ReviewPageLocators
 from tests.ui_tests.src.data import URLs
 
 
@@ -24,3 +24,11 @@ class MainPage(BasePage):
         sms_code = self.get_text(RegisterPageLocators.SMS_ALERT_CODE).split()[-1]
         self.find_element_and_input_data(RegisterPageLocators.SMS_CODE_FORM, sms_code)
         self.find_and_click_element(RegisterPageLocators.SMS_CONFIRM)
+        return self
+
+    def leave_a_review(self, user: User):
+        """Пишет и отправляет отзыв"""
+        self.find_and_click_element(ReviewPageLocators.MODAL_REVIEW_BUTTON) \
+            .find_and_click_element(ReviewPageLocators.SEND_REVIEW_RATING) \
+            .find_element_and_input_data(ReviewPageLocators.SEND_REVIEW_TEXT, user.fake.paragraph(nb_sentences=5)) \
+            .find_and_click_element(ReviewPageLocators.SEND_REVIEW_BUTTON)

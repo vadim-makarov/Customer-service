@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -22,7 +22,7 @@ class BasePage:
         """Проверяет наличие элемента на странице и возвращает bool"""
         try:
             self.wait.until(EC.element_to_be_clickable(locator))
-        except NoSuchElementException:
+        except TimeoutException:
             return False
         return True
 

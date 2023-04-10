@@ -23,7 +23,6 @@ bootstrap = Bootstrap()
 paranoid = Paranoid()
 paranoid.redirect_view = '/'
 login_manager.session_protection = None
-client = SmsApiPlClient(access_token=config.Config.SMS_TOKEN)
 bot = telebot_router.TeleBot(config.Config.BOT_TOKEN)
 
 

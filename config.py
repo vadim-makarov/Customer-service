@@ -18,9 +18,6 @@ class Config(object):
     ### ADMIN ###
     FLASK_ADMIN_SWATCH = 'united'
 
-    ### SMS ###
-
-    SMS_TOKEN = os.environ.get('SMS_TOKEN') or 'theiourtgblewrbgwe8r'
 
     ### MAIL ###
     MAIL_SERVER = os.environ.get('MAIL_SERVER')

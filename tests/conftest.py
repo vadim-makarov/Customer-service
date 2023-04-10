@@ -9,6 +9,7 @@ from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+
 from app import db, create_app
 from app.models import User, Service, Review
 from config import TestConfig
@@ -71,9 +72,10 @@ def screenshot(browser, name: str) -> None:
 @pytest.fixture()
 def user() -> User:
     username = fake.name()
-    phone_number = generate_phone_number()
-    user = User(username=username, phone_number=phone_number)
-    return user
+    phone = generate_phone_number()
+    test_user = User(username=username, phone_number=phone)
+    test_user.fake = fake
+    return test_user
 
 
 @pytest.fixture()
