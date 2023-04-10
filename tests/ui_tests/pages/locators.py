@@ -1,18 +1,22 @@
+"""Содержит локаторы. Общий для всех страниц"""
 from random import randint
 
 from selenium.webdriver.common.by import By
 
 
 class MainPageLocators:
+    """Содержит локаторы главной страницы"""
     MAIN_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > a')
     FEATURES_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > ul > li:nth-child(1) > a')
     PRICING_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > ul > li:nth-child(2) > a')
     REVIEWS_PAGE_LINK = (By.CSS_SELECTOR, 'body > header > div > div > ul > li:nth-child(3) > a')
     LOGIN_LINK = (By.CSS_SELECTOR, ".btn-outline-light")
     REGISTER_LINK = (By.CSS_SELECTOR, 'a.btn:nth-child(2)')
+    SUCCESS_REGISTER_ALERT = (By.CSS_SELECTOR, "div[role='alert']")
 
 
 class RegisterPageLocators(MainPageLocators):
+    """Содержит локаторы страницы регистрации"""
     REGISTER_FORM_NAME = (By.CSS_SELECTOR, '#username')
     REGISTER_FORM_PHONE_NUMBER = (By.CSS_SELECTOR, '#phone_number')
     REGISTER_FORM_SEND_SMS = (By.ID, 'confirm')
@@ -25,6 +29,7 @@ class RegisterPageLocators(MainPageLocators):
 
 
 class LoginPageLocators(MainPageLocators):
+    """Содержит локаторы страницы логина"""
     LOGIN_FORM_NAME = (By.ID, 'username')
     LOGIN_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
     LOGIN_FORM_SUBMIT = (By.ID, 'submit')
@@ -34,10 +39,10 @@ class LoginPageLocators(MainPageLocators):
 
 
 class ReviewPageLocators(MainPageLocators):
+    """Содержит локаторы страницы отзывов"""
     MODAL_REVIEW_BUTTON = (By.CSS_SELECTOR, 'body > main > main > div.vstack.gap-2.col-md-5.mx-auto > button')
     SEND_REVIEW_RATING = (By.CSS_SELECTOR, f'#rating-{randint(0, 4)}')
     SEND_REVIEW_TEXT = (By.CSS_SELECTOR, '#text')
     SEND_REVIEW_BUTTON = (By.CSS_SELECTOR, '#send_review')
     EXIST_REVIEW = (By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div')
     THANK_YOU_MESSAGE = (By.XPATH, '/html/body/div')
-    BOTTOM_PAGE_ANCHOR = (By.CSS_SELECTOR, '.mb-3')

@@ -9,7 +9,7 @@ from tests.ui_tests.pages.locators import LoginPageLocators
 
 class BasePage:
 
-    def __init__(self, driver: WebDriver, timeout: int = 60) -> None:
+    def __init__(self, driver: WebDriver, timeout: int = 15) -> None:
         self.driver = driver
         self.url = None
         self.wait = WebDriverWait(self.driver, timeout, poll_frequency=1)
@@ -24,7 +24,7 @@ class BasePage:
             self.wait.until(EC.element_to_be_clickable(locator))
         except NoSuchElementException:
             return False
-        return self
+        return True
 
     def find_and_click_element(self, locator: tuple):
         """Ожидает появление элемента на странице, перемещает его в

@@ -15,14 +15,12 @@ class SMSForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     username = StringField(validators=[InputRequired(),
-                                       Length(3, 20, message="Please provide a valid name"),
+                                       Length(3, 60, message="Please provide a valid name"),
                                        Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
-                                              "Usernames must have only letters, " "numbers, "
-                                              "dots or underscores")])
+                                              "Usernames must have only letters,numbers, dots or underscores")])
     phone_number = TelField(validators=[InputRequired(), Length(10, 12),
-                                        Regexp(r"^\+(?:[0-9]●?){6,14}[0-9]$",
-                                               message="Enter a valid phone number, like +55"
-                                                       "555555555")])
+                                        Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
+                                               message="Enter a valid phone number like +55555555555")])
     submit = SubmitField('Confirm')
 
     def __init__(self, original_username, original_phone_number, *args, **kwargs):
@@ -41,6 +39,8 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(phone_number=self.phone_number.data).first()
             if user is not None:
                 raise ValidationError('Phone number already in use.')
+
+
 
 
 def validate_date_time(form, service_time):

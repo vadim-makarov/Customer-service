@@ -1,5 +1,4 @@
-from itertools import product
-
+"""Содержит класс страницы регистрации"""
 import pytest
 
 from tests.ui_tests.pages.login_page import LoginPage
@@ -7,16 +6,7 @@ from tests.ui_tests.pages.register_page import RegisterPage
 
 
 class TestRegisterPage:
-
-    INVALID_NAMES = ['', '<script>alert(123)</script>', '^$^&&#',
-                     'DS', '     ', 'JS    ', '    J_S']
-
-    INVALID_PHONES = ['<script>alert(123)</script>', '+53252253f3252',
-                      '', '           ',
-                      '+78987566    ', '+6787654354329', '+77777777777']
-
-    COMBINATIONS = product(INVALID_NAMES, INVALID_PHONES)
-
+    """Содержит методы страницы регистрации"""
     def test_should_be_login_page(self, driver):
         page = LoginPage(driver, self.LOGIN_LINK)
         page.open()

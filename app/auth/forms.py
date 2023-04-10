@@ -87,7 +87,7 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(),
-                                                   MyLength(min=3, max=20, message="Please provide a valid name"),
+                                                   MyLength(min=3, max=60, message="Please provide a valid name"),
                                                    Regexp("^[A-Za-z][A-Za-z0-9_ .]*$".strip(), 0,
                                                           "Usernames must have only latin letters, \
                                                             numbers, dots or underscores")])
@@ -96,13 +96,11 @@ class RegistrationForm(FlaskForm):
                                                                message="Enter a valid phone number, like +55555555555")])
     confirm = SubmitField('Send SMS code')
 
-    @staticmethod
     def validate_username(self, username):  # if already exist
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
-    @staticmethod
     def validate_phone_number(self, phone_number):
         user = User.query.filter_by(phone_number=phone_number.data).first()
         if user is not None:

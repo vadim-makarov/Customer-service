@@ -1,13 +1,10 @@
-import random
-import string
-
+"""Содержит класс старницы логина"""
 from tests.ui_tests.pages.base_page import BasePage
 from tests.ui_tests.pages.locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
-    NAME = ''.join(random.sample(string.ascii_lowercase, 5))
-    PHONE = '+' + ''.join(random.sample(string.digits * 3, 11))
+    """Содержит методы страницы логина"""
 
     def should_be_login_page(self):
         self.should_be_some_page(self.LOGIN_LINK)

@@ -1,5 +1,3 @@
-import random
-import string
 import threading
 from datetime import datetime
 from typing import Generator
@@ -7,14 +5,17 @@ from typing import Generator
 import allure
 import pytest
 from allure_commons.types import AttachmentType
+from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-
 from app import db, create_app
 from app.models import User, Service, Review
 from config import TestConfig
+from tests.helpers.helpers import generate_phone_number
 from tests.ui_tests.pages.main_page import MainPage
+
+fake = Faker()
 
 
 @pytest.fixture(scope='session')
@@ -38,7 +39,7 @@ def driver(request) -> Generator:
     the fixture downloads the latest driver and creates the browser instance with passed options
     """
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     options.add_argument('--no-sandbox')
     options.add_argument("--disable-dev-shm-usage")
     service = ChromeService(ChromeDriverManager().install())
@@ -69,9 +70,9 @@ def screenshot(browser, name: str) -> None:
 
 @pytest.fixture()
 def user() -> User:
-    username = ''.join(random.sample(string.ascii_lowercase, 8))
-    phone = '+' + ''.join(random.sample(string.digits * 3, 11))
-    user = User(username=username, phone_number=phone)
+    username = fake.name()
+    phone_number = generate_phone_number()
+    user = User(username=username, phone_number=phone_number)
     return user
 
 
