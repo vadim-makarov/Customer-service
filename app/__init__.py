@@ -1,3 +1,4 @@
+"""Main init module contains create_app function"""
 import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -9,7 +10,6 @@ from flask_login import LoginManager, login_manager
 from flask_migrate import Migrate
 from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
-from smsapi.client import SmsApiPlClient
 
 import config
 from config import Config

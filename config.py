@@ -1,3 +1,4 @@
+"""Module contains config classes"""
 import os
 
 from dotenv import load_dotenv
@@ -6,7 +7,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 
-class Config(object):
+class Config:
+    """Base app config"""
     ENV = 'development'
 
     ### DATABASE ###
@@ -17,7 +19,6 @@ class Config(object):
 
     ### ADMIN ###
     FLASK_ADMIN_SWATCH = 'united'
-
 
     ### MAIL ###
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
@@ -32,6 +33,7 @@ class Config(object):
 
 
 class TestConfig(Config):
+    """Test app config"""
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

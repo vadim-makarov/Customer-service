@@ -1,4 +1,6 @@
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+"""Module contains Base class"""
+
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,6 +11,7 @@ from tests.ui_tests.pages.locators import LoginPageLocators
 
 
 class BasePage:
+    """Contains common methods"""
 
     def __init__(self, driver: WebDriver, timeout: int = 20) -> None:
         self.driver = driver
@@ -24,7 +27,7 @@ class BasePage:
         try:
             self.wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
-            raise AssertionError(err_msg)
+            AssertionError(err_msg)
         return self
 
     def find_and_click_element(self, locator: tuple):

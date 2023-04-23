@@ -1,3 +1,5 @@
+"""Blueprint init module"""
+
 from flask import Blueprint, current_app
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView

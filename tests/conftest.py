@@ -1,3 +1,4 @@
+"""Standard module for fixtures"""
 import threading
 from datetime import datetime
 from typing import Generator
@@ -21,11 +22,13 @@ fake = Faker()
 
 @pytest.fixture(scope='session')
 def app():
+    """Creates a test instance of the app"""
     return create_app(TestConfig)
 
 
 @pytest.fixture(scope='session', autouse=True)
 def server(app) -> Generator:
+    """Creates a database and runs app in new thread for testing UI"""
     app.app_context().push()
     db.create_all()
     app = threading.Thread(target=app.run)
@@ -71,6 +74,7 @@ def screenshot(browser, name: str) -> None:
 
 @pytest.fixture
 def user() -> User:
+    """Returns a user instance for testing"""
     username = fake.name()
     phone = generate_phone_number()
     test_user = User(username=username, phone_number=phone)
@@ -80,6 +84,7 @@ def user() -> User:
 
 @pytest.fixture
 def service(user):
+    """Creates a user instance for testing"""
     db.session.add(user)
     db.session.commit()
     service = Service(service1='A jar of honey', service_date=datetime.now(),
@@ -90,6 +95,7 @@ def service(user):
 
 @pytest.fixture
 def new_service(user):
+    """Returns a service for testing"""
     service = Service(service1='Chicken Burger', service2='Pepsi', service3='Delivery',
                       service_date=datetime.now(), service_time='14:00', user_id=user.id)
     return service
@@ -97,6 +103,8 @@ def new_service(user):
 
 @pytest.fixture
 def review(user):
+    """Creates a service for testing"""
+
     db.session.add(user)
     db.session.commit()
     rev1 = Review(author=user.username, text='Sweeter than honey!', rating='Awesome!', author_id=user.id)
