@@ -22,10 +22,7 @@ class RegisterPageLocators:
     REGISTER_FORM_PHONE_NUMBER = (By.CSS_SELECTOR, '#phone_number')
     REGISTER_FORM_SEND_SMS = (By.ID, 'confirm')
     SMS_CODE_FORM = (By.ID, 'code_input')
-    SMS_CONFIRM = (By.CSS_SELECTOR,
-                   'body > main > main > div > div > div > form > div > div.d-grid.gap-2.col-6.mx-auto > div > button.btn.btn-warning')
-    SMS_RESEND = (
-        By.CSS_SELECTOR, 'body > main > main > div > div > div > form > div > div.d-grid.gap-2.col-6.mx-auto > div')
+    SMS_CONFIRM = (By.CSS_SELECTOR, "button[value='Register']")
     SMS_ALERT_CODE = (By.CSS_SELECTOR, 'body > div.alert.alert-info.fade.show')
 
 
@@ -34,8 +31,7 @@ class LoginPageLocators:
     LOGIN_FORM_NAME = (By.ID, 'username')
     LOGIN_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
     LOGIN_FORM_SUBMIT = (By.ID, 'submit')
-    LOGIN_FORM_TO_REG_PAGE = (By.CSS_SELECTOR, 'body > main > main > div > div > div > div > a')
-    LOGOUT_LINK = (By.CSS_SELECTOR, 'body > header > div > div > div > button')
+    LOGOUT_LINK = (By.CSS_SELECTOR, 'button[data-bs-target="#logoutModal"]')
     LOGOUT_LINK_MODAL = (By.CSS_SELECTOR, '#logoutModal > div > div > div.modal-footer > a')
 
 
@@ -49,8 +45,8 @@ class ReviewPageLocators:
     THANK_YOU_MESSAGE = (By.XPATH, '/html/body/div')
 
 
-class ServicePageLocators:
-    """Contains locators from the Service page"""
+class AccountPageLocators:
+    """Contains locators from the account page"""
     SERVICE_1 = (By.CSS_SELECTOR, "#service1")
     SERVICE_2 = (By.CSS_SELECTOR, "#service2")
     SERVICE_3 = (By.CSS_SELECTOR, "#service3")

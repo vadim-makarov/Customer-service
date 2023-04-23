@@ -1,4 +1,5 @@
 """Модуль содержит класс с url """
+
 from tests.ui_tests.pages.locators import MainPageLocators
 
 
@@ -7,6 +8,7 @@ class URLs:
     main_page_url = 'http://localhost:5000/'
     login_page_url = 'http://localhost:5000/auth/login'
     register_page_url = 'http://localhost:5000/auth/register'
+    account_page_url = 'http://localhost:5000/user/'
     review_page_url = 'http://localhost:5000/reviews'
 
 
@@ -19,6 +21,6 @@ class PagesData:
                                                        MainPageLocators.LOGIN_LINK,
                                                        MainPageLocators.REGISTER_LINK]
 
-    endpoints = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
+    endpoints: list[str] = ['index', 'features', 'pricing', 'reviews', 'login', 'register']
 
-    pages_list = list(zip(endpoints, main_page_links_locators))
+    pages_list: list[tuple[list, list]] = list(zip(endpoints, main_page_links_locators))

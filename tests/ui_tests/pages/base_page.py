@@ -7,13 +7,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.ui_tests.pages.locators import LoginPageLocators
+from tests.ui_tests.pages.locators import LoginPageLocators, RegisterPageLocators
 
 
 class BasePage:
     """Contains common methods"""
 
-    def __init__(self, driver: WebDriver, timeout: int = 20) -> None:
+    def __init__(self, driver: WebDriver, timeout: int = 10) -> None:
         self.driver = driver
         self.url = None
         self.wait = WebDriverWait(self.driver, timeout, poll_frequency=1)
@@ -27,7 +27,7 @@ class BasePage:
         try:
             self.wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
-            AssertionError(err_msg)
+            raise AssertionError(err_msg)
         return self
 
     def find_and_click_element(self, locator: tuple):
@@ -88,5 +88,11 @@ class BasePage:
 
     def log_out_user(self):
         """Разлогинивает пользователя с подтверждением"""
-        self.driver.find_element(*LoginPageLocators.LOGOUT_LINK).click()
-        self.driver.find_element(*LoginPageLocators.LOGOUT_LINK_MODAL).click()
+        self.find_and_click_element(LoginPageLocators.LOGOUT_LINK) \
+            .find_and_click_element(LoginPageLocators.LOGOUT_LINK_MODAL)
+
+    def confirm_sms_code(self):
+        """Вводит смс код"""
+        sms_code = self.get_text(RegisterPageLocators.SMS_ALERT_CODE).split()[-1]
+        self.find_element_and_input_data(RegisterPageLocators.SMS_CODE_FORM, sms_code) \
+            .find_and_click_element(RegisterPageLocators.SMS_CONFIRM)
