@@ -10,7 +10,6 @@ from tests.ui_tests.src.data import PagesData
 class TestMainPage:
     """Тесты основной функциональности"""
 
-    @pytest.mark.smoke
     @allure.severity(allure.severity_level.NORMAL)
     @allure.title("Guest can go to all the links")
     @pytest.mark.parametrize('page, locator', PagesData.pages_list, ids=PagesData.endpoints)

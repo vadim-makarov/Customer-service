@@ -30,13 +30,8 @@ jobs:
     - name: Install plugin
       run: pip install pytest-github-actions-annotate-failures
 
-    - name: Unit tests with pytest
-      run: |
-        pytest -m "unit"
-
-    - name: UI tests with pytest
-      run: |
-        pytest -n auto -m "not unit"
+    - name: Run tests with pytest
+      run: pytest
 
     - name: Get Allure history
       uses: actions/checkout@v2
