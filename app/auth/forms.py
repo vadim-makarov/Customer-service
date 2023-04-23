@@ -100,15 +100,13 @@ class RegistrationForm(FlaskForm):
                                                                message="Enter a valid phone number, like +55555555555")])
     confirm = SubmitField('Send SMS code')
 
-    @staticmethod
-    def validate_username(username):
+    def validate_username(self, username):
         """checks if username already exists in DB"""
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
-    @staticmethod
-    def validate_phone_number(phone_number):
+    def validate_phone_number(self, phone_number):
         """checks if phone_number already exists in DB"""
         user = User.query.filter_by(phone_number=phone_number.data).first()
         if user is not None:

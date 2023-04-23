@@ -14,7 +14,8 @@ from app.models import User
 from app.sms import send_sms
 
 main: str = 'main.index'
-sms: str = 'sms.html'
+sms_html: str = 'sms.html'
+
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -49,12 +50,12 @@ def sms():
                 time.sleep(1)
                 return redirect(url_for(main))
             flash('Invalid code. Please try again')
-            return render_template(sms, sms_form=sms_form)
+            return render_template(sms_html, sms_form=sms_form)
         elif request.form['sms'] == 'Send SMS':
             session['code'] = send_sms(session['phone_number'])
             flash(f"Your code is {session['code']}")
-            return render_template(sms, sms_form=sms_form)
-    return render_template(sms, sms_form=sms_form)
+            return render_template(sms_html, sms_form=sms_form)
+    return render_template(sms_html, sms_form=sms_form)
 
 
 @bp.route('/login', methods=['GET', 'POST'])
