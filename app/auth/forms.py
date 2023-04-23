@@ -1,3 +1,5 @@
+"""Module contains register and login forms"""
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, TelField, SubmitField
 from wtforms.validators import InputRequired, Regexp, ValidationError
@@ -72,6 +74,7 @@ class MyLength:
 
 
 class LoginForm(FlaskForm):
+    """Contains a Login form class"""
     username = StringField('Username', validators=[
         InputRequired(),
         MyLength(min=3, max=20, message="Please provide a valid name"),
@@ -86,6 +89,7 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
+    """Contains a Registration form class"""
     username = StringField('Username', validators=[InputRequired(),
                                                    MyLength(min=3, max=60, message="Please provide a valid name"),
                                                    Regexp("^[A-Za-z][A-Za-z0-9_ .]*$".strip(), 0,
@@ -96,17 +100,22 @@ class RegistrationForm(FlaskForm):
                                                                message="Enter a valid phone number, like +55555555555")])
     confirm = SubmitField('Send SMS code')
 
-    def validate_username(self, username):  # if already exist
+    @staticmethod
+    def validate_username(username):
+        """checks if username already exists in DB"""
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
-    def validate_phone_number(self, phone_number):
+    @staticmethod
+    def validate_phone_number(phone_number):
+        """checks if phone_number already exists in DB"""
         user = User.query.filter_by(phone_number=phone_number.data).first()
         if user is not None:
             raise ValidationError('Phone number already in use.')
 
 
 class SMSForm(FlaskForm):
+    """Contains SMS form class"""
     code_input = StringField(validators=[MyLength(min=4, max=4)])
     register = SubmitField('Confirm')

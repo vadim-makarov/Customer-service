@@ -50,6 +50,7 @@ class ReviewPageLocators:
 
 
 class ServicePageLocators:
+    """Contains locators from the Service page"""
     SERVICE_1 = (By.CSS_SELECTOR, "#service1")
     SERVICE_2 = (By.CSS_SELECTOR, "#service2")
     SERVICE_3 = (By.CSS_SELECTOR, "#service3")

@@ -1,3 +1,4 @@
+"""Contains a migration logic"""
 from __future__ import with_statement
 
 import logging

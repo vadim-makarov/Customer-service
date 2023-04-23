@@ -1,9 +1,12 @@
+"""Module contains Service form"""
+
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, TextAreaField, RadioField
 from wtforms.validators import Length, InputRequired
 
 
 class Reviews(FlaskForm):
+    """Class contains Service form"""
     text = TextAreaField('Enter your text here:', validators=[InputRequired(), Length(min=2, max=300)])
     rating = RadioField('Rating', validators=[InputRequired()],
                         choices=['Terrible!', 'Bad', 'So-so', 'Good', 'Awesome!'])

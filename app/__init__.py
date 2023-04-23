@@ -26,7 +26,8 @@ login_manager.session_protection = None
 bot = telebot_router.TeleBot(config.Config.BOT_TOKEN)
 
 
-def create_app(config_class=Config, **kwargs):
+def create_app(config_class=Config):
+    """Creates an instance of the app"""
     app: Flask = Flask(__name__)
     app.config.from_object(Config)
 
