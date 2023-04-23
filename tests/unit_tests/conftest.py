@@ -39,4 +39,3 @@ def server(app):
 def drop_db():
     db.drop_all()
     db.create_all()
-

@@ -69,7 +69,7 @@ def screenshot(browser, name: str) -> None:
     allure.attach(browser.get_screenshot_as_png(), name=f"Screenshot {name}", attachment_type=AttachmentType.PNG)
 
 
-@pytest.fixture()
+@pytest.fixture
 def user() -> User:
     username = fake.name()
     phone = generate_phone_number()
@@ -78,7 +78,7 @@ def user() -> User:
     return test_user
 
 
-@pytest.fixture()
+@pytest.fixture
 def service(user):
     db.session.add(user)
     db.session.commit()
@@ -88,7 +88,14 @@ def service(user):
     db.session.commit()
 
 
-@pytest.fixture()
+@pytest.fixture
+def new_service(user):
+    service = Service(service1='Chicken Burger', service2='Pepsi', service3='Delivery',
+                      service_date=datetime.now(), service_time='14:00', user_id=user.id)
+    return service
+
+
+@pytest.fixture
 def review(user):
     db.session.add(user)
     db.session.commit()

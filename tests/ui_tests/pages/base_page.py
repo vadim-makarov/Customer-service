@@ -2,6 +2,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.ui_tests.pages.locators import LoginPageLocators
@@ -9,7 +10,7 @@ from tests.ui_tests.pages.locators import LoginPageLocators
 
 class BasePage:
 
-    def __init__(self, driver: WebDriver, timeout: int = 15) -> None:
+    def __init__(self, driver: WebDriver, timeout: int = 20) -> None:
         self.driver = driver
         self.url = None
         self.wait = WebDriverWait(self.driver, timeout, poll_frequency=1)
@@ -18,20 +19,19 @@ class BasePage:
         """Открывает заданную страницу"""
         self.driver.get(self.url)
 
-    def is_element_present(self, locator: tuple):
-        """Проверяет наличие элемента на странице и возвращает bool"""
+    def is_element_present(self, locator: tuple, err_msg: str):
+        """Проверяет наличие элемента на странице"""
         try:
-            self.wait.until(EC.element_to_be_clickable(locator))
+            self.wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
-            return False
-        return True
+            raise AssertionError(err_msg)
+        return self
 
     def find_and_click_element(self, locator: tuple):
         """Ожидает появление элемента на странице, перемещает его в
         область видимости и кликает по нему"""
-        self.wait.until(EC.element_to_be_clickable(locator))
-        element = self.driver.find_element(*locator)
-        ActionChains(self.driver).move_to_element(element).click().perform()
+        ActionChains(self.driver).move_to_element(self.wait.until(
+            EC.element_to_be_clickable(locator))).click().perform()
         return self
 
     def find_element_and_input_data(self, locator: tuple, data: str):
@@ -39,6 +39,13 @@ class BasePage:
         self.wait.until(EC.element_to_be_clickable(locator))
         field = self.driver.find_element(*locator)
         field.send_keys(data)
+        return self
+
+    def select_value(self, locator: tuple, value: str):
+        """Выбирет значение по value из дропдауна"""
+        element = self.driver.find_element(*locator)
+        select = Select(element)
+        select.select_by_value(value)
         return self
 
     def go_to_the_next_window(self):
@@ -54,11 +61,6 @@ class BasePage:
         new_window = self.driver.window_handles[0]
         self.driver.switch_to.window(new_window)
         return self
-
-    def should_be_some_page(self, page_name: str) -> bool:
-        """Проверяет наличие имени страницы в текущем url"""
-        self.wait.until(EC.url_contains(page_name))
-        return page_name in self.driver.current_url
 
     def push_down_and_enter(self, locator: tuple):
         """выбирает первую посказку в выадающем меню"""
