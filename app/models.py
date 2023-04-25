@@ -1,3 +1,5 @@
+"""Contains a DB schema"""
+
 from datetime import datetime
 
 from flask_login import UserMixin
@@ -7,6 +9,7 @@ from app import db, login
 
 
 class User(UserMixin, db.Model):
+    """Describes a User table"""
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -19,13 +22,16 @@ class User(UserMixin, db.Model):
         return f'User {self.username}-->{self.phone_number}'
 
     def set_password(self, phone_number):
+        """Generates a hash from the passed phone number"""
         self.password_hash = generate_password_hash(phone_number)
 
     def check_password(self, phone_number):
+        """Checks if passed phone number matches to a password hash"""
         return check_password_hash(self.password_hash, phone_number)
 
 
 class Review(db.Model):
+    """Describes a Review table"""
     __tablename__ = 'review'
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(64), default='Happy client')
@@ -39,6 +45,7 @@ class Review(db.Model):
 
 
 class Service(db.Model):
+    """Describes a Service table"""
     __tablename__ = 'service'
     id = db.Column(db.Integer, primary_key=True)
     service1 = db.Column(db.String(60), index=True, nullable=False)
@@ -53,5 +60,6 @@ class Service(db.Model):
 
 
 @login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id: str) -> User:
+    """Returns a logged user"""
+    return db.session.get(User, int(user_id))

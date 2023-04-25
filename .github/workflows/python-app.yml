@@ -20,7 +20,7 @@ jobs:
     - name: Set up Python 3.11
       uses: actions/setup-python@v3
       with:
-        python-version: "3.11"
+        python-version: 3.11
 
     - name: Install dependencies
       run: |
@@ -30,10 +30,8 @@ jobs:
     - name: Install plugin
       run: pip install pytest-github-actions-annotate-failures
 
-    - name: Test with pytest
-      run: |
-        pytest -m "unit"
-        pytest -n auto -m "not unit"
+    - name: Run tests with pytest
+      run: pytest
 
     - name: Get Allure history
       uses: actions/checkout@v2

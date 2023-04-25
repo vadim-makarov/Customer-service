@@ -18,7 +18,8 @@
                                 <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#profileModal">Edit Profile
                                 </button>
-                            </div><br><br>
+                            </div>
+                            <br><br>
                             <div id="profileModal" class="modal fade" tabindex="-1" data-bs-backdrop="static"
                                  data-bs-keyboard="false"
                                  aria-labelledby="staticBackdropLabel"
@@ -165,11 +166,13 @@
                 </tbody>
             </table>
         </div>
-    </div><br>
+    </div>
+    <br>
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-6 col-md-4">
-                <form action="{{ url_for('user_blueprint.add_service') }}" class="form form-horizontal" method="post" role="form">
+                <form action="{{ url_for('user_blueprint.add_service') }}" class="form form-horizontal" method="post"
+                      role="form">
                     <h3 class="text-center"><label>Choose date and time of service:</label></h3>
                     {{ form.hidden_tag() }}
                     {{ wtf.form_errors(form, hiddens="only") }}

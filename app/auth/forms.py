@@ -1,3 +1,5 @@
+"""Module contains register and login forms"""
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, TelField, SubmitField
 from wtforms.validators import InputRequired, Regexp, ValidationError
@@ -65,19 +67,20 @@ class MyLength:
             )
         else:
             message = field.gettext(
-                "Field must be between %(min)d and %(max)d characters long."
+                f"Field must be between {self.min} and {self.max} characters long."
             )
 
-        raise ValidationError(message % dict(min=self.min, max=self.max, length=length))
+        raise ValidationError(message % {'min': self.min, 'max': self.max, 'length': length})
 
 
 class LoginForm(FlaskForm):
+    """Contains a Login form class"""
     username = StringField('Username', validators=[
         InputRequired(),
         MyLength(min=3, max=20, message="Please provide a valid name"),
         Regexp("^[A-Za-z][A-Za-z0-9_ .]*$", 0,
-               "Usernames must have only latin letters, " "numbers, "
-               "dots or underscores")])
+               "Usernames must have only latin letters, numbers, \
+               dots or underscores")])
     phone_number = TelField('Phone number', validators=[InputRequired(), MyLength(min=10, max=12),
                                                         Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
                                                                message="Enter a valid phone number, like +55 555 "
@@ -86,29 +89,31 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
+    """Contains a Registration form class"""
     username = StringField('Username', validators=[InputRequired(),
-                                                   MyLength(min=3, max=20, message="Please provide a valid name"),
+                                                   MyLength(min=3, max=60, message="Please provide a valid name"),
                                                    Regexp("^[A-Za-z][A-Za-z0-9_ .]*$".strip(), 0,
-                                                          "Usernames must have only latin letters, "
-                                                          "" "numbers, dots or underscores")])
+                                                          "Usernames must have only latin letters, \
+                                                            numbers, dots or underscores")])
     phone_number = TelField('Phone number', validators=[InputRequired(), MyLength(min=10, max=12),
                                                         Regexp(r"^\+(?:[0-9]●?){10,12}[0-9]$",
                                                                message="Enter a valid phone number, like +55555555555")])
     confirm = SubmitField('Send SMS code')
 
-    @staticmethod
-    def validate_username(self, username):  # if already exist
+    def validate_username(self, username):
+        """checks if username already exists in DB"""
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
-    @staticmethod
     def validate_phone_number(self, phone_number):
+        """checks if phone_number already exists in DB"""
         user = User.query.filter_by(phone_number=phone_number.data).first()
         if user is not None:
             raise ValidationError('Phone number already in use.')
 
 
 class SMSForm(FlaskForm):
+    """Contains SMS form class"""
     code_input = StringField(validators=[MyLength(min=4, max=4)])
     register = SubmitField('Confirm')

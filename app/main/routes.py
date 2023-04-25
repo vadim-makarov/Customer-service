@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+"""contains main page routes"""
 import time
 from datetime import datetime
 
@@ -14,6 +14,7 @@ from app.models import Review
 
 @bp.before_request
 def before_request():
+    """creates a record in DB with lst_seen time of a current user"""
     if current_user.is_authenticated:
         current_user.last_seen = datetime.now().date()
         db.session.commit()
@@ -22,16 +23,19 @@ def before_request():
 @bp.route('/')
 @bp.route('index')
 def index():
+    """returns a main page template"""
     return render_template('index.html', title='Home page')
 
 
 @bp.route('/pricing')
 def pricing():
+    """returns a pricing page template"""
     return render_template('pricing.html', title='Pricing')
 
 
 @bp.route('/reviews', methods=['GET', 'POST'])
 def reviews():
+    """describes a reviews page path"""
     form = Reviews()
     all_reviews = Review.query.order_by(Review.review_date.desc()).all()
     if form.validate_on_submit():
@@ -47,9 +51,11 @@ def reviews():
 
 @bp.route('/features')
 def features():
+    """returns a features page template"""
     return render_template('features.html', title='Features')
 
 
 @bp.route('/modal')
 def modal():
+    """returns a modal template"""
     return render_template('modal.html', title='Modal')

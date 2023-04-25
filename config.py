@@ -1,3 +1,4 @@
+"""Module contains config classes"""
 import os
 
 from dotenv import load_dotenv
@@ -6,7 +7,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 
-class Config(object):
+class Config:
+    """Base app config"""
     ENV = 'development'
 
     ### DATABASE ###
@@ -15,15 +17,8 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'user.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    ### SCHEDULER ###
-    SCHEDULER_API_ENABLED = True
-
     ### ADMIN ###
     FLASK_ADMIN_SWATCH = 'united'
-
-    ### SMS ###
-
-    SMS_TOKEN = os.environ.get('SMS_TOKEN') or 'theiourtgblewrbgwe8r'
 
     ### MAIL ###
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
@@ -38,9 +33,9 @@ class Config(object):
 
 
 class TestConfig(Config):
+    """Test app config"""
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SMS_TOKEN = 'some_SMS_token'
     BOT_TOKEN = 'It will not work. Do you really need it here?'
-    SCHEDULER_API_ENABLED = False

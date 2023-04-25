@@ -1,23 +1,23 @@
-from tests.ui_tests.pages.register_page import RegisterPage
+"""Contains class for testing review page"""
+import allure
+from selenium.webdriver.remote.webdriver import WebDriver
+
+from app.models import User
+from tests.ui_tests.pages.locators import ReviewPageLocators, MainPageLocators
+from tests.ui_tests.pages.main_page import MainPage
 from tests.ui_tests.pages.review_page import ReviewPage
 
 
 class TestReviewPage:
-    REVIEW_LINK = 'http://localhost:5000/reviews'
+    """Contains review page tests"""
 
-    def test_guest_cant_leave_review(self, browser):
-        page = ReviewPage(browser, self.REVIEW_LINK)
-        page.open()
-        page.review_page_is_empty()
-        page.guest_cant_leave_a_review()
-
-    def test_user_can_leave_a_review(self, browser, user):
-        reg = RegisterPage(browser, 'http://localhost:5000/auth/register')
-        reg.open()
-        reg.register_new_user(user.username, user.phone_number)
-        reg.send_sms_code()
-        page = ReviewPage(browser, self.REVIEW_LINK)
-        page.open()
-        page.user_should_see_a_leave_review_button()
-        page.user_can_leave_a_review()
-        page.thank_you_review_message()
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("User can leave a review")
+    def test_user_can_leave_a_review(self, main_page: MainPage, user: User, driver: WebDriver):
+        """User can leave a review"""
+        main_page.register_user(user) \
+            .find_and_click_element(MainPageLocators.REVIEWS_PAGE_LINK)
+        review_page = ReviewPage(driver)
+        review_page.leave_a_review(user)
+        message = review_page.get_text(ReviewPageLocators.THANK_YOU_MESSAGE)
+        assert 'Thank you' in message, "Сообщение об успешной отправке отзыва не получено"

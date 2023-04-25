@@ -1,3 +1,5 @@
+"""Contains user routes"""
+
 import time
 from datetime import datetime
 
@@ -11,11 +13,15 @@ from app.sms import send_sms
 from app.user import bp
 from app.user.forms import Services, SMSForm, EditProfileForm
 
+user_bp: str = 'user_blueprint.user'
+sms: str = 'sms.html'
+
 
 @bp.route('/<username>', methods=['GET', 'POST'])
 @bp.route('/')
 @login_required
 def user(username):
+    """Describes a user's page path"""
     if not current_user.is_authenticated:
         return redirect(url_for('auth.register'))
     form = Services()
@@ -38,6 +44,7 @@ def user(username):
 
 @bp.route('/edit_sms', methods=['GET', 'POST'])
 def edit_sms():
+    """Describes a user's profile changing path"""
     sms_form = SMSForm()
     current_user.username = session['username']
     current_user.phone_number = session['phone_number']
@@ -47,21 +54,22 @@ def edit_sms():
             data = sms_form.code_input.data
             if session['code'] == data:
                 db.session.commit()
-                flash(f'Values has been changed')
+                flash('Values has been changed')
                 time.sleep(1)
-                return redirect(url_for('user_blueprint.user', username=current_user.username))
+                return redirect(url_for(user_bp, username=current_user.username))
             flash('Invalid code. Please try again')
-            return render_template('sms.html', sms_form=sms_form)
-        elif request.form['sms'] == 'Send SMS':  # TODO change SMS timer value and enable service
+            return render_template(sms, sms_form=sms_form)
+        elif request.form['sms'] == 'Send SMS':
             session['code'] = send_sms(session['phone_number'])
-            flash(f"Your code is {session['code']}")  # don't forget to disable
-            return render_template('sms.html', sms_form=sms_form)
-    return render_template('sms.html', sms_form=sms_form)
+            flash(f"Your code is {session['code']}")
+            return render_template(sms, sms_form=sms_form)
+    return render_template(sms, sms_form=sms_form)
 
 
 @bp.route('/add_service', methods=['POST'])
 @login_required
 def add_service():
+    """Describes a service adding logic"""
     form = Services()
     if form.validate_on_submit():
         service_add = Service(service1=form.service1.data, service2=form.service2.data,
@@ -72,14 +80,15 @@ def add_service():
         db.session.commit()
         flash(f'Congratulations, {current_user.username} you are registered for service at {service_add.service_time}!')
         time.sleep(1)
-        return redirect(url_for('user_blueprint.user', username=current_user.username))
+        return redirect(url_for(user_bp, username=current_user.username))
     flash('This date or time are already in use. Please choose another date or time.')
-    return redirect(url_for('user_blueprint.user', username=current_user.username))
+    return redirect(url_for(user_bp, username=current_user.username))
 
 
 @bp.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
 @login_required
 def edit_service(service_id=None):
+    """Describes a service editing logic"""
     if service_id is not None:
         service = Service.query.filter_by(id=service_id).first()
         form = Services()
@@ -93,16 +102,17 @@ def edit_service(service_id=None):
             flash(
                 f'Ok, {current_user.username} you have changed your service to on {service.service_date} at {service.service_time}!')
             time.sleep(0.5)
-            return redirect(url_for('user_blueprint.user', username=current_user.username))
+            return redirect(url_for(user_bp, username=current_user.username))
         flash('This date or time are already in use. Please choose another date or time.')
-    return redirect(url_for('user_blueprint.user', username=current_user.username))
+    return redirect(url_for(user_bp, username=current_user.username))
 
 
 @bp.route('/user/<int:service_id>', methods=['POST'])
 @login_required
 def delete_service(service_id):
+    """Describes a service deleting logic"""
     service_del = Service.query.get_or_404(service_id)
     db.session.delete(service_del)
     db.session.commit()
     flash('Item deleted.')
-    return redirect(url_for('user_blueprint.user', username=current_user.username))
+    return redirect(url_for(user_bp, username=current_user.username))
