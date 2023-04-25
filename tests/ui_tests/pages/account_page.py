@@ -1,5 +1,6 @@
 """Contains account test class"""
 from datetime import datetime
+from time import sleep
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -24,7 +25,7 @@ class AccountPage(BasePage):
             .select_value(AccountPageLocators.SERVICE_2, new_service.service2) \
             .select_value(AccountPageLocators.SERVICE_3, new_service.service3) \
             .find_element_and_input_data(AccountPageLocators.SERVICE_DATE,
-                                         datetime.strftime(new_service.service_date, "%d%m%Y")) \
+                                         datetime.strftime(new_service.service_date, "%m-%d-%Y")) \
             .select_value(AccountPageLocators.SERVICE_TIME, new_service.service_time) \
             .find_and_click_element(AccountPageLocators.CONFIRM_SERVICE_BUTTON)
         return self
