@@ -7,7 +7,7 @@ from tests.ui_tests.pages.sms_page import SMSPage
 from tests.ui_tests.src.models import TestUser
 
 
-class RegisterPage(BasePage):
+class AuthPage(BasePage):
     """Contains methods and locators of the register page"""
 
     REGISTER_FORM_NAME = (By.ID, 'username')

@@ -6,7 +6,7 @@ from random import randint
 
 from faker import Faker
 
-fake = Faker(['ru_RU'])
+fake = Faker()
 
 
 def generate_phone_number() -> str:
@@ -16,23 +16,13 @@ def generate_phone_number() -> str:
 
 
 @dataclass
-class TestService:
-    """Describes test service's model"""
+class TestUser:
+    """Describes test user's model"""
+    username: str = field(default_factory=fake.name)
+    phone_number: str = field(default_factory=generate_phone_number)
+    review: str = field(default_factory=fake.paragraph)
     service1: str = field(default='Chicken Burger')
     service2: str = field(default='Pepsi')
     service3: str = field(default='Delivery')
     service_date: str = datetime.today().strftime("%m-%d-%Y")
     service_time: str = field(default='14:00')
-
-
-@dataclass
-class TestReview:
-    """Describes test Review model"""
-    text: str = field(default_factory=fake.paragraph(nb_sentences=5))
-
-
-@dataclass
-class TestUser:
-    """Describes test user's model"""
-    username: str = field(default_factory=fake.name)
-    phone_number: str = field(default_factory=generate_phone_number)

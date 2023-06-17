@@ -13,8 +13,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from app import db, create_app
 from config import TestConfig
 from tests.ui_tests.pages.main_page import MainPage
-from tests.ui_tests.src.data import URLs
-from tests.ui_tests.src.models import TestUser, TestService
+from tests.ui_tests.src.config import URLs
+from tests.ui_tests.src.models import TestUser
 
 
 @pytest.fixture(scope='session')
@@ -40,7 +40,7 @@ def driver(request) -> Generator:
     the fixture downloads the latest driver and creates the browser instance with passed options
     """
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    # options.add_argument("--headless=new")
     options.add_argument('--no-sandbox')
     options.add_argument("--disable-dev-shm-usage")
     service = ChromeService(ChromeDriverManager().install())
@@ -74,10 +74,3 @@ def user() -> TestUser:
     """Returns a user instance for testing"""
     test_user = TestUser()
     return test_user
-
-
-@pytest.fixture
-def new_service() -> TestService:
-    """Returns a service for testing"""
-    service = TestService()
-    return service

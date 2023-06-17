@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from tests.ui_tests.pages.base_page import BasePage
-from tests.ui_tests.pages.sms_page import SMSPage
 from tests.ui_tests.src.models import TestService
 
 
@@ -55,9 +54,10 @@ class AccountPage(BasePage):
             .find_and_click_element(self.CONFIRM_DELETE_SERVICE_BUTTON)
         return self
 
-    def change_profile_data(self, data: str) -> SMSPage:
+    def change_profile_data(self, data: str):
         """Changes user's data with edit profile modal"""
         self.find_and_click_element(self.EDIT_PROFILE_BUTTON) \
             .find_element_and_input_data(self.EDIT_PHONE_NUM_FIELD, data) \
             .find_and_click_element(self.SUBMIT_CHANGE_USER_DATA_BUTTON)
+        from tests.ui_tests.pages.sms_page import SMSPage
         return SMSPage(self.driver)

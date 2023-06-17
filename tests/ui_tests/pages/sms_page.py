@@ -1,7 +1,6 @@
 """Contains SMS page class"""
 from selenium.webdriver.common.by import By
 
-from tests.ui_tests.pages.account_page import AccountPage
 from tests.ui_tests.pages.base_page import BasePage
 
 
@@ -19,5 +18,7 @@ class SMSPage(BasePage):
         self.find_element_and_input_data(self.SMS_CODE_FORM, sms_code) \
             .find_and_click_element(self.SMS_CONFIRM)
         if 'edit' in request.node.name:
+            from tests.ui_tests.pages.account_page import AccountPage
             return AccountPage(self.driver)
-        return BasePage(self.driver)
+        from tests.ui_tests.pages.main_page import MainPage
+        return MainPage(self.driver)

@@ -5,9 +5,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from app.models import User
 from tests.ui_tests.pages.account_page import AccountPage
-from tests.ui_tests.pages.locators import AccountPageLocators
 from tests.ui_tests.pages.main_page import MainPage
-from tests.ui_tests.src.models import TestService
 
 
 class TestAccountPage:

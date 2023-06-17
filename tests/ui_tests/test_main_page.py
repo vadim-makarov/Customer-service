@@ -3,7 +3,8 @@
 import allure
 import pytest
 
-from tests.ui_tests.src.data import PagesData
+from tests.ui_tests.pages.main_page import MainPage
+from tests.ui_tests.src.config import PagesData
 
 
 class TestMainPage:
