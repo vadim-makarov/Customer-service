@@ -1,23 +1,28 @@
 """Contains a review page class"""
-from selenium.webdriver.remote.webdriver import WebDriver
+from __future__ import annotations
 
-from app.models import User
+from random import randint
+
+from selenium.webdriver.common.by import By
+
+from tests.models import NewReview
 from tests.ui_tests.pages.base_page import BasePage
-from tests.ui_tests.pages.locators import ReviewPageLocators
-from tests.ui_tests.src.data import URLs
 
 
 class ReviewPage(BasePage):
     """Contains a review page methods"""
 
-    def __init__(self, driver: WebDriver):
-        super().__init__(driver)
-        self.url = URLs.review_page_url
+    MODAL_REVIEW_BUTTON = (By.CSS_SELECTOR, 'body > main > main > div.vstack.gap-2.col-md-5.mx-auto > button')
+    REVIEW_RATING_RADIO_BUTTON = (By.CSS_SELECTOR, f'#rating-{randint(0, 4)}')
+    SEND_REVIEW_TEXT = (By.CSS_SELECTOR, '#text')
+    SEND_REVIEW_BUTTON = (By.CSS_SELECTOR, '#send_review')
+    EXIST_REVIEW = (By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div')
+    THANK_YOU_MESSAGE = (By.XPATH, '/html/body/div')
 
-    def leave_a_review(self, user: User):
-        """Пишет и отправляет отзыв"""
-        self.find_and_click_element(ReviewPageLocators.MODAL_REVIEW_BUTTON) \
-            .find_and_click_element(ReviewPageLocators.SEND_REVIEW_RATING) \
-            .find_element_and_input_data(ReviewPageLocators.SEND_REVIEW_TEXT, user.fake.paragraph(nb_sentences=5)) \
-            .find_and_click_element(ReviewPageLocators.SEND_REVIEW_BUTTON)
+    def leave_a_review(self, review: NewReview) -> ReviewPage:
+        """Writes and sends a review"""
+        self.find_and_click_element(self.MODAL_REVIEW_BUTTON) \
+            .find_and_click_element(self.REVIEW_RATING_RADIO_BUTTON) \
+            .find_element_and_input_data(self.SEND_REVIEW_TEXT, review.text) \
+            .find_and_click_element(self.SEND_REVIEW_BUTTON)
         return self

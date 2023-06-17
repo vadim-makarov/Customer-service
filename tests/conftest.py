@@ -1,24 +1,20 @@
 """Standard module for fixtures"""
 import threading
-from datetime import datetime
 from typing import Generator
 
 import allure
 import pytest
 from allure_commons.types import AttachmentType
-from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.remote.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 from app import db, create_app
-from app.models import User, Service
 from config import TestConfig
-from tests.helpers.helpers import generate_phone_number
+from tests.config import URLs
+from tests.models import generate_phone_number, NewUser, NewService, NewReview
 from tests.ui_tests.pages.main_page import MainPage
-
-fake = Faker()
 
 
 @pytest.fixture(scope='session')
@@ -44,12 +40,12 @@ def driver(request) -> Generator:
     the fixture downloads the latest driver and creates the browser instance with passed options
     """
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument("--headless=new")
     options.add_argument('--no-sandbox')
     options.add_argument("--disable-dev-shm-usage")
     service = ChromeService(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=options)
-    browser.set_window_size(1920, 1080)
+    browser.maximize_window()
     failed_before = request.session.testsfailed
     yield browser
     if request.session.testsfailed != failed_before:
@@ -62,7 +58,7 @@ def driver(request) -> Generator:
 def main_page(driver) -> MainPage:
     """Открывает главную страницу"""
     page = MainPage(driver)
-    page.open()
+    page.open(URLs.main_page_url)
     return page
 
 
@@ -74,18 +70,28 @@ def screenshot(browser: WebDriver, name: str) -> None:
 
 
 @pytest.fixture
-def user() -> User:
+def user() -> NewUser:
     """Returns a user instance for testing"""
-    username = fake.name()
-    phone = generate_phone_number()
-    test_user = User(username=username, phone_number=phone)
-    test_user.fake = fake
+    test_user = NewUser()
     return test_user
 
 
 @pytest.fixture
-def new_service() -> Service:
-    """Returns a service for testing"""
-    service = Service(service1='Chicken Burger', service2='Pepsi', service3='Delivery',
-                      service_date=datetime.now(), service_time='14:00', user_id='1')
+def phone_number() -> str:
+    """Generates a random phone number"""
+    number = generate_phone_number()
+    return number
+
+
+@pytest.fixture
+def service():
+    """Returns a service instance for testing"""
+    service = NewService()
     return service
+
+
+@pytest.fixture
+def review():
+    """Returns a review instance for testing"""
+    review = NewReview()
+    return review
