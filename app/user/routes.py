@@ -54,7 +54,7 @@ def edit_sms():
             data = sms_form.code_input.data
             if session['code'] == data:
                 db.session.commit()
-                flash('Values has been changed')
+                flash('Values have been changed')
                 time.sleep(1)
                 return redirect(url_for(user_bp, username=current_user.username))
             flash('Invalid code. Please try again')

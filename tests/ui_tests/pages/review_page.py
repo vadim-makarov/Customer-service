@@ -5,8 +5,8 @@ from random import randint
 
 from selenium.webdriver.common.by import By
 
+from tests.models import NewReview
 from tests.ui_tests.pages.base_page import BasePage
-from tests.ui_tests.src.models import TestUser
 
 
 class ReviewPage(BasePage):
@@ -19,10 +19,10 @@ class ReviewPage(BasePage):
     EXIST_REVIEW = (By.CSS_SELECTOR, 'body > main > main > div.container > div > div > div')
     THANK_YOU_MESSAGE = (By.XPATH, '/html/body/div')
 
-    def leave_a_review(self, user: TestUser) -> ReviewPage:
+    def leave_a_review(self, review: NewReview) -> ReviewPage:
         """Writes and sends a review"""
         self.find_and_click_element(self.MODAL_REVIEW_BUTTON) \
             .find_and_click_element(self.REVIEW_RATING_RADIO_BUTTON) \
-            .find_element_and_input_data(self.SEND_REVIEW_TEXT, user.review) \
+            .find_element_and_input_data(self.SEND_REVIEW_TEXT, review.text) \
             .find_and_click_element(self.SEND_REVIEW_BUTTON)
         return self

@@ -12,9 +12,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from app import db, create_app
 from config import TestConfig
+from tests.config import URLs
+from tests.models import generate_phone_number, NewUser, NewService, NewReview
 from tests.ui_tests.pages.main_page import MainPage
-from tests.ui_tests.src.config import URLs
-from tests.ui_tests.src.models import TestUser
 
 
 @pytest.fixture(scope='session')
@@ -40,7 +40,7 @@ def driver(request) -> Generator:
     the fixture downloads the latest driver and creates the browser instance with passed options
     """
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless=new")
+    options.add_argument("--headless=new")
     options.add_argument('--no-sandbox')
     options.add_argument("--disable-dev-shm-usage")
     service = ChromeService(ChromeDriverManager().install())
@@ -70,7 +70,28 @@ def screenshot(browser: WebDriver, name: str) -> None:
 
 
 @pytest.fixture
-def user() -> TestUser:
+def user() -> NewUser:
     """Returns a user instance for testing"""
-    test_user = TestUser()
+    test_user = NewUser()
     return test_user
+
+
+@pytest.fixture
+def phone_number() -> str:
+    """Generates a random phone number"""
+    number = generate_phone_number()
+    return number
+
+
+@pytest.fixture
+def service():
+    """Returns a service instance for testing"""
+    service = NewService()
+    return service
+
+
+@pytest.fixture
+def review():
+    """Returns a review instance for testing"""
+    review = NewReview()
+    return review

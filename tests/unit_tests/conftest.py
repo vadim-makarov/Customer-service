@@ -1,11 +1,11 @@
 """Contains fixtures for unit testing"""
-from datetime import datetime
 
 import pytest
 
 from app import create_app, db
-from app.models import Service, Review
+from app.models import Service, Review, User
 from config import TestConfig
+from tests.models import NewReview, NewService
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -24,23 +24,30 @@ def client(app):
 
 
 @pytest.fixture
-def service(user):
-    """Creates a user instance for testing"""
-    db.session.add(user)
+def user_in_db(user) -> User:
+    """Returns a user instance for testing"""
+    test_user = User(username=user.username, phone_number=user.phone_number)
+    db.session.add(test_user)
     db.session.commit()
-    new_service = Service(service1='A jar of honey', service_date=datetime.now(),
-                          service_time='10:00', user_id=user.id)
+    return test_user
+
+
+@pytest.fixture
+def service_in_db(user_in_db):
+    """Creates a user instance for testing"""
+    service = NewService()
+    new_service = Service(service1=service.service1, service_date=service.service_date,
+                          service_time=service.service_time, user_id=user_in_db.id)
     db.session.add(new_service)
     db.session.commit()
 
 
 @pytest.fixture
-def review(user):
+def review_in_db(user_in_db):
     """Creates a service for testing"""
-    db.session.add(user)
-    db.session.commit()
-    rev1 = Review(author=user.username, text='Sweeter than honey!', rating='Awesome!', author_id=user.id)
-    rev2 = Review(author=user.username, text='Bitter than Kopalkhen', rating='Terrible!', author_id=user.id)
-    rev3 = Review(author=user.username, text='Not bad', rating='So-so', author_id=user.id)
+    review = NewReview()
+    rev1 = Review(author=user_in_db.username, text=review.text, rating='Awesome!', author_id=user_in_db.id)
+    rev2 = Review(author=user_in_db.username, text=review.text, rating='Terrible!', author_id=user_in_db.id)
+    rev3 = Review(author=user_in_db.username, text=review.text, rating='So-so', author_id=user_in_db.id)
     db.session.add_all([rev1, rev2, rev3])
     db.session.commit()

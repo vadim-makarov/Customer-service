@@ -4,8 +4,8 @@ from __future__ import annotations
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+from tests.models import NewService
 from tests.ui_tests.pages.base_page import BasePage
-from tests.ui_tests.src.models import TestService
 
 
 class AccountPage(BasePage):
@@ -29,13 +29,13 @@ class AccountPage(BasePage):
     EDIT_PHONE_NUM_FIELD = (By.CSS_SELECTOR, "form > div > input[type='tel']")
     SUBMIT_CHANGE_USER_DATA_BUTTON = (By.CSS_SELECTOR, "p > input[type='submit']")
 
-    def select_service_and_continue(self, new_service: TestService) -> AccountPage:
+    def select_service_and_continue(self, new_service: NewService) -> AccountPage:
         """Заполняет поля и добавляет сервис"""
         self.find_and_click_element(self.USER_BUTTON) \
             .select_value(self.SERVICE_1, new_service.service1) \
             .select_value(self.SERVICE_2, new_service.service2) \
             .select_value(self.SERVICE_3, new_service.service3) \
-            .find_element_and_input_data(self.SERVICE_DATE, new_service.service_date) \
+            .find_element_and_input_data(self.SERVICE_DATE, new_service.service_date.strftime("%m-%d-%Y")) \
             .select_value(self.SERVICE_TIME, new_service.service_time) \
             .find_and_click_element(self.CONFIRM_SERVICE_BUTTON)
         return self

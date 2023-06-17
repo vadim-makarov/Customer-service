@@ -2,9 +2,9 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+from tests.models import NewUser
 from tests.ui_tests.pages.base_page import BasePage
 from tests.ui_tests.pages.sms_page import SMSPage
-from tests.ui_tests.src.models import TestUser
 
 
 class AuthPage(BasePage):
@@ -14,7 +14,7 @@ class AuthPage(BasePage):
     REGISTER_FORM_PHONE_NUMBER = (By.ID, 'phone_number')
     SUBMIT_BUTTON = (By.ID, 'confirm')
 
-    def fill_user_data_and_continue(self, user: TestUser):
+    def fill_user_data_and_continue(self, user: NewUser):
         """Регистрирует нового пользователя и вводит смс код"""
         self.wait.until(EC.url_contains('register'), "Register page in not opened")
         self.find_element_and_input_data(self.REGISTER_FORM_NAME, user.username) \
