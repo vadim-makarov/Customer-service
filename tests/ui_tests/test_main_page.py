@@ -1,9 +1,8 @@
-"""содержит тесты главной страницы"""
+"""Содержит тесты главной страницы"""
 
 import allure
 import pytest
 
-from tests.ui_tests.pages.main_page import MainPage
 from tests.ui_tests.src.data import PagesData
 
 
@@ -17,4 +16,5 @@ class TestMainPage:
         """Проверяет работоспособность всех страниц, доступных на главной странице """
 
         main_page.find_and_click_element(locator)
-        assert page in main_page.driver.current_url, f"Ссылка {page} не активна"
+        current_url = main_page.driver.current_url
+        assert page in current_url, f"Страница {page} не открылась"

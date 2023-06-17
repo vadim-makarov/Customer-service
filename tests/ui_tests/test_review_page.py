@@ -15,7 +15,7 @@ class TestReviewPage:
     @allure.title("User can leave a review")
     def test_user_can_leave_a_review(self, main_page: MainPage, user: User, driver: WebDriver):
         """User can leave a review"""
-        main_page.register_user(user) \
+        main_page.fill_user_data_and_continue(user) \
             .find_and_click_element(MainPageLocators.REVIEWS_PAGE_LINK)
         review_page = ReviewPage(driver)
         review_page.leave_a_review(user)

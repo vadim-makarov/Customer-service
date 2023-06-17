@@ -3,11 +3,11 @@
 import allure
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from app.models import User, Service
-from tests.helpers.helpers import generate_phone_number
+from app.models import User
 from tests.ui_tests.pages.account_page import AccountPage
-from tests.ui_tests.pages.locators import AccountPageLocators, MainPageLocators
+from tests.ui_tests.pages.locators import AccountPageLocators
 from tests.ui_tests.pages.main_page import MainPage
+from tests.ui_tests.src.models import TestService
 
 
 class TestAccountPage:
@@ -15,9 +15,9 @@ class TestAccountPage:
 
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("User can add a service")
-    def test_user_can_add_a_service(self, main_page: MainPage, user: User, new_service: Service, driver: WebDriver):
+    def test_user_can_add_a_service(self, main_page: MainPage, user: User, new_service: TestService, driver: WebDriver):
         """User can add a service"""
-        main_page.register_user(user)
+        main_page.fill_user_data_and_continue(user)
         account_page = AccountPage(driver)
         account_page.select_service_and_continue(new_service) \
             .is_element_present(AccountPageLocators.SERVICE_ALERT, "Запись создана") \
@@ -31,7 +31,7 @@ class TestAccountPage:
     @allure.title("User can change his data")
     def test_user_can_edit_profile(self, main_page: MainPage, user: User, driver: WebDriver):
         """User can change his own profile"""
-        main_page.register_user(user) \
+        main_page.fill_user_data_and_continue(user) \
             .find_and_click_element(MainPageLocators.USER_BUTTON)
         account_page = AccountPage(driver)
         phone_number = generate_phone_number()
