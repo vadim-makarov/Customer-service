@@ -45,7 +45,7 @@ def driver(request) -> Generator:
     options.add_argument("--disable-dev-shm-usage")
     service = ChromeService(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=options)
-    browser.maximize_window()
+    browser.set_window_size(1920, 1080)
     failed_before = request.session.testsfailed
     yield browser
     if request.session.testsfailed != failed_before:
