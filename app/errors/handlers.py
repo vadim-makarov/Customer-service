@@ -2,7 +2,7 @@
 
 from flask import render_template
 
-from app import db, paranoid, bot
+from app import db, paranoid
 from app.errors import bp
 
 

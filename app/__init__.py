@@ -3,7 +3,6 @@ import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
-import telebot_router
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, login_manager
@@ -23,7 +22,6 @@ bootstrap = Bootstrap()
 paranoid = Paranoid()
 paranoid.redirect_view = '/'
 login_manager.session_protection = None
-bot = telebot_router.TeleBot(config.Config.BOT_TOKEN)
 
 
 def create_app(config_class=Config):
